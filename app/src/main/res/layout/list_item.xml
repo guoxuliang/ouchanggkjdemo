@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_imglist"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/start" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/mTv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="魅力城市-6"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/mTv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="奖励金:￥0.1元" />
+
+            <TextView
+                android:id="@+id/mTv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="剩余任务:5000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/getbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/submitbutton"
+                android:textColor="#ffffff"
+                android:text="领取任务" />
+
+            <TextView
+                android:id="@+id/mTv4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已浏览:2650" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

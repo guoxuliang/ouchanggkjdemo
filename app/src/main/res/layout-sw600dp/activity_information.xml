@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lll"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_title2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="用户昵称"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000" />
+
+        <EditText
+            android:id="@+id/nickName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/bg_cursor"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:hint="请填写您的昵称"
+            android:maxLength="11" />
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/find_add_img"/>
+
+        <Button
+            android:id="@+id/submit_info"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/submitbutton"
+            android:hint="提交个人信息"
+            android:textColorHint="#ffffff" />
+    </LinearLayout>
+
+</LinearLayout>
