@@ -4,34 +4,27 @@ import java.util.List;
 
 public class RecommendedListEntity {
 
+
     /**
-     * data : [{"id":1,"cover":"kgj.ockeji.com/upload/1536974390478658.jpg","title":"魅力城市-1","browsevolume":"1563480","quantity":16460,"gold":100,"video":"kgj.ockeji.com/video/1536974390479278.mp4"},{"id":8,"cover":"kgj.ockeji.com/upload/1536974390478658.jpg","title":"魅力城市-4","browsevolume":"0","quantity":1300,"gold":120,"video":"kgj.ockeji.com/video/1536974390479278.mp4"},{"id":17,"cover":"kgj.ockeji.com/upload/1536974390478658.jpg","title":"魅力城市-3","browsevolume":"0","quantity":1300,"gold":120,"video":"kgj.ockeji.com/video/1536974390479278.mp4"},{"id":20,"cover":"kgj.ockeji.com/upload/1536974390478658.jpg","title":"魅力城市-2","browsevolume":"0","quantity":1300,"gold":120,"video":"kgj.ockeji.com/video/1536974390479278.mp4"}]
-     * code : null
-     * success : true
+     * data : [{"cover":"http://kgj.ockeji.com/upload/1537423654042411.jpg","gold":100,"timelong":"0:0:17","quantity":1300,"browsevolume":"6546","shareUrl":"http://localhost:8080/oilcard/index.jsp?id=2","id":2,"video":"http://kgj.ockeji.com/video/1536974390479278.mp4","title":"魅力城市-2","content":"斯蒂芬森"},{"cover":"http://kgj.ockeji.com/upload/1537423654042411.jpg","gold":100,"timelong":"0:0:32","quantity":1298,"browsevolume":"1563482","shareUrl":"http://localhost:8080/oilcard/index.jsp?id=1","id":1,"video":"http://kgj.ockeji.com/video/1537423654046470.mp4","title":"魅力城市-1","content":"斯蒂芬森"},{"cover":"http://kgj.ockeji.com/upload/1537423654042411.jpg","gold":100,"timelong":"0:0:32","quantity":1300,"browsevolume":"0","shareUrl":"http://localhost:8080/oilcard/index.jsp?id=3","id":3,"video":"http://kgj.ockeji.com/video/1537423654046470.mp4","title":"魅力城市-3","content":"斯蒂芬森"},{"cover":"http://kgj.ockeji.com/upload/1537423654042411.jpg","gold":100,"timelong":"0:0:17","quantity":1300,"browsevolume":"0","shareUrl":"http://localhost:8080/oilcard/index.jsp?id=4","id":4,"video":"http://kgj.ockeji.com/video/1536974390479278.mp4","title":"魅力城市-4","content":"斯蒂芬森"},{"cover":"http://kgj.ockeji.com/upload/1537423654042411.jpg","gold":120,"timelong":"0:0:32","quantity":1300,"browsevolume":"0","shareUrl":"http://localhost:8080/oilcard/index.jsp?id=5","id":5,"video":"http://kgj.ockeji.com/video/1537423654046470.mp4","title":"魅力城市-5","content":"斯蒂芬森"}]
+     * code : 200
      * msg : 查询任务成功
      * execute : true
+     * success : true
      */
 
-    private Object code;
-    private boolean success;
+    private int code;
     private String msg;
     private boolean execute;
+    private boolean success;
     private List<DataBean> data;
 
-    public Object getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(Object code) {
+    public void setCode(int code) {
         this.code = code;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
     }
 
     public String getMsg() {
@@ -50,6 +43,14 @@ public class RecommendedListEntity {
         this.execute = execute;
     }
 
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
     public List<DataBean> getData() {
         return data;
     }
@@ -60,30 +61,28 @@ public class RecommendedListEntity {
 
     public static class DataBean {
         /**
-         * id : 1
-         * cover : kgj.ockeji.com/upload/1536974390478658.jpg
-         * title : 魅力城市-1
-         * browsevolume : 1563480
-         * quantity : 16460
+         * cover : http://kgj.ockeji.com/upload/1537423654042411.jpg
          * gold : 100
-         * video : kgj.ockeji.com/video/1536974390479278.mp4
+         * timelong : 0:0:17
+         * quantity : 1300
+         * browsevolume : 6546
+         * shareUrl : http://localhost:8080/oilcard/index.jsp?id=2
+         * id : 2
+         * video : http://kgj.ockeji.com/video/1536974390479278.mp4
+         * title : 魅力城市-2
+         * content : 斯蒂芬森
          */
 
-        private int id;
         private String cover;
-        private String title;
-        private String browsevolume;
-        private int quantity;
         private int gold;
+        private String timelong;
+        private int quantity;
+        private String browsevolume;
+        private String shareUrl;
+        private int id;
         private String video;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
+        private String title;
+        private String content;
 
         public String getCover() {
             return cover;
@@ -91,30 +90,6 @@ public class RecommendedListEntity {
 
         public void setCover(String cover) {
             this.cover = cover;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getBrowsevolume() {
-            return browsevolume;
-        }
-
-        public void setBrowsevolume(String browsevolume) {
-            this.browsevolume = browsevolume;
-        }
-
-        public int getQuantity() {
-            return quantity;
-        }
-
-        public void setQuantity(int quantity) {
-            this.quantity = quantity;
         }
 
         public int getGold() {
@@ -125,12 +100,68 @@ public class RecommendedListEntity {
             this.gold = gold;
         }
 
+        public String getTimelong() {
+            return timelong;
+        }
+
+        public void setTimelong(String timelong) {
+            this.timelong = timelong;
+        }
+
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public void setQuantity(int quantity) {
+            this.quantity = quantity;
+        }
+
+        public String getBrowsevolume() {
+            return browsevolume;
+        }
+
+        public void setBrowsevolume(String browsevolume) {
+            this.browsevolume = browsevolume;
+        }
+
+        public String getShareUrl() {
+            return shareUrl;
+        }
+
+        public void setShareUrl(String shareUrl) {
+            this.shareUrl = shareUrl;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
         public String getVideo() {
             return video;
         }
 
         public void setVideo(String video) {
             this.video = video;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
         }
     }
 }

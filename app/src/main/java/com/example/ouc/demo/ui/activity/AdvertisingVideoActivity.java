@@ -2,16 +2,17 @@ package com.example.ouc.demo.ui.activity;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.util.TimeUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.MediaController;
@@ -22,12 +23,12 @@ import android.widget.VideoView;
 import com.bumptech.glide.Glide;
 import com.example.ouc.demo.Application.ObjApplication;
 import com.example.ouc.demo.R;
-import com.example.ouc.demo.SelectPlatActivity;
 import com.example.ouc.demo.ShareTypeActivity;
 import com.example.ouc.demo.base.BaseActivity;
 import com.example.ouc.demo.uitool.ShareBoard;
 import com.example.ouc.demo.uitool.ShareBoardlistener;
 import com.example.ouc.demo.uitool.SnsPlatform;
+import com.example.ouc.demo.utils.TimeUtil;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -59,7 +60,7 @@ public class AdvertisingVideoActivity extends BaseActivity {
     private String name;
     private String gold;
     private String videourl, timelong,content;
-
+    private int count = 15;
 
 
 
@@ -93,6 +94,10 @@ public class AdvertisingVideoActivity extends BaseActivity {
         }
         initTitle();
         initViews();
+//        handler2.sendEmptyMessageDelayed(0, 1000);//倒计时点击按钮
+        timer.start();
+//        timeUtil.start();
+
 
     }
     private void initTitle() {
@@ -302,7 +307,45 @@ public class AdvertisingVideoActivity extends BaseActivity {
     }
 
 
+//
+//    private int getCount() {
+//        count--;
+//        if (count == 0) {
+//        }else{
+//
+//        }
+//        return count;
+//    }
+//
+//    private Handler handler2 = new Handler() {
+//        public void handleMessage(android.os.Message msg) {
+//            if (msg.what == 0) {
+//                timerText.setText("观看"+getCount()+"秒视频,领取奖励金");
+//                handler2.sendEmptyMessageDelayed(0, 1000);
+////                animation.reset();
+////                textView.startAnimation(animation);
+//            }
+//
+//
+//        };
+//
+//    };
 
+
+    private TextView vertifyView;
+    private CountDownTimer timer = new CountDownTimer(15000, 1000) {
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+                timerText.setText("观看"+millisUntilFinished/1000+"秒视频,领取奖励金");
+        }
+
+        @Override
+        public void onFinish() {
+            vertifyView.setEnabled(true);
+            vertifyView.setText("获取验证码");
+        }
+    };
 
 
 

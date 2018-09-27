@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:id="@+id/radiogroup_page"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:background="#ffffff"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_chat_page"
+            style="@style/style_RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:checked="true"
+            android:drawableTop="@drawable/tab_selector1"
+            android:gravity="center"
+            android:text="推荐"
+            android:textColor="@drawable/tab_text_selector" />
+
+        <RadioButton
+            android:id="@+id/rb_contacts_page"
+            style="@style/style_RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_selector2"
+            android:gravity="center"
+            android:text="广告"
+            android:textColor="@drawable/tab_text_selector" />
+
+        <RadioButton
+            android:id="@+id/rb_discovery_page"
+            style="@style/style_RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_selector3"
+            android:gravity="center"
+            android:text="会员"
+            android:textColor="@drawable/tab_text_selector" />
+    </RadioGroup>
+</LinearLayout>

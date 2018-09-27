@@ -2,7 +2,6 @@ package com.example.ouc.demo.ui;
 
 import android.Manifest;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,10 +13,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.PowerManager;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -25,9 +22,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -39,11 +34,9 @@ import com.example.ouc.demo.R;
 import com.example.ouc.demo.adapter.myFragmentPagerAdapter;
 import com.example.ouc.demo.entity.CheckUpdataEntity;
 import com.example.ouc.demo.http.HttpUtils;
-import com.example.ouc.demo.ui.activity.RegisteredActivity;
 import com.example.ouc.demo.ui.fragment.Fragment1;
 import com.example.ouc.demo.ui.fragment.Fragment2;
 import com.example.ouc.demo.ui.fragment.Fragment3;
-import com.example.ouc.demo.utils.ToastHelper;
 import com.example.ouc.demo.utils.Tools;
 import com.example.ouc.demo.view.CommonProgressDialog;
 import com.google.gson.Gson;
@@ -125,17 +118,10 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
         mPager.setAdapter(new myFragmentPagerAdapter(getSupportFragmentManager(), fragmentList));
         //ViewPager显示第一个Fragment
         mPager.setCurrentItem(0);
-
-        // 初始化首次进入时的Fragment
-//        mFm = getFragmentManager();
-//        FragmentTransaction transaction = mFm.beginTransaction();
-//        transaction.add(R.id.viewPager, mCurrentFragmen, mFragmentTagList[0]);
-//        transaction.commitAllowingStateLoss();
         //ViewPager页面切换监听
         mPager.setOnPageChangeListener(new myOnPageChangeListener());
     }
     private void initView(){
-
         mPager=(ViewPager)findViewById(R.id.viewPager);
         mGroup=(RadioGroup)findViewById(R.id.radiogroup);
         rbChat=(RadioButton)findViewById(R.id.rb_chat);

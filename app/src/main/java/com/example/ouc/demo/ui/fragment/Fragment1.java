@@ -86,7 +86,6 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     View footer;
     private Button btn;
     private TextView tv_back, tv_content;
-    int pageNo=5;
 
     int start=0;
     int limit=1000000;
@@ -140,11 +139,6 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         //自定义的滚动监听事件
         MyOnScrollListener onScrollListener = new MyOnScrollListener(footer);
         //设置接口回调
-//
-//       ++start;
-//       ++limit;
-//       String pj="start="+start+"&"+"limit="+limit;
-//        getRecommendedList(url+pj);
         onScrollListener.setOnLoadDataListener(this);
         //设置ListView的滚动监听事件
         mList.setOnScrollListener(onScrollListener);
@@ -180,7 +174,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         //首先判断适配器是否为空，首次运行肯定是为空的
         if (adapter == null) {
             //查到ListView控件
-            mList = (ListView) v.findViewById(R.id.mList);
+
             //将底部加载一个加载更多的布局
             footer = LayoutInflater.from(getActivity()).inflate(R.layout.foot_boot, null);
             //初始状态为隐藏
@@ -219,6 +213,24 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         jlj2 = v.findViewById(R.id.jlj2);
         syrw = v.findViewById(R.id.syrw);
         syrw2 = v.findViewById(R.id.syrw2);
+        mList = (ListView) v.findViewById(R.id.mList);
+        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ToastHelper.show(getActivity(),"点击了"+i+"项");
+                //TODO  点击列表跳转到视频播放页面
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), AdvertisingVideoActivity.class);
+                Bundle mBundle = new Bundle();
+                mBundle.putString("name", dataBeansList2.get(i).getTitle());//名称
+                mBundle.putString("gold", dataBeansList2.get(i).getGold() + "");//奖励金
+                mBundle.putString("videourl", dataBeansList2.get(i).getVideo());//视频地址
+                mBundle.putString("timelong", dataBeansList2.get(i).getTimelong());//视频地址
+                mBundle.putString("content", dataBeansList2.get(i).getContent());//视频信息
+                intent.putExtras(mBundle);
+                startActivity(intent);
+            }
+        });
 
 
         iv_bigimg = v.findViewById(R.id.iv_bigimg);
