@@ -225,8 +225,8 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                 startActivity(intent);
             }
         });
-//        Timer timer = new Timer();
-//        timer.schedule(task,1,500);  //参数分别是delay（多长时间后执行），duration（执行间隔）
+        Timer timer = new Timer();
+        timer.schedule(task,1,500);  //参数分别是delay（多长时间后执行），duration（执行间隔）
         adv1 = v.findViewById(R.id.adv1);
         adv2 = v.findViewById(R.id.adv2);
         vi_tj = v.findViewById(R.id.vi_tj);
