@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -214,8 +215,7 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
          * 参数一：请求Ur
          * 参数二：请求回调
          */
-//        String url=Constants.SERVER_BASE_URL + "system/sys/sysController/updateAppEdition.action?" + "localVersion=" + version;
-        String url = "http://kgj.ockeji.com/system/sys/sysController/updateAppEdition.action?localVersion=" + version;
+        String url = Constants.SERVER_BASE_URL+"system/sys/sysController/updateAppEdition.action?localVersion=" + version;
         Log.i("url", "url:" + url);
         HttpUtils.doGet(url, new Callback() {
             @Override
@@ -302,7 +302,8 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (lastForce.equals("2")) {
-                            System.exit(0);
+                            dialog.dismiss();
+//                            System.exit(0);
                         } else {
                             dialog.dismiss();
                         }
@@ -501,12 +502,12 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         /**
          * 转给AndPermission分析结果。
-         *
          * @param object     要接受结果的Activity、Fragment。
          * @param requestCode  请求码。
          * @param permissions  权限数组，一个或者多个。
          * @param grantResults 请求结果。
          */
+
         AndPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
@@ -526,27 +527,32 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
 
     private void update() {
         try{
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //判读版本是否在7.0以上
-
-                File file= new File(
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                        , "app-release.apk");
-Log.i("****filefilefile","****filefilefile"+file);
-                //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
-                Uri apkUri = FileProvider.getUriForFile(getContext().getApplicationContext(), getContext().getApplicationContext().getPackageName() + ".FileProvider", file);//在AndroidManifest中的android:authorities值
-                Log.i("****apkUri","apkUri"+apkUri);
-                Intent install = new Intent(Intent.ACTION_VIEW);
-                install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                install.setDataAndType(apkUri, "application/vnd.android.package-archive");
-
-                getActivity().startActivity(install);
-            } else {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent = intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), DOWNLOAD_NAME)), "application/vnd.android.package-archive");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    boolean installAllowed= getActivity().getPackageManager().canRequestPackageInstalls();
+                    if(installAllowed){
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //判读版本是否在7.0以上
+                            File file= new File(
+                                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                                    , "app-release.apk");
+                            //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
+                            Uri apkUri = FileProvider.getUriForFile(getContext().getApplicationContext(), getContext().getApplicationContext().getPackageName() + ".FileProvider", file);//在AndroidManifest中的android:authorities值
+                            Log.i("****apkUri","apkUri"+apkUri);
+                            Intent install = new Intent(Intent.ACTION_VIEW);
+                            install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            install.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                            getActivity().startActivity(install);
+                        } else {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent = intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), DOWNLOAD_NAME)), "application/vnd.android.package-archive");
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    }else {
+                        //无权限 申请权限
+//                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, INSTALL_APK_REQUESTCODE);
+                    }
+                }
         }catch (Exception e) {
             Log.i("==e","==e"+e);
         }

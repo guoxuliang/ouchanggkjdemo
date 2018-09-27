@@ -20,6 +20,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -70,6 +71,7 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
     private String updateUrl,updateInfo,lastForce,msg;
     private   CheckUpdataEntity checkUpdataEntity;
     private int code;
+    private long exitTime = 0;
     /**
      * 版本更新
      */
@@ -637,6 +639,19 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
             ShowDialog(oldversion, version, updateInfo, updateUrl);
         }
     }
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
 

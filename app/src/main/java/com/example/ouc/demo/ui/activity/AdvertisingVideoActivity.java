@@ -3,6 +3,7 @@ package com.example.ouc.demo.ui.activity;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -14,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.util.TimeUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
@@ -53,14 +55,14 @@ import cn.jiguang.share.weibo.SinaWeiboMessage;
 
 
 public class AdvertisingVideoActivity extends BaseActivity {
-    private TextView tv_name, tv_gold, tv_datelong,timerText;
+    private TextView tv_name, tv_gold, tv_datelong;
+    private Button timerText;
     private VideoView videoview;
     private ImageView iv_right;
     private TextView tv_back, tv_content;
     private String name;
     private String gold;
     private String videourl, timelong,content;
-    private int count = 15;
 
 
 
@@ -94,9 +96,7 @@ public class AdvertisingVideoActivity extends BaseActivity {
         }
         initTitle();
         initViews();
-//        handler2.sendEmptyMessageDelayed(0, 1000);//倒计时点击按钮
         timer.start();
-//        timeUtil.start();
 
 
     }
@@ -104,12 +104,13 @@ public class AdvertisingVideoActivity extends BaseActivity {
         tv_back = findViewById(R.id.tv_left);
         iv_right=findviewByid(R.id.iv_right);
         Glide.with(this).load(R.drawable.icon_fx).into(iv_right);
-        iv_right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO 点击分享
-            }
-        });
+        iv_right.setVisibility(View.GONE);
+//        iv_right.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //TODO 点击分享
+//            }
+//        });
         tv_back.setVisibility(View.VISIBLE);
         tv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +126,7 @@ public class AdvertisingVideoActivity extends BaseActivity {
         tv_gold = findviewByid(R.id.tv_gold);
         tv_datelong = findviewByid(R.id.tv_datelong);
         timerText=findviewByid(R.id.timerText);
+        timerText.setEnabled(false);
         tv_name.setText(name);
         tv_gold.setText("奖励金：￥"+gold);
         tv_datelong.setText("时长："+timelong);
@@ -307,46 +309,27 @@ public class AdvertisingVideoActivity extends BaseActivity {
     }
 
 
-//
-//    private int getCount() {
-//        count--;
-//        if (count == 0) {
-//        }else{
-//
-//        }
-//        return count;
-//    }
-//
-//    private Handler handler2 = new Handler() {
-//        public void handleMessage(android.os.Message msg) {
-//            if (msg.what == 0) {
-//                timerText.setText("观看"+getCount()+"秒视频,领取奖励金");
-//                handler2.sendEmptyMessageDelayed(0, 1000);
-////                animation.reset();
-////                textView.startAnimation(animation);
-//            }
-//
-//
-//        };
-//
-//    };
-
 
     private TextView vertifyView;
-    private CountDownTimer timer = new CountDownTimer(15000, 1000) {
+    private CountDownTimer timer = new CountDownTimer(20000, 1000) {
 
         @Override
         public void onTick(long millisUntilFinished) {
                 timerText.setText("观看"+millisUntilFinished/1000+"秒视频,领取奖励金");
+                if((millisUntilFinished/1000)==1){
+                    timerText.setBackgroundColor(Color.parseColor("#ff0000"));
+                    timerText.setText("观看0秒视频,领取奖励金");
+                    timerText.setEnabled(true);
+                }
+
         }
 
         @Override
         public void onFinish() {
-            vertifyView.setEnabled(true);
-            vertifyView.setText("获取验证码");
+//            vertifyView.setEnabled(true);
+//            vertifyView.setText("获取验证码");
         }
     };
-
 
 
 }

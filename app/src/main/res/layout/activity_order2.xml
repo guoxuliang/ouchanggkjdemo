@@ -5,7 +5,9 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_title" />
+    <include layout="@layout/layout_title2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"/>
     <include layout="@layout/layout_top_tab"/>
 <View
     android:layout_width="match_parent"

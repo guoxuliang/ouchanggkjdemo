@@ -8,5 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"/>
 
-
+            <TextView
+                android:id="@+id/tv_gold"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="正在建设中......"
+                android:textSize="16sp" />
 </LinearLayout>

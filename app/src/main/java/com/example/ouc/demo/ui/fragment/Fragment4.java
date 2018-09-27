@@ -15,6 +15,7 @@ import com.example.ouc.demo.base.BaseFragment;
 import com.example.ouc.demo.entity.MyOrderEntity;
 import com.example.ouc.demo.http.HttpUtils;
 import com.example.ouc.demo.utils.Constants;
+import com.example.ouc.demo.utils.ProgersssDialog;
 import com.example.ouc.demo.utils.ToastHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -38,6 +39,7 @@ public class Fragment4 extends BaseFragment {
     private String userid;
     private String type="0";//type=0 未完成   type=1 已完成   type=2 已取消
 private TextView nodata;
+    private ProgersssDialog progersssDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -49,6 +51,7 @@ private TextView nodata;
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         userid= getStringSharePreferences("id","id");
+        progersssDialog = new ProgersssDialog(getActivity());
         initViews();
         getMyOrderList();
 
@@ -77,6 +80,7 @@ private TextView nodata;
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                progersssDialog.dismiss();
                 try {
                     final String result = response.body().string();
                     Log.i("result", "resultCode:" + result);

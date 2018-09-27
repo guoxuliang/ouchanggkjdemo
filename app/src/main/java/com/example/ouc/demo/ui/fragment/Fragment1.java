@@ -2,6 +2,9 @@ package com.example.ouc.demo.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.Nullable;
@@ -27,7 +30,9 @@ import com.example.ouc.demo.entity.RecommendedListEntity;
 import com.example.ouc.demo.http.HttpUtils;
 import com.example.ouc.demo.ui.MainActivity;
 import com.example.ouc.demo.ui.activity.AdvertisingVideoActivity;
+import com.example.ouc.demo.ui.activity.DeliveryActivity;
 import com.example.ouc.demo.utils.Constants;
+import com.example.ouc.demo.utils.ProgersssDialog;
 import com.example.ouc.demo.utils.ToastHelper;
 import com.example.ouc.demo.weigets.MyOnScrollListener;
 import com.google.gson.Gson;
@@ -42,6 +47,8 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -66,6 +73,8 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     private RecommendedListEntity recommendedListEntity;
     private String code;
     private ImageView iv_bigimg;
+    private ProgersssDialog progersssDialog;
+    private boolean change = false;
     /**
      * 版本更新
      */
@@ -85,7 +94,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     //底部加载更多布局
     View footer;
     private Button btn;
-    private TextView tv_back, tv_content;
+    private TextView tv_back, tv_content,tv_advertising;
 
     int start=0;
     int limit=1000000;
@@ -114,15 +123,21 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        progersssDialog = new ProgersssDialog(getActivity());
         initView();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        getRecommended();
-        String dhs="start="+start+"&"+"limit="+limit;
-        getRecommendedList(url+dhs);
+        if(isNetworkAvailable(getActivity())==true){
+            getRecommended();
+            String dhs="start="+start+"&"+"limit="+limit;
+            getRecommendedList(url+dhs);
+        }else {
+            ToastHelper.show(getActivity(),"请检查网络");
+        }
+
     }
 
     @Override
@@ -201,6 +216,17 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     }
 
     private void initView() {
+
+        tv_advertising=v.findViewById(R.id.tv_advertising);
+        tv_advertising.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(), DeliveryActivity.class);
+                startActivity(intent);
+            }
+        });
+//        Timer timer = new Timer();
+//        timer.schedule(task,1,500);  //参数分别是delay（多长时间后执行），duration（执行间隔）
         adv1 = v.findViewById(R.id.adv1);
         adv2 = v.findViewById(R.id.adv2);
         vi_tj = v.findViewById(R.id.vi_tj);
@@ -249,10 +275,10 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic259ohaj30ci08c74r.jpg");
         list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic2b16zuj30ci08cwf4.jpg");
         list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic2e7vsaj30ci08cglz.jpg");
-        list_title.add("好好学习");
-        list_title.add("天天向上");
-        list_title.add("热爱劳动");
-        list_title.add("不搞对象");
+        list_title.add("轮播图1");
+        list_title.add("轮播图2");
+        list_title.add("轮播图3");
+        list_title.add("轮播图4");
         //设置内置样式，共有六种可以点入方法内逐一体验使用。
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
         //设置图片加载器，图片加载器在下方
@@ -402,6 +428,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                     public void onResponse(Call call, Response response) throws IOException {
                         try {
                             final String result = response.body().string();
+                            progersssDialog.dismiss();
                             Log.i("result", "resultCode:" + result);
                             recommendedListEntity = gson.fromJson(result, RecommendedListEntity.class);
                             Type listType2 = new TypeToken<ArrayList<RecommendedListEntity.DataBean>>() {
@@ -433,5 +460,50 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
          if (null != v) {
                      ((ViewGroup) v.getParent()).removeView(v);
                  }
+    }
+
+
+
+    TimerTask task=new TimerTask() {
+        @Override
+        public void run() {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(change){
+                        change=false;
+                        tv_advertising.setTextColor(Color.WHITE);
+                    }else {
+                        change = true;
+                        tv_advertising.setTextColor(Color.BLUE);
+                    }
+                }
+            });
+        }
+    };
+
+
+
+    /**
+     * 检测当的网络（WLAN、3G/2G）状态
+     * @param context Context
+     * @return true 表示网络可用
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivity = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo info = connectivity.getActiveNetworkInfo();
+            if (info != null && info.isConnected())
+            {
+                // 当前网络是连接的
+                if (info.getState() == NetworkInfo.State.CONNECTED)
+                {
+                    // 当前所连接的网络可用
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

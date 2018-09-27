@@ -8,218 +8,232 @@
 
 
     <!--<com.example.ouc.demo.weigets.BounceScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <LinearLayout
+        android:id="@+id/bel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="150dp" />
 
         <LinearLayout
-            android:id="@+id/bel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.youth.banner.Banner
-                android:id="@+id/banner"
-                android:layout_width="match_parent"
-                android:layout_height="150dp" />
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:background="#ffffff"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:drawableLeft="@drawable/icon_zany"
-                        android:gravity="center"
-                        android:text="看广告,赚现金" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="10dp"
-                        android:drawableLeft="@drawable/icon_zany"
-                        android:gravity="center"
-                        android:text="购好物，高佣金" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/iv_bigimg"
-                    android:layout_width="match_parent"
-                    android:layout_height="145dp"
-                    android:background="@drawable/aa"
-                    android:visibility="gone" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:drawableLeft="@drawable/icon_zany"
+                    android:gravity="center"
+                    android:text="看广告,赚现金" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="181dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/adv1"
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:drawableLeft="@drawable/icon_zany"
+                    android:gravity="center"
+                    android:text="购好物，高佣金" />
+            </LinearLayout>
+        </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/vi_tj"
-                        android:layout_width="wrap_content"
-                        android:layout_height="130dp" />
+        <TextView
+            android:id="@+id/tv_advertising"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:background="@drawable/icon_title_b"
+            android:gravity="center"
+            android:text="广告投放-让您的广告更有价值"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
 
-                    <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_bigimg"
+                android:layout_width="match_parent"
+                android:layout_height="145dp"
+                android:background="@drawable/aa"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="181dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/adv1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/vi_tj"
+                    android:layout_width="wrap_content"
+                    android:layout_height="130dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/rw_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:text=""
+                        android:textColor="#000000" />
 
-                        <TextView
-                            android:id="@+id/rw_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textColor="#000000" />
-
-                        <TextView
-                            android:id="@+id/yd_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:text="" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/yd_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/jlj"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textColor="@color/subscribe_item_selected_stroke" />
-
-                        <TextView
-                            android:id="@+id/syrw"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textColor="@color/subscribe_item_selected_stroke" />
-                    </LinearLayout>
+                        android:layout_marginLeft="5dp"
+                        android:text="" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/adv2"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/vi_tj2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="130dp" />
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/jlj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:text=""
+                        android:textColor="@color/subscribe_item_selected_stroke" />
 
-                        <TextView
-                            android:id="@+id/rw_name2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textColor="#000000" />
-
-                        <TextView
-                            android:id="@+id/yd_count2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:text="" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/syrw"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/jlj2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textColor="@color/subscribe_item_selected_stroke" />
-
-                        <TextView
-                            android:id="@+id/syrw2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textColor="@color/subscribe_item_selected_stroke" />
-                    </LinearLayout>
+                        android:text=""
+                        android:textColor="@color/subscribe_item_selected_stroke" />
                 </LinearLayout>
             </LinearLayout>
 
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="30dp"
-    android:text="任务推荐"
-    android:layout_gravity="center"
-    android:gravity="center_vertical"
-    android:paddingLeft="15dp"
-    android:textColor="#ffffff"
-    android:layout_margin="5dp"
-    android:background="@color/subscribe_item_selected_stroke"/>
+            <LinearLayout
+                android:id="@+id/adv2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/vi_tj2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="130dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/rw_name2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/yd_count2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/jlj2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/subscribe_item_selected_stroke" />
+
+                    <TextView
+                        android:id="@+id/syrw2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/subscribe_item_selected_stroke" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:background="@color/subscribe_item_selected_stroke"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="任务推荐"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bel"
         android:orientation="vertical">
+
         <include
             layout="@layout/main_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible" />
-        <include layout="@layout/main_buttom"
-            android:visibility="gone"/>
-    <!--</com.example.ouc.demo.weigets.BounceScrollView>-->
+
+        <include
+            layout="@layout/main_buttom"
+            android:visibility="gone" />
+        <!--</com.example.ouc.demo.weigets.BounceScrollView>-->
     </LinearLayout>
 
 

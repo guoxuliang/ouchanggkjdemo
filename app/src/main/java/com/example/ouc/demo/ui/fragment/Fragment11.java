@@ -9,7 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ouc.demo.R;
-import com.example.ouc.demo.adapter.MyOrderAdapter2;
+import com.example.ouc.demo.adapter.MyOrderAdapter;
 import com.example.ouc.demo.base.BaseFragment;
 import com.example.ouc.demo.entity.MyOrderEntity;
 import com.example.ouc.demo.http.HttpUtils;
@@ -27,30 +27,29 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class Fragment5 extends BaseFragment {
+public class Fragment11 extends BaseFragment {
     private View view;
-    private ListView orderlist5;
-    private TextView nodata;
+    private ListView orderlist11;
     private MyOrderEntity myOrderEntity;
     private ArrayList<MyOrderEntity.DataBean> orderDataBeans;
     private Gson gson = new Gson();
     private int code;
-    private MyOrderAdapter2 myOrderAdapter2;
+    private MyOrderAdapter myOrderAdapter;
     private String userid;
-    private String type = "1";//type=0 未完成   type=1 已完成   type=2 已取消
+    private String type="2";//type=0 未完成   type=1 已完成   type=2 已取消
+private TextView nodata;
     private ProgersssDialog progersssDialog;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment5, container, false);
+        view = inflater.inflate(R.layout.fragment11, container, false);
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        userid = getStringSharePreferences("id", "id");
+        userid= getStringSharePreferences("id","id");
         progersssDialog = new ProgersssDialog(getActivity());
         initViews();
         getMyOrderList();
@@ -58,7 +57,7 @@ public class Fragment5 extends BaseFragment {
     }
 
     private void initViews() {
-        orderlist5 = view.findViewById(R.id.list_order_f5);
+        orderlist11 = view.findViewById(R.id.list_order_f11);
         nodata = view.findViewById(R.id.nodata);
 
     }
@@ -70,7 +69,7 @@ public class Fragment5 extends BaseFragment {
          * 参数一：请求Ur
          * 参数二：请求回调
          */
-        String url = Constants.SERVER_BASE_URL + "system/sys/SysMemUserTaskController/getTaskStatus.action?userid=" + userid + "&type=" + type;
+        String url = Constants.SERVER_BASE_URL + "system/sys/SysMemUserTaskController/getWatchList.action?userid="+userid+"&type="+type;
         Log.i("url", "url:" + url);
         HttpUtils.doGet(url, new Callback() {
             @Override
@@ -80,8 +79,8 @@ public class Fragment5 extends BaseFragment {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                progersssDialog.dismiss();
                 try {
+                    progersssDialog.dismiss();
                     final String result = response.body().string();
                     Log.i("result", "resultCode:" + result);
                     myOrderEntity = gson.fromJson(result, MyOrderEntity.class);
@@ -109,12 +108,12 @@ public class Fragment5 extends BaseFragment {
 
     private void changeDatas() {
         if (orderDataBeans != null) {
-            myOrderAdapter2 = new MyOrderAdapter2(getActivity(), orderDataBeans);
-            orderlist5.setAdapter(myOrderAdapter2);
+            myOrderAdapter = new MyOrderAdapter(getActivity(), orderDataBeans);
+            orderlist11.setAdapter(myOrderAdapter);
             ToastHelper.show(getActivity(),myOrderEntity.getMsg());
         }else {
-            nodata.setVisibility(View.VISIBLE);
-            ToastHelper.show(getActivity(),"暂无数据");
+                nodata.setVisibility(View.VISIBLE);
+                ToastHelper.show(getActivity(),"暂无数据");
+            }
         }
-    }
 }

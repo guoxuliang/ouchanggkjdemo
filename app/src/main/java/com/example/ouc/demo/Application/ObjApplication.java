@@ -122,6 +122,8 @@ public class ObjApplication extends Application {
             permission.add(Manifest.permission.INTERNET);
         if(ContextCompat.checkSelfPermission(activity, Manifest.permission.CHANGE_WIFI_STATE)!= PackageManager.PERMISSION_GRANTED)
             permission.add(Manifest.permission.CHANGE_WIFI_STATE);
+        if(ContextCompat.checkSelfPermission(activity, Manifest.permission.REQUEST_INSTALL_PACKAGES)!= PackageManager.PERMISSION_GRANTED)
+            permission.add(Manifest.permission.REQUEST_INSTALL_PACKAGES);
         return permission;
     }
 

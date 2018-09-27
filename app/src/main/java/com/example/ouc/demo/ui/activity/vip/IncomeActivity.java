@@ -5,8 +5,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.adapter.FragmentAdapter;
@@ -27,12 +30,38 @@ public class IncomeActivity extends AppCompatActivity {
     private Fragment9 fragment9;
     private RadioGroup mGroup_page;
     private RadioButton rbChat_page,rbContacts_page,rbDiscovery_page;
+
+    private ImageView iv_right;
+    private TextView tv_back, tv_content;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order2);
         initView();
         initViewPager();
+        initTitle();
+    }
+
+    private void initTitle() {
+        tv_back = findViewById(R.id.tv_left);
+        iv_right= findViewById(R.id.iv_right);
+        iv_right.setVisibility(View.GONE);
+//        Glide.with(this).load(R.drawable.icon_fx).into(iv_right);
+//        iv_right.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //TODO 点击分享
+//            }
+//        });
+        tv_back.setVisibility(View.VISIBLE);
+        tv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IncomeActivity.this.finish();
+            }
+        });
+        tv_content = findViewById(R.id.tv_title);
+        tv_content.setText("收入记录");
     }
     private void initViewPager(){
         fragment7=new Fragment7();
@@ -53,8 +82,11 @@ public class IncomeActivity extends AppCompatActivity {
         mPageVp=(ViewPager)findViewById(R.id.id_page_vp);
         mGroup_page=(RadioGroup)findViewById(R.id.radiogroup_page);
         rbChat_page=(RadioButton)findViewById(R.id.rb_chat_page);
+        rbChat_page.setText("待进账");
         rbContacts_page=(RadioButton)findViewById(R.id.rb_contacts_page);
+        rbContacts_page.setText("已进账");
         rbDiscovery_page=(RadioButton)findViewById(R.id.rb_discovery_page);
+        rbDiscovery_page.setText("累计进账");
         //RadioGroup选中状态改变监听
         mGroup_page.setOnCheckedChangeListener(new myOrderCheckChangeListener());
         mPageVp .setOffscreenPageLimit(2);

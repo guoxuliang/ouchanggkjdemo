@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ouc.demo.R;
@@ -89,13 +90,31 @@ public class MyInformationActivity extends BaseActivity {
     private Uri imageUri;
     private Uri cropImageUri;
     private UserInfoEntity userInfoEntity;
+
+
+    private ImageView iv_right;
+    private TextView tv_back, tv_content;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information);
         initViews();
+        initTitle();
     }
-
+    private void initTitle() {
+        tv_back = findViewById(R.id.tv_left);
+        iv_right= findViewById(R.id.iv_right);
+        iv_right.setVisibility(View.GONE);
+        tv_back.setVisibility(View.VISIBLE);
+        tv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyInformationActivity.this.finish();
+            }
+        });
+        tv_content = findViewById(R.id.tv_title);
+        tv_content.setText("广告记录");
+    }
     private void initViews() {
         nackName=findViewById(R.id.nickName);
         iv_photo=findViewById(R.id.iv_photo);

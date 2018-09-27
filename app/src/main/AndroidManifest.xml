@@ -114,6 +114,12 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
 
+        <!--广告投放-->
+        <activity
+            android:name=".ui.activity.DeliveryActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme" />
+
         <activity
             android:name="com.lidong.photopicker.PhotoPickerActivity"
             android:configChanges="orientation|screenSize"
