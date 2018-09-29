@@ -7,10 +7,13 @@
     tools:context=".ui.MainActivity">
 
 
-    <!--<com.example.ouc.demo.weigets.BounceScrollView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
-
+    <com.example.ouc.demo.weigets.BounceScrollView
+        android:id="@+id/scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:orientation="vertical">
     <LinearLayout
         android:id="@+id/bel"
         android:layout_width="match_parent"
@@ -102,6 +105,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -157,6 +162,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
@@ -233,8 +240,8 @@
         <include
             layout="@layout/main_buttom"
             android:visibility="gone" />
-        <!--</com.example.ouc.demo.weigets.BounceScrollView>-->
     </LinearLayout>
-
+</LinearLayout>
+    </com.example.ouc.demo.weigets.BounceScrollView>
 
 </RelativeLayout>

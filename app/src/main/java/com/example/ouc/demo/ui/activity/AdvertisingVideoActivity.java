@@ -27,11 +27,21 @@ import com.example.ouc.demo.Application.ObjApplication;
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.ShareTypeActivity;
 import com.example.ouc.demo.base.BaseActivity;
+import com.example.ouc.demo.entity.RecommendedListEntity;
+import com.example.ouc.demo.entity.ShareSuccessfulNoticeEntity;
+import com.example.ouc.demo.http.HttpUtils;
 import com.example.ouc.demo.uitool.ShareBoard;
 import com.example.ouc.demo.uitool.ShareBoardlistener;
 import com.example.ouc.demo.uitool.SnsPlatform;
+import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.TimeUtil;
+import com.example.ouc.demo.utils.ToastHelper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -52,6 +62,9 @@ import cn.jiguang.share.wechat.WechatFavorite;
 import cn.jiguang.share.wechat.WechatMoments;
 import cn.jiguang.share.weibo.SinaWeibo;
 import cn.jiguang.share.weibo.SinaWeiboMessage;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 
 public class AdvertisingVideoActivity extends BaseActivity {
@@ -62,11 +75,12 @@ public class AdvertisingVideoActivity extends BaseActivity {
     private TextView tv_back, tv_content;
     private String name;
     private String gold;
-    private String videourl, timelong,content;
-
-
-
-
+    private String videourl, timelong,content,shareUrl;
+    private Gson gson = new Gson();
+    private String id,taskid;
+    private ArrayList<ShareSuccessfulNoticeEntity.DataBean> sharedataBeansList2;
+    private ShareSuccessfulNoticeEntity shareSuccessfulNoticeEntity;
+    private String code;
 
     private static final String TAG = "MainActivity";
     private int mAction = Platform.ACTION_SHARE;
@@ -86,6 +100,7 @@ public class AdvertisingVideoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advvideo);
+        id=getStringSharePreferences("id","id");
         Bundle bundle = getIntent().getExtras();   //得到传过来的bundle
         if (bundle != null) {
             name = bundle.getString("name");//读出数据
@@ -93,6 +108,8 @@ public class AdvertisingVideoActivity extends BaseActivity {
             videourl = bundle.getString("videourl");//读出数据
             timelong = bundle.getString("timelong");//读出数据
             content = bundle.getString("content");
+            shareUrl = bundle.getString("shareUrl");
+            taskid = bundle.getString("taskid");
         }
         initTitle();
         initViews();
@@ -212,8 +229,8 @@ public class AdvertisingVideoActivity extends BaseActivity {
                     shareParams.setTitle(name);
                     shareParams.setText(content);
                     shareParams.setShareType(Platform.SHARE_WEBPAGE);
-                    shareParams.setUrl(ShareTypeActivity.share_url);
-                    shareParams.setImagePath(ObjApplication.ImagePath);
+                    shareParams.setUrl(shareUrl);
+//                    shareParams.setImagePath(ObjApplication.ImagePath);
                     JShareInterface.share(platform, shareParams, mShareListener);
                     break;
                 default:
@@ -229,6 +246,7 @@ public class AdvertisingVideoActivity extends BaseActivity {
                 Message message = handler.obtainMessage();
                 message.obj = "分享成功";
                 handler.sendMessage(message);
+                getShareSuccessfulNotice();
             }
         }
 
@@ -331,5 +349,49 @@ public class AdvertisingVideoActivity extends BaseActivity {
         }
     };
 
+    private void getShareSuccessfulNotice() {
+        /**c
+         * Get请求
+         * 参数一：请求Ur
+         * 参数二：请求回调
+         */
+        String url = Constants.SERVER_BASE_URL + "system/sys/SysMemUserTaskController/updateShare.action?userid="+id+"&taskid="+taskid;
+        Log.i("url", "url:" + url);
+        HttpUtils.doGet(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("e", "e:" + e);
+            }
 
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final String result = response.body().string();
+//                    progersssDialog.dismiss();
+                    Log.i("result", "resultCode:" + result);
+                     shareSuccessfulNoticeEntity = gson.fromJson(result, ShareSuccessfulNoticeEntity.class);
+                    Type listType2 = new TypeToken<ArrayList<ShareSuccessfulNoticeEntity.DataBean>>() {
+                    }.getType();//TypeToken内的泛型就是Json数据中的类型
+                    sharedataBeansList2 = gson.fromJson(gson.toJson(shareSuccessfulNoticeEntity.getData()), listType2);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                             code= String.valueOf(shareSuccessfulNoticeEntity.getCode());
+                            Log.i("dataBeansList2", "dataBeansList2" + sharedataBeansList2);
+                            if(code.equals("200")){
+                                ToastHelper.show(AdvertisingVideoActivity.this,""+shareSuccessfulNoticeEntity.getMsg()+"");
+                            }
+//                            initListData();
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i("e", "e" + e);
+                }
+
+            }
+        });
+
+    }
 }

@@ -6,11 +6,10 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,13 +28,14 @@ import com.example.ouc.demo.base.BaseFragment;
 import com.example.ouc.demo.entity.RecommendedEntity;
 import com.example.ouc.demo.entity.RecommendedListEntity;
 import com.example.ouc.demo.http.HttpUtils;
-import com.example.ouc.demo.ui.MainActivity;
 import com.example.ouc.demo.ui.activity.AdvertisingVideoActivity;
 import com.example.ouc.demo.ui.activity.DeliveryActivity;
 import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.ProgersssDialog;
 import com.example.ouc.demo.utils.ToastHelper;
+import com.example.ouc.demo.weigets.BounceScrollView;
 import com.example.ouc.demo.weigets.MyOnScrollListener;
+import com.example.ouc.demo.weigets.RefreshListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.youth.banner.Banner;
@@ -52,8 +53,6 @@ import java.util.TimerTask;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 
 public class Fragment1 extends BaseFragment implements MyOnScrollListener.OnloadDataListener {
@@ -88,13 +87,14 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     //ListView展示的数据项
     private List<RecommendedListEntity.DataBean> data;
     //ListView控件
-    private ListView mList;
+    private RefreshListView mList;
     //自定义适配器
     MyAdapter adapter;
     //底部加载更多布局
     View footer;
     private Button btn;
     private TextView tv_back, tv_content,tv_advertising;
+    private BounceScrollView scrollview;
 
     int start=0;
     int limit=1000000;
@@ -216,7 +216,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     }
 
     private void initView() {
-
+        scrollview = v.findViewById(R.id.scrollview);
         tv_advertising=v.findViewById(R.id.tv_advertising);
         tv_advertising.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,7 +239,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         jlj2 = v.findViewById(R.id.jlj2);
         syrw = v.findViewById(R.id.syrw);
         syrw2 = v.findViewById(R.id.syrw2);
-        mList = (ListView) v.findViewById(R.id.mList);
+        mList = (RefreshListView) v.findViewById(R.id.mList);
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -253,6 +253,9 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                 mBundle.putString("videourl", dataBeansList2.get(i).getVideo());//视频地址
                 mBundle.putString("timelong", dataBeansList2.get(i).getTimelong());//视频地址
                 mBundle.putString("content", dataBeansList2.get(i).getContent());//视频信息
+                mBundle.putString("shareUrl", dataBeansList2.get(i).getShareUrl());//要分享的web页面地址
+                mBundle.putString("taskid", dataBeansList2.get(i).getId()+"");//获取任务ID
+
                 intent.putExtras(mBundle);
                 startActivity(intent);
             }
@@ -316,6 +319,8 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                 mBundle.putString("videourl", dataBeans2.get(0).getVideo());//视频地址
                 mBundle.putString("timelong", dataBeans2.get(0).getTimelong());//视频地址
                 mBundle.putString("content", dataBeans2.get(0).getContent());//视频信息
+                mBundle.putString("shareUrl", dataBeans2.get(0).getShareUrl());//要分享的web页面地址
+                mBundle.putString("taskid", dataBeansList2.get(0).getId()+"");//获取任务ID
                 intent.putExtras(mBundle);
                 startActivity(intent);
             }
@@ -332,10 +337,24 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                 mBundle.putString("videourl", dataBeans2.get(1).getVideo());//视频地址
                 mBundle.putString("timelong", dataBeans2.get(1).getTimelong());//视频地址
                 mBundle.putString("content", dataBeans2.get(1).getContent());//视频信息
+                mBundle.putString("shareUrl", dataBeans2.get(1).getShareUrl());//要分享的web页面地址
+                mBundle.putString("taskid", dataBeansList2.get(1).getId()+"");//获取任务ID
                 intent.putExtras(mBundle);
                 startActivity(intent);
             }
         });
+//        mList.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//               if(motionEvent.getAction()==MotionEvent.ACTION_UP){
+//                   scrollview.requestDisallowInterceptTouchEvent(false);
+//               }else {
+//                   scrollview.requestDisallowInterceptTouchEvent(true);//屏蔽父控件的拦截事件
+//               }
+//                return false;
+//            }
+//        });
+
 
     }
 

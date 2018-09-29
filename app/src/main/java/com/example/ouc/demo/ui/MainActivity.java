@@ -3,9 +3,11 @@ package com.example.ouc.demo.ui;
 import android.Manifest;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -35,6 +37,8 @@ import com.example.ouc.demo.R;
 import com.example.ouc.demo.adapter.myFragmentPagerAdapter;
 import com.example.ouc.demo.entity.CheckUpdataEntity;
 import com.example.ouc.demo.http.HttpUtils;
+import com.example.ouc.demo.jpush.ExampleUtil;
+import com.example.ouc.demo.jpush.LocalBroadcastManager;
 import com.example.ouc.demo.ui.fragment.Fragment1;
 import com.example.ouc.demo.ui.fragment.Fragment2;
 import com.example.ouc.demo.ui.fragment.Fragment3;
@@ -58,6 +62,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -92,6 +97,8 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
     private Fragment mCurrentFragmen = null;  // 记录当前显示的Fragment
     private String[] mFragmentTagList = {"Fragment1", "Fragment2", "Fragment3"};
 
+
+    public static boolean isForeground = false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +113,65 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
         initViewPager();
         mPermissionHelper = new PermissionHelper(MainActivity.this, this);
         mPermissionHelper.requestPermissions();
+        jpush();
+        init();
     }
+    // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
+    private void init(){
+        JPushInterface.init(getApplicationContext());
+    }
+
+    private void  jpush() {
+        JPushInterface.init(getApplicationContext());
+        JPushInterface.getRegistrationID(getApplicationContext());
+        JPushInterface.resumePush(getApplicationContext());
+//        JPushInterface.stopPush(getApplicationContext());
+        registerMessageReceiver(); // used for receive msg
+    }
+    private MessageReceiver mMessageReceiver;
+    public static final String MESSAGE_RECEIVED_ACTION = "me.weyye.todaynews.jpush.MESSAGE_RECEIVED_ACTION";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_MESSAGE = "message";
+    public static final String KEY_EXTRAS = "extras";
+
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(MESSAGE_RECEIVED_ACTION);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+                    String messge = intent.getStringExtra(KEY_MESSAGE);
+                    String extras = intent.getStringExtra(KEY_EXTRAS);
+                    StringBuilder showMsg = new StringBuilder();
+                    showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
+                    if (!ExampleUtil.isEmpty(extras)) {
+                        showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
+                    }
+                    setCostomMsg(showMsg.toString());
+                }
+            } catch (Exception e){
+            }
+        }
+    }
+
+    private void setCostomMsg(String msg){
+    }
+
+
+
+
+
+
+
+
 
     private void initViewPager(){
         fragment1=new Fragment1();
@@ -133,9 +198,6 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
         mGroup.setOnCheckedChangeListener(new myCheckChangeListener());
         mPager .setOffscreenPageLimit(2);
     }
-
-
-
     /**
      *RadioButton切换Fragment
      */
@@ -169,14 +231,6 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
             }
         }
     }
-
-
-
-
-
-
-
-
     /**
      *ViewPager切换Fragment,RadioGroup做相应变化
      */
@@ -207,24 +261,7 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
 
         }
     }
-
-
-
-
-
-
-
-
 //***********************************************************************************************************************************************************************************************************
-
-
-
-
-
-
-
-
-
     private void initViews() {
         // 获取本版本号，是否更新
         int vision = Tools.getVersion(this);
@@ -271,12 +308,23 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
 //        finish();
     }
 
+    @Override
+    protected void onResume() {
+        isForeground = true;
+        super.onResume();
+    }
 
     @Override
     protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onDestroy();
     }
 
+    @Override
+    protected void onPause() {
+        isForeground = false;
+        super.onPause();
+    }
 
     /**
      * //****************************************************************************************************************************
@@ -653,5 +701,6 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
         }
         return super.onKeyDown(keyCode, event);
     }
+
 }
 

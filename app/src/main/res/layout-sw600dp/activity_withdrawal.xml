@@ -2,9 +2,157 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="#ffffff"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_title" />
+    <include layout="@layout/layout_title2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"/>
+<com.example.ouc.demo.weigets.BounceScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="银行卡号"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000" />
 
+        <EditText
+            android:id="@+id/tx_cardNab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/bg_cursor"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:hint="请填写银行卡号"
+            android:maxLength="11" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="户名"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000" />
+
+        <EditText
+            android:id="@+id/tx_Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/bg_cursor"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:hint="请填写您的户名"
+            android:maxLength="11" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="地区支行地址"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000" />
+
+        <EditText
+            android:id="@+id/tx_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/bg_cursor"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:hint="请填写地区支行地址"
+            android:maxLength="11" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="开户银行"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000" />
+
+        <EditText
+            android:id="@+id/tx_bankName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/bg_cursor"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:hint="请填写开户行名称"
+            android:maxLength="11" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="手机号"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000" />
+
+        <EditText
+            android:id="@+id/tx_phonenub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/bg_cursor"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:hint="请填写您手机号"
+            android:maxLength="11" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="提现金额"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000" />
+
+        <EditText
+            android:id="@+id/yx_je"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/bg_cursor"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:hint="请填写金额"
+            android:maxLength="11" />
+
+        <Button
+            android:id="@+id/tx_submit"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/submitbutton"
+            android:hint="提交"
+            android:textColorHint="#ffffff" />
+</LinearLayout>
+</com.example.ouc.demo.weigets.BounceScrollView>
 </LinearLayout>

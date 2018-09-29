@@ -6,7 +6,7 @@ public class RecommendedEntity {
 
 
     /**
-     * data : [{"cover":"http://kgj.ockeji.com/upload/1537423654042411.jpg","gold":100,"timelong":"0:0:32","quantity":1298,"browsevolume":"1563482","id":1,"video":"http://kgj.ockeji.com/video/1537423654046470.mp4","title":"魅力城市-1","content":"斯蒂芬森"},{"cover":"http://kgj.ockeji.com/upload/1537423654042411.jpg","gold":100,"timelong":"0:0:17","quantity":1300,"browsevolume":"0","id":4,"video":"http://kgj.ockeji.com/video/1536974390479278.mp4","title":"魅力城市-4","content":"斯蒂芬森"}]
+     * data : [{"cover":"http://kgj.ockeji.com/upload/1537423654042411.jpg","gold":100,"timelong":"0:0:32","quantity":1298,"browsevolume":"1563482","shareUrl":"http://kgj.ockeji.com/share.jsp?id=1","id":1,"video":"http://kgj.ockeji.com/video/1537423654046470.mp4","title":"魅力城市-1","content":"斯蒂芬森"},{"cover":"http://kgj.ockeji.com/upload/1537423654042411.jpg","gold":100,"timelong":"0:0:32","quantity":1300,"browsevolume":"0","shareUrl":"http://kgj.ockeji.com/share.jsp?id=3","id":3,"video":"http://kgj.ockeji.com/video/1537423654046470.mp4","title":"魅力城市-3","content":"斯蒂芬森"}]
      * code : 200
      * msg : 查询任务成功
      * execute : true
@@ -66,6 +66,7 @@ public class RecommendedEntity {
          * timelong : 0:0:32
          * quantity : 1298
          * browsevolume : 1563482
+         * shareUrl : http://kgj.ockeji.com/share.jsp?id=1
          * id : 1
          * video : http://kgj.ockeji.com/video/1537423654046470.mp4
          * title : 魅力城市-1
@@ -77,6 +78,7 @@ public class RecommendedEntity {
         private String timelong;
         private int quantity;
         private String browsevolume;
+        private String shareUrl;
         private int id;
         private String video;
         private String title;
@@ -120,6 +122,14 @@ public class RecommendedEntity {
 
         public void setBrowsevolume(String browsevolume) {
             this.browsevolume = browsevolume;
+        }
+
+        public String getShareUrl() {
+            return shareUrl;
+        }
+
+        public void setShareUrl(String shareUrl) {
+            this.shareUrl = shareUrl;
         }
 
         public int getId() {

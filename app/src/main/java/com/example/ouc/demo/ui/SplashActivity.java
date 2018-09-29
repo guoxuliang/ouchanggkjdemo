@@ -32,6 +32,7 @@ import com.example.ouc.demo.entity.CheckUpdataEntity;
 import com.example.ouc.demo.http.HttpUtils;
 import com.example.ouc.demo.ui.activity.LoginActivity;
 import com.example.ouc.demo.ui.fragment.Fragment1;
+import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.ToastHelper;
 import com.example.ouc.demo.utils.Tools;
 import com.example.ouc.demo.view.CommonProgressDialog;
@@ -136,8 +137,7 @@ public class SplashActivity extends BaseActivity {
          * 参数一：请求Ur
          * 参数二：请求回调
          */
-//        String url = "http://kgj.ockeji.com/system/sys/sysController/updateAppEdition.action?localVersion=" + version;
-        String url = "http://kgj.ockeji.com/system/sys/sysController/updateAppEdition.action?localVersion="+8;
+        String url = Constants.SERVER_BASE_URL+"system/sys/sysController/updateAppEdition.action?serverFlag=1&localVersion=" + version;
         Log.i("url", "url:" + url);
         HttpUtils.doGet(url, new Callback() {
             @Override
@@ -175,10 +175,10 @@ public class SplashActivity extends BaseActivity {
             lastForce = checkUpdataEntity.getData().getLastForce();
             updateUrl = checkUpdataEntity.getData().getUpdateUrl().toString().trim();
             updateInfo = checkUpdataEntity.getData().getUpdateInfo().toString().trim();
-            int oldver= Integer.parseInt(version)-1;
-//            ShowDialog(oldver, version, updateInfo, updateUrl);
-            ShowDialog(7, "8", updateInfo, updateUrl);
-
+//            int oldver= Integer.parseInt(version)-1;
+//            ShowDialog(7, "8", updateInfo, updateUrl);
+            int oldversion = Integer.parseInt(version) - 1;
+            ShowDialog(oldversion, version, updateInfo, updateUrl);
         }
     }
 

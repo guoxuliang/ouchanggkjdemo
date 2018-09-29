@@ -21,6 +21,8 @@ import java.util.List;
 
 import cn.jiguang.share.android.api.JShareInterface;
 import cn.jiguang.share.android.api.PlatformConfig;
+import cn.jiguang.share.android.utils.Logger;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by Administrator on 2018/7/12 0012.
@@ -29,12 +31,17 @@ import cn.jiguang.share.android.api.PlatformConfig;
 public class ObjApplication extends Application {
     public static String ImagePath;
     public static String VideoPath;
+    private static final String TAG = "JIGUANG-Example";
     @Override
     public void onCreate() {
+        Logger.d(TAG, "[ExampleApplication] onCreate");
         super.onCreate();
         CrashReport.initCrashReport(getApplicationContext(), "577d9af4b0", false);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
+
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);
 
         JShareInterface.setDebugMode(true);
         PlatformConfig platformConfig = new PlatformConfig()
@@ -124,6 +131,8 @@ public class ObjApplication extends Application {
             permission.add(Manifest.permission.CHANGE_WIFI_STATE);
         if(ContextCompat.checkSelfPermission(activity, Manifest.permission.REQUEST_INSTALL_PACKAGES)!= PackageManager.PERMISSION_GRANTED)
             permission.add(Manifest.permission.REQUEST_INSTALL_PACKAGES);
+        if(ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED)
+            permission.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         return permission;
     }
 
