@@ -11,7 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ouc.demo.R;
+import com.example.ouc.demo.base.BaseActivity;
 import com.example.ouc.demo.entity.CodeEntity;
+import com.example.ouc.demo.entity.RetrieveEntity;
 import com.example.ouc.demo.http.HttpUtils;
 import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.MD5Util;
@@ -30,7 +32,7 @@ import okhttp3.Response;
 /**
  * 修改密码
  */
-public class RetrievePwdActivity extends AppCompatActivity {
+public class RetrievePwdActivity extends BaseActivity {
     private TextView tv_back,tv_content;
     private EditText et_phone_find,et_yz_find,et_p_find,et_pqr_find;
     private Button submit_find,btn_getcode;
@@ -40,6 +42,8 @@ public class RetrievePwdActivity extends AppCompatActivity {
     private String  new_pwd_T;	//true	String	会员新密码
     private String verCode;    //true	String	验证码
     private Gson gson = new Gson();
+    private CodeEntity codeEntity;
+    private RetrieveEntity retrieveEntity;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,13 +132,13 @@ public class RetrievePwdActivity extends AppCompatActivity {
      */
     private void post(){
         Map<String,String> map = new HashMap<>();
-        map.put("phone",MD5Util.MD5(phone));
+        map.put("phone",phone);
         map.put("new_pwd", MD5Util.MD5(new_pwd));
 
         HttpUtils.doPost(Constants.SERVER_BASE_URL+"system/sys/SysMemUserController/forgetPassword.action", map, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-            ToastHelper.show(RetrievePwdActivity.this,"ERROR:"+e);
+                Log.i("error:","error:"+e);
             }
 
             @Override
@@ -142,6 +146,16 @@ public class RetrievePwdActivity extends AppCompatActivity {
                 try {
                     String result=response.body().string();
                     Log.i("result", "result:" + result);
+                    retrieveEntity = gson.fromJson(result, RetrieveEntity.class);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(retrieveEntity.getCode()==200){
+                                RetrievePwdActivity.this.finish();
+                            }
+                            ToastHelper.show(RetrievePwdActivity.this, codeEntity.getMsg());
+                        }
+                    });
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -160,10 +174,10 @@ public class RetrievePwdActivity extends AppCompatActivity {
          * 参数一：请求Ur
          * 参数二：请求回调
          */
-        HttpUtils.doGet(Constants.SERVER_BASE_URL + "system/sys/sendMsgController/getResult.action?" + "phone=" + phone, new Callback() {
+        HttpUtils.doGet(Constants.SERVER_BASE_URL + "system/sys/sendMsgController/getforgetResult.action?" + "phone=" + phone, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ToastHelper.show(RetrievePwdActivity.this, "ERROR:" + e);
+                Log.i("error:","error:"+e);
             }
 
             @Override
@@ -171,9 +185,14 @@ public class RetrievePwdActivity extends AppCompatActivity {
                 try {
                     final String result = response.body().string();
                     Log.i("result", "resultCode:" + result);
-                    CodeEntity codeEntity = gson.fromJson(result, CodeEntity.class);
-                    verCode = codeEntity.getData().toString().trim();
-                    ToastHelper.show(RetrievePwdActivity.this, codeEntity.getMsg());
+                    codeEntity  = gson.fromJson(result, CodeEntity.class);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ToastHelper.show(RetrievePwdActivity.this, codeEntity.getMsg());
+                        }
+                    });
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

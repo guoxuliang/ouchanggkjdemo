@@ -95,7 +95,6 @@ public class RealNameActivity extends BaseActivity {
             public void onClick(View v) {
                 //TODO  调用接口    传入需要的参数值
                 boolean sfid= PhoneFormatCheckUtils.isSFid(et_sfid.getText().toString().trim());
-                ToastHelper.show(RealNameActivity.this,"====正则测试："+sfid);
                 id=getStringSharePreferences("id","id");
                 name=et_name.getText().toString().trim();
                 email=et_mail.getText().toString().trim();
@@ -103,10 +102,11 @@ public class RealNameActivity extends BaseActivity {
                 if (imagePaths.size() == 3) {
                     file1 = imagePaths.get(0);
                     file2 = imagePaths.get(1);
+                    post_userNameInfo(file1,file2,id,name,email,cardNumber);
                 }else {
                     ToastHelper.show(RealNameActivity.this,"请上传身份证");
                 }
-                post_userNameInfo(file1,file2,id,name,email,cardNumber);
+
             }
         });
         gridView = findViewById(R.id.gridView);
@@ -275,13 +275,14 @@ public class RealNameActivity extends BaseActivity {
                 MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
                 File f1 = new File(imgpath1);
                 File f2 = new File(imgpath2);
-                Log.i("==gxl==f1","==gxl==f1"+f1);
+                Log.i("==gxl==f1","==gxl==f1"+f1+"==gxl==f2"+f2);
                 builder.addFormDataPart("name", name)
                         .addFormDataPart("id",id+"")
                         .addFormDataPart("email",email)
                         .addFormDataPart("cardNumber",cardNumber)
                         .addFormDataPart("file", f1.getName(), RequestBody.create(MEDIA_TYPE, "file:////"+f1))
                         .addFormDataPart("file1", f2.getName(), RequestBody.create(MEDIA_TYPE, "file:////"+f2));
+                Log.i("==gxl==f1","==gxl==f1"+f1+"==gxl==f2"+f2);
                 MultipartBody requestBody = builder.build();
                 Log.i("requestBody","requestBody"+requestBody);
                 //构建请求

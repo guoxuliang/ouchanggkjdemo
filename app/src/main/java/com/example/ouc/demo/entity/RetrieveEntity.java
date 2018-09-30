@@ -1,26 +1,26 @@
 package com.example.ouc.demo.entity;
 
-public class CodeEntity {
+public class RetrieveEntity {
 
     /**
-     * data : 380066
-     * code : null
-     * success : true
+     * data : null
+     * code : 404
      * execute : false
-     * msg : 验证码发送成功
+     * msg : 密码修改失败
+     * success : true
      */
 
-    private String data;
+    private Object data;
     private int code;
-    private boolean success;
     private boolean execute;
     private String msg;
+    private boolean success;
 
-    public String getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
@@ -30,14 +30,6 @@ public class CodeEntity {
 
     public void setCode(int code) {
         this.code = code;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
     }
 
     public boolean isExecute() {
@@ -54,5 +46,13 @@ public class CodeEntity {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 }

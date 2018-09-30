@@ -9,9 +9,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.PowerManager;
@@ -19,7 +19,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -36,12 +35,14 @@ import com.example.ouc.demo.Permission.PermissionInterface;
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.adapter.myFragmentPagerAdapter;
 import com.example.ouc.demo.entity.CheckUpdataEntity;
+import com.example.ouc.demo.entity.GetVersionEntity;
 import com.example.ouc.demo.http.HttpUtils;
 import com.example.ouc.demo.jpush.ExampleUtil;
 import com.example.ouc.demo.jpush.LocalBroadcastManager;
 import com.example.ouc.demo.ui.fragment.Fragment1;
 import com.example.ouc.demo.ui.fragment.Fragment2;
 import com.example.ouc.demo.ui.fragment.Fragment3;
+import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.Tools;
 import com.example.ouc.demo.view.CommonProgressDialog;
 import com.google.gson.Gson;
@@ -68,10 +69,16 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class MainActivity extends FragmentActivity implements PermissionInterface {
+    private  GetVersionEntity getVersionEntity;
     private ImageView imageview_back, imageView;
     private TextView textView2;
     private TextView tv_back, tv_content;
     SharedPreferences userSettings;
+
+
+    private static final String DOWNLOAD_NAME = "channelWe";
+    private static final int REQUEST_CODE_PERMISSION_SD = 101;
+    private static final int REQUEST_CODE_SETTING = 300;
 
     private String updateUrl,updateInfo,lastForce,msg;
     private   CheckUpdataEntity checkUpdataEntity;
@@ -96,7 +103,7 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
     private FragmentManager mFm;
     private Fragment mCurrentFragmen = null;  // 记录当前显示的Fragment
     private String[] mFragmentTagList = {"Fragment1", "Fragment2", "Fragment3"};
-
+    private String  versioncode;
 
     public static boolean isForeground = false;
     @Override
@@ -261,12 +268,13 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
 
         }
     }
+
+
+
+
 //***********************************************************************************************************************************************************************************************************
     private void initViews() {
-        // 获取本版本号，是否更新
-        int vision = Tools.getVersion(this);
-        getVersionCode(String.valueOf(vision));
-        Log.i("code","code"+code);
+        getVersions();
     }
 
     private void initTitle() {
@@ -281,6 +289,7 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
         //设置权限请求requestCode，只有不跟onRequestPermissionsResult方法中的其他请求码冲突即可。
         return 10000;
     }
+
 
     @Override
     public String[] getPermissions() {
@@ -327,33 +336,101 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
     }
 
     /**
-     * //****************************************************************************************************************************
-     * 版本更新
+     * 下载应用
+     *
+     * @author Administrator
      */
 
-    // 下载存储的文件名
-    private static final String DOWNLOAD_NAME = "channelWe";
+    private RationaleListener rationaleListener = new RationaleListener() {
+        @Override
+        public void showRequestPermissionRationale(int requestCode, final Rationale rationale) {
+            // 自定义对话框。
+            AlertDialog.build(MainActivity.this)
+                    .setTitle(R.string.title_dialog)
+                    .setMessage(R.string.message_permission_rationale)
+                    .setPositiveButton(R.string.btn_dialog_yes_permission, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            rationale.resume();
+                        }
+                    })
 
-    // 获取更新版本号
-    // 获取更新版本号
-    private void getVersion(final int vision) {
-        String data = "";
+                    .setNegativeButton(R.string.btn_dialog_no_permission, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            rationale.cancel();
+                        }
+                    })
+                    .show();
+        }
+    };
 
-        String newversion = "2";//更新新的版本号
-        String content = "侧边栏、弹框优化 —— 这个你自己去探索吧，总得留点悬念嘛-。";//更新内容
-        String url = "http://openbox.mobilem.360.cn/index/d/sid/3429345";//安装包下载地址
 
-        double newversioncode = Double
-                .parseDouble(newversion);
-        int cc = (int) (newversioncode);
-
-        if (cc != vision) {
-//            if (vision < cc) {
-            // 版本号不同
-            ShowDialog(vision, newversion, content, url);
-//            }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_SETTING: {
+                Toast.makeText(this, R.string.message_setting_back, Toast.LENGTH_LONG).show();
+                //设置成功，再次请求更新
+                int vision = Tools.getVersion(this);
+                getVersionCode(String.valueOf(vision));
+                break;
+            }
         }
     }
+
+    private void getVersionCode(final String version) {
+        /**
+         * Get请求
+         * 参数一：请求Ur
+         * 参数二：请求回调
+         */
+        String url = Constants.SERVER_BASE_URL+"system/sys/sysController/updateAppEdition.action?serverFlag=1&localVersion=" + version;
+        Log.i("url", "url:" + url);
+        HttpUtils.doGet(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("e", "e:" + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final String result = response.body().string();
+                    Log.i("result", "resultCode:" + result);
+                    checkUpdataEntity = gson.fromJson(result, CheckUpdataEntity.class);
+                    code = checkUpdataEntity.getCode();
+                    Log.i("data", "data:==" + "code" + code + "lastForce" + lastForce + "updateUrl" + updateUrl + "updateInfo" + updateInfo);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //TODO   UI线程中的操作在此处进行，否则报错
+                            lastForce = checkUpdataEntity.getData().getLastForce();
+                            updateUrl = checkUpdataEntity.getData().getUpdateUrl().toString().trim();
+                            updateInfo = checkUpdataEntity.getData().getUpdateInfo().toString().trim();
+                            int oldversion = Integer.parseInt(version) - 1;
+                            String newversion=version+1;
+                            ShowDialog(Integer.parseInt(version), newversion, updateInfo, updateUrl);
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        });
+//        if (code == 200) {
+//            lastForce = checkUpdataEntity.getData().getLastForce();
+//            updateUrl = checkUpdataEntity.getData().getUpdateUrl().toString().trim();
+//            updateInfo = checkUpdataEntity.getData().getUpdateInfo().toString().trim();
+//            int oldversion = Integer.parseInt(version) - 1;
+//            ShowDialog(oldversion, version, updateInfo, updateUrl);
+//        }
+    }
+
     /**
      * 升级系统
      *
@@ -362,48 +439,41 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
      */
     private void ShowDialog(int vision, String newversion, String content,
                             final String url) {
-        new android.app.AlertDialog.Builder(this)
+        new android.app.AlertDialog.Builder(MainActivity.this)
                 .setTitle("版本更新")
                 .setMessage(content)
                 .setPositiveButton("更新", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        // 检查是否获得了权限（Android6.0运行时权限）
-                        if (ContextCompat.checkSelfPermission(MainActivity.this,
-                                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        } else {
-                            pBar = new CommonProgressDialog(MainActivity.this);
-                            pBar.setCanceledOnTouchOutside(false);
-                            pBar.setTitle("正在下载");
-                            pBar.setCustomTitle(LayoutInflater.from(
-                                    MainActivity.this).inflate(
-                                    R.layout.title_dialog, null));
-                            pBar.setMessage("正在下载");
-                            pBar.setIndeterminate(true);
-                            pBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                            pBar.setCancelable(true);
-                            // downFile(URLData.DOWNLOAD_URL);
-                            final DownloadTask downloadTask = new DownloadTask(
-                                    MainActivity.this);
-                            downloadTask.execute(url);
-                            pBar.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                @Override
-                                public void onCancel(DialogInterface dialog) {
-                                    downloadTask.cancel(true);
-                                }
-                            });
-                        }
-
-
+                        pBar = new CommonProgressDialog(MainActivity.this);
+                        pBar.setCanceledOnTouchOutside(false);
+                        pBar.setTitle("正在下载");
+                        pBar.setCustomTitle(LayoutInflater.from(
+                                MainActivity.this).inflate(
+                                R.layout.title_dialog, null));
+                        pBar.setMessage("正在下载");
+                        pBar.setIndeterminate(true);
+                        pBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                        pBar.setCancelable(true);
+                        // downFile(URLData.DOWNLOAD_URL);
+                        final DownloadTask downloadTask = new DownloadTask(
+                                MainActivity.this);
+                        downloadTask.execute(url);
+                        pBar.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                downloadTask.cancel(true);
+                            }
+                        });
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(lastForce.equals("2")){
+                        if (lastForce.equals("2")) {
                             System.exit(0);
-                        }else {
+                        } else {
                             dialog.dismiss();
                         }
 
@@ -529,55 +599,60 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
 
 
                 Toast.makeText(context, "您未打开SD卡权限" + result, Toast.LENGTH_LONG).show();
-                update();
             } else {
                 update();
             }
 
         }
     }
-
-    private static final int REQUEST_CODE_PERMISSION_SD = 101;
-
-    private static final int REQUEST_CODE_SETTING = 300;
-    private RationaleListener rationaleListener = new RationaleListener() {
-        @Override
-        public void showRequestPermissionRationale(int requestCode, final Rationale rationale) {
-            // 自定义对话框。
-            AlertDialog.build(MainActivity.this)
-                    .setTitle(R.string.title_dialog)
-                    .setMessage(R.string.message_permission_rationale)
-                    .setPositiveButton(R.string.btn_dialog_yes_permission, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                            rationale.resume();
-                        }
-                    })
-
-                    .setNegativeButton(R.string.btn_dialog_no_permission, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                            rationale.cancel();
-                        }
-                    })
-                    .show();
+    private void update() {
+        try{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {      //判读版本是否在7.0以上
+//                        File file= new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+//                                , "app-release.apk");
+////                        File file=new File(getActivity().getCacheDir(),"app-release.apk");
+//                        Log.i("****apkUri","file"+file);
+//                        //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
+//                        Uri apkUri = FileProvider.getUriForFile(getContext().getApplicationContext(), getContext().getApplicationContext().getPackageName() + ".FileProvider", file);//在AndroidManifest中的android:authorities值
+//                        Log.i("****apkUri","apkUri"+apkUri);
+//                        Intent install = new Intent(Intent.ACTION_VIEW);
+//                        install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                        install.setDataAndType(apkUri, "application/vnd.android.package-archive");
+//                        getActivity().startActivity(install);
+//                    } else {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent = intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), DOWNLOAD_NAME)), "application/vnd.android.package-archive");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                File   f= new File(Environment.getExternalStorageDirectory(),DOWNLOAD_NAME);
+                Log.i("****apkUri2","file"+f);
+                startActivity(intent);
+            }else{
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent = intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), DOWNLOAD_NAME)), "application/vnd.android.package-archive");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                File   f= new File(Environment.getExternalStorageDirectory(),DOWNLOAD_NAME);
+                Log.i("****apkUri2","file"+f);
+                startActivity(intent);
+            }
+//                }else {
+//                    //无权限 申请权限
+////                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, INSTALL_APK_REQUESTCODE);
+//                }
+//            }
+        }catch (Exception e) {
+            Log.i("==e","==e"+e);
         }
-    };
 
-
-    //----------------------------------SD权限----------------------------------//
-
-
+    }
     @PermissionYes(REQUEST_CODE_PERMISSION_SD)
     private void getMultiYes(List<String> grantedPermissions) {
-        Toast.makeText(this, R.string.message_post_succeed, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, R.string.message_post_succeed, Toast.LENGTH_SHORT).show();
     }
 
     @PermissionNo(REQUEST_CODE_PERMISSION_SD)
     private void getMultiNo(List<String> deniedPermissions) {
-        Toast.makeText(this, R.string.message_post_failed, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, R.string.message_post_failed, Toast.LENGTH_SHORT).show();
 
         // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
         if (AndPermission.hasAlwaysDeniedPermission(this, deniedPermissions)) {
@@ -592,7 +667,8 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
         }
     }
 
-    //----------------------------------权限回调处理----------------------------------//
+
+    //----------------------------------SD权限----------------------------------//
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -608,85 +684,7 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
         AndPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_CODE_SETTING: {
-                Toast.makeText(this, R.string.message_setting_back, Toast.LENGTH_LONG).show();
-                //设置成功，再次请求更新
-                int vision = Tools.getVersion(this);
-                getVersionCode(String.valueOf(vision));
-                break;
-            }
-        }
-    }
 
-
-    private void update() {
-        //安装应用
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(new File(Environment
-                        .getExternalStorageDirectory(), DOWNLOAD_NAME)),
-                "application/vnd.android.package-archive");
-        startActivity(intent);
-    }
-
-
-
-    /**
-     * 检查更新
-     * 参数一：请求Url
-     * 参数二：请求的键值对
-     * 参数三：请求回调
-     */
-
-    /**
-     * 获取验证码
-     */
-
-    private void getVersionCode(String version) {
-        /**
-         * Get请求
-         * 参数一：请求Ur
-         * 参数二：请求回调
-         */
-//        String url=Constants.SERVER_BASE_URL + "system/sys/sysController/updateAppEdition.action?" + "localVersion=" + version;
-        String url =  "http://kgj.ockeji.com/system/sys/sysController/updateAppEdition.action?localVersion="+version;
-        Log.i("url", "url:" + url);
-        HttpUtils.doGet(url, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.i("e", "e:" + e);
-//                ToastHelper.show(MainActivity.this, "ERROR:" + e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    final String result = response.body().string();
-                    Log.i("result", "resultCode:" + result);
-                    checkUpdataEntity = gson.fromJson(result, CheckUpdataEntity.class);
-                    code = checkUpdataEntity.getCode();
-                    if(code==200) {
-                        lastForce = checkUpdataEntity.getData().getLastForce();
-                        updateUrl = checkUpdataEntity.getData().getUpdateUrl().toString().trim();
-                        updateInfo = checkUpdataEntity.getData().getUpdateInfo().toString().trim();
-                    }
-
-                    Log.i("data","data:=="+"code"+code+"lastForce"+lastForce+"updateUrl"+updateUrl+"updateInfo"+updateInfo);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        });
-        if(code==200){
-            int oldversion = Integer.parseInt(version)-1;
-            ShowDialog(oldversion, version, updateInfo, updateUrl);
-        }
-    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -702,5 +700,56 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
         return super.onKeyDown(keyCode, event);
     }
 
+
+
+
+
+
+
+    private void getVersions() {
+        /**
+         * Get请求
+         * 参数一：请求Ur
+         * 参数二：请求回调
+         */
+        String url = Constants.SERVER_BASE_URL+"system/sys/sysController/NowAppEdition.action?serverFlag=1";
+        Log.i("url", "url:" + url);
+        HttpUtils.doGet(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("e", "e:" + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final String result = response.body().string();
+                    Log.i("result", "resultCode:" + result);
+                    getVersionEntity = gson.fromJson(result, GetVersionEntity.class);
+                    code = getVersionEntity.getCode();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //TODO   UI线程中的操作在此处进行，否则报错
+                            if(getVersionEntity.getCode()==200){
+                                versioncode= String.valueOf(getVersionEntity.getData());
+                                int vision = Tools.getVersion(MainActivity.this);
+                                String vision_str= String.valueOf(vision);
+                                if(vision_str!=versioncode){
+                                    getVersionCode(String.valueOf(vision));
+                                }
+
+
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        });
+    }
 }
 

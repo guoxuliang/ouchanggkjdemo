@@ -47,6 +47,13 @@ public class BounceScrollView extends ScrollView {
 
         return super.onTouchEvent(ev);
     }
+
+
+    //不拦截，继续分发下去
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//        return false;
+//    }
     /***
      * 触摸事件
      *

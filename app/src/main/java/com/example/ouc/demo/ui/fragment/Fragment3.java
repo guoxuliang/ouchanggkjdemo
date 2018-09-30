@@ -98,6 +98,7 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
     private ArrayList<MembersEntity> data;
     private double waitaccount,commission;
     private TextView yu_e,djz;
+//    int vision;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment3, null);
@@ -209,7 +210,7 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
         }
     }
 
-    private void getVersionCode(String version) {
+    private void getVersionCode(final String version) {
         /**c
          * Get请求
          * 参数一：请求Ur
@@ -230,12 +231,22 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
                     final String result = response.body().string();
                     Log.i("result", "resultCode:" + result);
                     checkUpdataEntity = gson.fromJson(result, CheckUpdataEntity.class);
-                    code = checkUpdataEntity.getCode();
-                    if (code == 200) {
-                        lastForce = checkUpdataEntity.getData().getLastForce();
-                        updateUrl = checkUpdataEntity.getData().getUpdateUrl().toString().trim();
-                        updateInfo = checkUpdataEntity.getData().getUpdateInfo().toString().trim();
-                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            code = checkUpdataEntity.getCode();
+                            if (code == 200) {
+                                ToastHelper.show(getActivity(),checkUpdataEntity.getMsg());
+                                lastForce = checkUpdataEntity.getData().getLastForce();
+                                updateUrl = checkUpdataEntity.getData().getUpdateUrl().toString().trim();
+                                updateInfo = checkUpdataEntity.getData().getUpdateInfo().toString().trim();
+                               String newversion=version+1;
+                               Log.i("newversion","newversion:"+newversion);
+                                ShowDialog(Integer.parseInt(version), newversion, updateInfo, updateUrl);
+                            }
+                        }
+                    });
+
 
                     Log.i("data", "data:==" + "code" + code + "lastForce" + lastForce + "updateUrl" + updateUrl + "updateInfo" + updateInfo);
 
@@ -246,11 +257,11 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
             }
 
         });
-        if (code == 200) {
-            int oldversion = Integer.parseInt(version) - 1;
-            ShowDialog(oldversion, version, updateInfo, updateUrl);
-            Log.i("==走了这段代码B", "==走了这段代码");
-        }
+//        if (code == 200) {
+//            int oldversion = Integer.parseInt(version) - 1;
+//            ShowDialog(oldversion, version, updateInfo, updateUrl);
+//            Log.i("==走了这段代码B", "==走了这段代码");
+//        }
 
     }
 
@@ -301,12 +312,7 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (lastForce.equals("2")) {
                             dialog.dismiss();
-//                            System.exit(0);
-                        } else {
-                            dialog.dismiss();
-                        }
 
                     }
                 })
@@ -527,9 +533,6 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
 
     private void update() {
         try{
-//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//                boolean installAllowed= getActivity().getPackageManager().canRequestPackageInstalls();
-//                if(installAllowed){
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //判读版本是否在7.0以上
 //                        File file= new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
 //                                , "app-release.apk");

@@ -3,30 +3,21 @@ package com.example.ouc.demo.weigets;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AbsListView;
-
 import com.example.ouc.demo.entity.RecommendedListEntity;
-import com.example.ouc.demo.utils.ToastHelper;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyOnScrollListener implements AbsListView.OnScrollListener {
-
     //ListView总共显示多少条
     private int totalItemCount;
-
     //ListView最后的item项
     private int lastItem;
-
     //用于判断当前是否在加载
     private boolean isLoading;
-
     //底部加载更多布局
     private View footer;
-
     //接口回调的实例
     private OnloadDataListener listener;
-
     //数据
     private List<RecommendedListEntity.DataBean> data;
     private List<RecommendedListEntity.DataBean> data2;

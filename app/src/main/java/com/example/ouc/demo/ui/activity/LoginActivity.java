@@ -15,11 +15,11 @@ import com.example.ouc.demo.base.BaseActivity;
 import com.example.ouc.demo.entity.LoginEntity;
 import com.example.ouc.demo.http.HttpUtils;
 import com.example.ouc.demo.ui.MainActivity;
-import com.example.ouc.demo.ui.SplashActivity;
 import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.MD5Util;
-import com.example.ouc.demo.utils.PhoneFormatCheckUtils;
 import com.example.ouc.demo.utils.ToastHelper;
+import com.example.ouc.demo.weigets.ClearEditText;
+import com.example.ouc.demo.weigets.EyeEditText;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -31,7 +31,8 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
-    private EditText etU,etP;
+    private ClearEditText etU;
+    private EyeEditText etP;
     private Button btn;
     private Intent intent;
     private TextView registered,forgot;
@@ -43,6 +44,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private int code,id;
     private String msg,status;
     private boolean is_login;
+    private LoginEntity loginEntity;
 
 
     @Override
@@ -50,11 +52,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         boolean islogin = getBooleanSharePreferences("is_login","is_login");
-//        if(islogin==true){
-//            intent=new Intent(LoginActivity.this, MainActivity.class);
-//            startActivity(intent);
-//            LoginActivity.this.finish();
-//        }
         initView();
     }
 
@@ -106,14 +103,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
 
                 post();
-                if (code==200){
-                    if(!msg.equals("")){
-                        ToastHelper.show(LoginActivity.this,msg);
-                    }
-                    intent=new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    LoginActivity.this.finish();
-                }
+
                 break;
         }
     }
@@ -126,7 +116,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      */
     private void post(){
         Map<String,String> map = new HashMap<>();
-        map.put("phone", MD5Util.MD5(phone));
+        map.put("phone", phone);
         map.put("password",MD5Util.MD5(password));
         Log.i("phone","phone:"+MD5Util.MD5(phone)+"password:"+MD5Util.MD5(password));
 
@@ -141,15 +131,29 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 try {
                     String result=response.body().string();
                     Log.i("result", "result:" + result);
-                    LoginEntity loginEntity=gosn.fromJson(result,LoginEntity.class);
-                    code = loginEntity.getCode();
-                    msg=loginEntity.getMsg();
-                    status = loginEntity.getData().getStatus();
-                    is_login = loginEntity.getData().isIs_login();
-                    id = loginEntity.getData().getId();
-                    Log.i("is_login", "is_login:" + is_login);
-                    setBooleanSharedPreferences("is_login","is_login",is_login);
-                    setStringSharedPreferences("id","id", String.valueOf(id));
+                    loginEntity=gosn.fromJson(result,LoginEntity.class);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loginEntity.getCode()==200){
+                            msg=loginEntity.getMsg();
+                            status = loginEntity.getData().getStatus();
+                            is_login = loginEntity.getData().isIs_login();
+                            id = loginEntity.getData().getId();
+                            Log.i("is_login", "is_login:" + is_login);
+                            setBooleanSharedPreferences("is_login","is_login",is_login);
+                            setStringSharedPreferences("id","id", String.valueOf(id));
+
+                                    ToastHelper.show(LoginActivity.this,msg);
+                                intent=new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                LoginActivity.this.finish();
+                            }else {
+                                ToastHelper.show(LoginActivity.this,msg);
+                            }
+                        }
+                    });
+
                     Log.i("====","保存的数据："+getBooleanSharePreferences("is_login","is_login"));
 
                 }catch (Exception e){

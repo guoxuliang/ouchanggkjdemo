@@ -16,8 +16,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +72,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     private ImageView iv_bigimg;
     private ProgersssDialog progersssDialog;
     private boolean change = false;
+    private TextView title_rwtj,title_error;
     /**
      * 版本更新
      */
@@ -174,9 +173,13 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
             for (int i = 0; i < dataBeansList2.size(); i++) {
                 dataBeansList2.get(i);
                 data.add(dataBeansList2.get(i));
+//                title_rwtj.setVisibility(View.VISIBLE);
             }
         } else {
             ToastHelper.show(getActivity(), "暂无数据");
+            title_rwtj.setVisibility(View.GONE);
+            mList.setVisibility(View.GONE);
+            title_error.setVisibility(View.VISIBLE);
         }
     }
 
@@ -216,6 +219,8 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     }
 
     private void initView() {
+        title_error=v.findViewById(R.id.title_error);
+        title_rwtj=v.findViewById(R.id.title_rwtj);
         scrollview = v.findViewById(R.id.scrollview);
         tv_advertising=v.findViewById(R.id.tv_advertising);
         tv_advertising.setOnClickListener(new View.OnClickListener() {
@@ -343,18 +348,21 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                 startActivity(intent);
             }
         });
-//        mList.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//               if(motionEvent.getAction()==MotionEvent.ACTION_UP){
-//                   scrollview.requestDisallowInterceptTouchEvent(false);
-//               }else {
-//                   scrollview.requestDisallowInterceptTouchEvent(true);//屏蔽父控件的拦截事件
-//               }
-//                return false;
-//            }
-//        });
-
+        mList.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -380,14 +388,13 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
             Glide.with(context).load((String) path).into(imageView);
         }
     }
-
+    /**
+     * 接口名：getRecommended
+     * Get请求  推荐任务列表请求接口
+     */
     private void getRecommended() {
-        /**c
-         * Get请求
-         * 参数一：请求Ur
-         * 参数二：请求回调
-         */
-                String url = Constants.SERVER_BASE_URL + "system/sys/SysMemTaskController/getIsCommTasklist.action?start=1&limit=2";
+
+                String url = Constants.SERVER_BASE_URL + "system/sys/SysMemTaskController/getTopTask.action";
                 Log.i("url", "url:" + url);
                 HttpUtils.doGet(url, new Callback() {
                     @Override
@@ -428,13 +435,12 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
 
 
 
-
+    /**
+     * 接口名：getRecommendedList
+     * Get请求   任务列表请求接口
+     */
     private void getRecommendedList(String url) {
-        /**c
-         * Get请求
-         * 参数一：请求Ur
-         * 参数二：请求回调
-         */
+
 
                 Log.i("url", "url:" + url);
                 HttpUtils.doGet(url, new Callback() {

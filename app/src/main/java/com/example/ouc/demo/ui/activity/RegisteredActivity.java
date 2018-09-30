@@ -50,6 +50,7 @@ public class RegisteredActivity extends BaseActivity {
 
     private Gson gson = new Gson();
     private RegistEntity registEntity;
+    private CodeEntity codeEntity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class RegisteredActivity extends BaseActivity {
                 username = et_u.getText().toString().trim();
                 password = et_p.getText().toString().trim();
                 password_qr = et_pqr.getText().toString().trim();
-                yzcode = et_yz.getText().toString().trim();
+
                 if (mobilePhone.equals("")) {
                     ToastHelper.show(RegisteredActivity.this, "请输入手机号");
                     return;
@@ -107,11 +108,7 @@ public class RegisteredActivity extends BaseActivity {
                     ToastHelper.show(RegisteredActivity.this, "验证码不能为空");
                     return;
                 }
-                if(yzcode==verCode){
-                    post();
-                }else {
-                    ToastHelper.show(RegisteredActivity.this,"验证码错误");
-                }
+                postSbubmit();//提交注册
 
             }
         });
@@ -127,12 +124,7 @@ public class RegisteredActivity extends BaseActivity {
                     ToastHelper.show(RegisteredActivity.this, "手机号码格式不对");
                     return;
                 }
-                getCode();
-                if (registEntity.getCode() == 200) {
-                    RegisteredActivity.this.finish();
-                } else {
-                    ToastHelper.show(RegisteredActivity.this, "请重试");
-                }
+                getCode();//获取验证码
             }
         });
     }
@@ -151,14 +143,14 @@ public class RegisteredActivity extends BaseActivity {
     }
 
     /**
-     * Post请求
+     * postSbubmit  请求注册申请
      * 参数一：请求Url
      * 参数二：请求的键值对
      * 参数三：请求回调
      */
-    private void post() {
+    private void postSbubmit() {
         Map<String, String> map = new HashMap<>();
-        map.put("mobilePhone", MD5Util.MD5(mobilePhone));
+        map.put("mobilePhone", mobilePhone);
         map.put("username", username);
         map.put("password", MD5Util.MD5(password));
         //TODO   此处应该加入验证码  字段
@@ -178,11 +170,18 @@ public class RegisteredActivity extends BaseActivity {
                     String result = response.body().string();
                     Log.i("result", "result:" + result);
                     registEntity = gson.fromJson(result, RegistEntity.class);
-                    ToastHelper.show(RegisteredActivity.this, "" + registEntity.getMsg());
-                    if (registEntity.getCode() == 200) {
-                        setStringSharedPreferences("", mobilePhone, mobilePhone);
-                        Log.i("====", "保存的数据：" + getStringSharePreferences("", mobilePhone));
-                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ToastHelper.show(RegisteredActivity.this, "" + registEntity.getMsg());
+                            int code = registEntity.getCode();
+                            if (code == 200) {
+                                setStringSharedPreferences("", mobilePhone, mobilePhone);
+                                RegisteredActivity.this.finish();
+                            }
+                        }
+                    });
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -193,14 +192,10 @@ public class RegisteredActivity extends BaseActivity {
 
     /**
      * 获取验证码
+     * getRegistCode
+     *
      */
-
     private void getCode() {
-        /**
-         * Get请求
-         * 参数一：请求Ur
-         * 参数二：请求回调
-         */
         HttpUtils.doGet(Constants.SERVER_BASE_URL + "system/sys/sendMsgController/getResult.action?" + "phone=" + mobilePhone, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -212,16 +207,23 @@ public class RegisteredActivity extends BaseActivity {
                 try {
                     final String result = response.body().string();
                     Log.i("result", "resultCode:" + result);
-                    CodeEntity codeEntity = gson.fromJson(result, CodeEntity.class);
-                    verCode = codeEntity.getData().toString().trim();
-                    ToastHelper.show(RegisteredActivity.this, codeEntity.getMsg());
+                    codeEntity = gson.fromJson(result, CodeEntity.class);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if (codeEntity.getCode()==200) {
+                                verCode = codeEntity.getData().toString().trim();
+                                ToastHelper.show(RegisteredActivity.this, codeEntity.getMsg());
+                            } else {
+                                ToastHelper.show(RegisteredActivity.this, codeEntity.getMsg());
+                            }
+                        }
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
-
         });
     }
-
 }

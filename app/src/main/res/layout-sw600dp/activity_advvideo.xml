@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="500dp"
         android:layout_gravity="center"
         android:background="#ffffff"
         android:gravity="center"
@@ -51,7 +51,7 @@
         <VideoView
             android:id="@+id/videoview"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="20dp"
             android:gravity="center"

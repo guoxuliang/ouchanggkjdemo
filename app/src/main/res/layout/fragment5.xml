@@ -5,6 +5,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.MainActivity">
+    <TextView
+        android:id="@+id/nodata"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:textColor="#cccccc"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:text="暂无数据"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/sr1"

@@ -28,14 +28,14 @@ private Context context;
         holder.setText(R.id.mTv2, "奖励金：￥"+t.getGold());
         holder.setText(R.id.mTv4, "已浏览："+t.getBrowsevolume());
         holder.setText(R.id.mTv3, "剩余任务："+t.getQuantity());
-        holder.getView(R.id.getbutton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ToastHelper.show(context,"任务已领取");
-//                Intent intent=new Intent(context, AdvertisingVideoActivity.class);
-//                context.startActivity(intent);
-            }
-        });
+//        holder.getView(R.id.getbutton).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                ToastHelper.show(context,"任务已领取");
+////                Intent intent=new Intent(context, AdvertisingVideoActivity.class);
+////                context.startActivity(intent);
+//            }
+//        });
     }
 }
 

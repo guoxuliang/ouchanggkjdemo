@@ -19,7 +19,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/icon_mybg"
                 android:gravity="center_vertical"
@@ -38,7 +38,7 @@
                     android:layout_gravity="center"
                     android:text="M5568944854"
                     android:textColor="#ffffff"
-                    android:textSize="18sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
                     android:layout_gravity="center"
                     android:text="普通会员"
                     android:textColor="#ffffff"
-                    android:textSize="28sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
                     android:layout_gravity="center"
                     android:text="会员到期时间:2019-12-08"
                     android:textColor="#ffffff"
-                    android:textSize="18sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout

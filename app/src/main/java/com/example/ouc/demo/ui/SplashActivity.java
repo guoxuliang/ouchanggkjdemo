@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.base.BaseActivity;
 import com.example.ouc.demo.entity.CheckUpdataEntity;
+import com.example.ouc.demo.entity.GetVersionEntity;
 import com.example.ouc.demo.http.HttpUtils;
 import com.example.ouc.demo.ui.activity.LoginActivity;
 import com.example.ouc.demo.ui.fragment.Fragment1;
@@ -60,7 +62,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class SplashActivity extends BaseActivity {
-
+    private  GetVersionEntity getVersionEntity;
     /**
      * 获取验证码
      */
@@ -81,7 +83,7 @@ public class SplashActivity extends BaseActivity {
      */
     private CommonProgressDialog pBar;
     private Gson gson = new Gson();
-
+    private String  versioncode;
 
     private String url="";
     // 声明控件对象
@@ -96,8 +98,6 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.hide();
          islogin = getBooleanSharePreferences("is_login","is_login");
 
         imageview= (ImageView) findViewById(R.id.imageview);
@@ -122,6 +122,7 @@ public class SplashActivity extends BaseActivity {
                 handler.removeMessages(0);
             }
         });
+//        getVersion();
 //        initViews();
     }
     private void initViews() {
@@ -143,7 +144,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i("e", "e:" + e);
-                ToastHelper.show(SplashActivity.this, "ERROR:" + e);
+//                ToastHelper.show(SplashActivity.this, "ERROR:" + e);
             }
 
             @Override
@@ -153,17 +154,13 @@ public class SplashActivity extends BaseActivity {
                     Log.i("result", "resultCode:" + result);
                     checkUpdataEntity = gson.fromJson(result, CheckUpdataEntity.class);
                     code = checkUpdataEntity.getCode();
-//                    if(code==200){
-//                        lastForce = checkUpdataEntity.getData().getLastForce();
-//                        updateUrl = checkUpdataEntity.getData().getUpdateUrl().toString().trim();
-//                        updateInfo = checkUpdataEntity.getData().getUpdateInfo().toString().trim();
-////                        getVersion(2);
-////                        ShowDialog(9, "10", updateInfo, updateUrl);
-//                    }else {
-//                        ToastHelper.show(getActivity(),""+checkUpdataEntity.getMsg());
-//                    }
-
                     Log.i("data", "data:==" + "code" + code + "lastForce" + lastForce + "updateUrl" + updateUrl + "updateInfo" + updateInfo);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //TODO   UI线程中的操作在此处进行，否则报错
+                        }
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -175,13 +172,57 @@ public class SplashActivity extends BaseActivity {
             lastForce = checkUpdataEntity.getData().getLastForce();
             updateUrl = checkUpdataEntity.getData().getUpdateUrl().toString().trim();
             updateInfo = checkUpdataEntity.getData().getUpdateInfo().toString().trim();
-//            int oldver= Integer.parseInt(version)-1;
-//            ShowDialog(7, "8", updateInfo, updateUrl);
             int oldversion = Integer.parseInt(version) - 1;
             ShowDialog(oldversion, version, updateInfo, updateUrl);
         }
     }
 
+
+    private void getVersion() {
+        /**
+         * Get请求
+         * 参数一：请求Ur
+         * 参数二：请求回调
+         */
+        String url = Constants.SERVER_BASE_URL+"system/sys/sysController/NowAppEdition.action?serverFlag=1";
+        Log.i("url", "url:" + url);
+        HttpUtils.doGet(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("e", "e:" + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final String result = response.body().string();
+                    Log.i("result", "resultCode:" + result);
+                     getVersionEntity = gson.fromJson(result, GetVersionEntity.class);
+                    code = getVersionEntity.getCode();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //TODO   UI线程中的操作在此处进行，否则报错
+                            if(getVersionEntity.getCode()==200){
+                               versioncode= String.valueOf(getVersionEntity.getData());
+                                int vision = Tools.getVersion(SplashActivity.this);
+                                String vision_str= String.valueOf(vision);
+                                if(vision_str!=versioncode){
+                                    getVersionCode(String.valueOf(vision));
+                                }
+
+
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        });
+    }
 
     /**
      * 升级系统
@@ -286,13 +327,47 @@ public class SplashActivity extends BaseActivity {
 
     //----------------------------------权限回调处理----------------------------------//
 
+//    private void update() {
+//        //安装应用
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.setDataAndType(Uri.fromFile(new File(Environment
+//                        .getExternalStorageDirectory(), DOWNLOAD_NAME)),
+//                "application/vnd.android.package-archive");
+//        startActivity(intent);
+//    }
+
     private void update() {
-        //安装应用
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(new File(Environment
-                        .getExternalStorageDirectory(), DOWNLOAD_NAME)),
-                "application/vnd.android.package-archive");
-        startActivity(intent);
+        try{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //判读版本是否在7.0以上
+//                        File file= new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+//                                , "app-release.apk");
+////                        File file=new File(getActivity().getCacheDir(),"app-release.apk");
+//                        Log.i("****apkUri","file"+file);
+//                        //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
+//                        Uri apkUri = FileProvider.getUriForFile(getContext().getApplicationContext(), getContext().getApplicationContext().getPackageName() + ".FileProvider", file);//在AndroidManifest中的android:authorities值
+//                        Log.i("****apkUri","apkUri"+apkUri);
+//                        Intent install = new Intent(Intent.ACTION_VIEW);
+//                        install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                        install.setDataAndType(apkUri, "application/vnd.android.package-archive");
+//                        getActivity().startActivity(install);
+//                    } else {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent = intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), DOWNLOAD_NAME)), "application/vnd.android.package-archive");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                File   f= new File(Environment.getExternalStorageDirectory(),DOWNLOAD_NAME);
+                Log.i("****apkUri2","file"+f);
+                startActivity(intent);
+            }
+//                }else {
+//                    //无权限 申请权限
+////                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, INSTALL_APK_REQUESTCODE);
+//                }
+//            }
+        }catch (Exception e) {
+            Log.i("==e","==e"+e);
+        }
+
     }
 
     /**
