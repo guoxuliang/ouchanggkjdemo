@@ -99,10 +99,12 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
     private double waitaccount,commission;
     private TextView yu_e,djz;
 //    int vision;
+String id;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment3, null);
         Log.i("==view", "view" + v + "***************" + getActivity().getSupportFragmentManager());
+         id = getStringSharePreferences("id","id");
         return v;
 
     }
@@ -137,7 +139,7 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
         cheakversion.setOnClickListener(this);
         changePawd.setOnClickListener(this);
         exitLogin.setOnClickListener(this);
-        String id = getStringSharePreferences("id","id");
+
         getBalance(id);
     }
 
@@ -154,6 +156,7 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        getBalance(id);
     }
 
     @Override

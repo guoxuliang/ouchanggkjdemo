@@ -1,6 +1,7 @@
 package com.example.ouc.demo.ui.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -12,12 +13,17 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.TimeUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -26,10 +32,20 @@ import com.bumptech.glide.Glide;
 import com.example.ouc.demo.Application.ObjApplication;
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.ShareTypeActivity;
+import com.example.ouc.demo.adapter.FragmentAdapter;
 import com.example.ouc.demo.base.BaseActivity;
+import com.example.ouc.demo.entity.GetTaskEntity;
 import com.example.ouc.demo.entity.RecommendedListEntity;
 import com.example.ouc.demo.entity.ShareSuccessfulNoticeEntity;
+import com.example.ouc.demo.entity.TaskOverEntity;
 import com.example.ouc.demo.http.HttpUtils;
+import com.example.ouc.demo.ui.activity.vip.MyOrderActivity;
+import com.example.ouc.demo.ui.fragment.AdvertFragment1;
+import com.example.ouc.demo.ui.fragment.AdvertFragment2;
+import com.example.ouc.demo.ui.fragment.AdvertFragment3;
+import com.example.ouc.demo.ui.fragment.Fragment4;
+import com.example.ouc.demo.ui.fragment.Fragment5;
+import com.example.ouc.demo.ui.fragment.Fragment6;
 import com.example.ouc.demo.uitool.ShareBoard;
 import com.example.ouc.demo.uitool.ShareBoardlistener;
 import com.example.ouc.demo.uitool.SnsPlatform;
@@ -45,6 +61,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import cn.jiguang.share.android.api.JShareInterface;
 import cn.jiguang.share.android.api.PlatActionListener;
@@ -67,7 +84,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 
-public class AdvertisingVideoActivity extends BaseActivity {
+public class AdvertisingVideoActivity extends FragmentActivity {
     private TextView tv_name, tv_gold, tv_datelong;
     private Button timerText;
     private VideoView videoview;
@@ -81,11 +98,19 @@ public class AdvertisingVideoActivity extends BaseActivity {
     private ArrayList<ShareSuccessfulNoticeEntity.DataBean> sharedataBeansList2;
     private ShareSuccessfulNoticeEntity shareSuccessfulNoticeEntity;
     private String code;
-
+    private TaskOverEntity taskOverEntity;
     private static final String TAG = "MainActivity";
     private int mAction = Platform.ACTION_SHARE;
     private ProgressDialog progressDialog;
     private ShareBoard mShareBoard;
+
+    private ArrayList<Fragment> mFragmentList;
+    private ViewPager mPageVp;
+    private AdvertFragment1 advertFragment1;
+    private AdvertFragment2 advertFragment2;
+    private AdvertFragment3 advertFragment3;
+    private RadioGroup mGroup_page;
+    private RadioButton rbChat_page,rbContacts_page,rbDiscovery_page;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -100,9 +125,9 @@ public class AdvertisingVideoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advvideo);
-        id=getStringSharePreferences("id","id");
         Bundle bundle = getIntent().getExtras();   //得到传过来的bundle
         if (bundle != null) {
+            id = bundle.getString("id");//读出用户id
             name = bundle.getString("name");//读出数据
             gold = bundle.getString("gold");//读出数据
             videourl = bundle.getString("videourl");//读出数据
@@ -113,21 +138,117 @@ public class AdvertisingVideoActivity extends BaseActivity {
         }
         initTitle();
         initViews();
-        timer.start();
 
 
+        initView();
+        initViewPager();
     }
+
+
+
+    private void initViewPager(){
+        advertFragment1=new AdvertFragment1();
+        advertFragment2=new AdvertFragment2();
+        advertFragment3=new AdvertFragment3();
+        mFragmentList=new ArrayList<Fragment>();
+        mFragmentList.add(0,advertFragment1);
+        mFragmentList.add(1,advertFragment2);
+        mFragmentList.add(2,advertFragment3);
+        //ViewPager设置适配器
+        mPageVp.setAdapter(new FragmentAdapter(getSupportFragmentManager(), mFragmentList));
+        //ViewPager显示第一个Fragment
+        mPageVp.setCurrentItem(0);
+        //ViewPager页面切换监听
+        mPageVp.setOnPageChangeListener(new myOrderOnPageChangeListener());
+    }
+    private void initView(){
+        mPageVp=(ViewPager)findViewById(R.id.id_page_vp);
+        mGroup_page=(RadioGroup)findViewById(R.id.radiogroup_page);
+        rbChat_page=(RadioButton)findViewById(R.id.rb_chat_page);
+        rbChat_page.setText("详情");
+        rbContacts_page=(RadioButton)findViewById(R.id.rb_contacts_page);
+        rbContacts_page.setText("客服");
+        rbDiscovery_page=(RadioButton)findViewById(R.id.rb_discovery_page);
+        rbDiscovery_page.setText("评论");
+        //RadioGroup选中状态改变监听
+        mGroup_page.setOnCheckedChangeListener(new myAdvCheckChangeListener());
+        mPageVp .setOffscreenPageLimit(2);
+    }
+
+
+
+
+    /**
+     *RadioButton切换Fragment
+     */
+    private class myAdvCheckChangeListener implements RadioGroup.OnCheckedChangeListener{
+
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            switch (checkedId){
+                case R.id.rb_chat_page:
+                    //ViewPager显示第一个Fragment且关闭页面切换动画效果
+                    mPageVp.setCurrentItem(0);
+                    rbChat_page.setChecked(true);
+                    rbContacts_page.setChecked(false);
+                    rbDiscovery_page.setChecked(false);
+
+                    break;
+                case R.id.rb_contacts_page:
+                    mPageVp.setCurrentItem(1);
+                    rbChat_page.setChecked(false);
+                    rbContacts_page.setChecked(true);
+                    rbDiscovery_page.setChecked(false);
+
+                    break;
+                case R.id.rb_discovery_page:
+                    mPageVp.setCurrentItem(2);
+                    rbChat_page.setChecked(false);
+                    rbContacts_page.setChecked(false);
+                    rbDiscovery_page.setChecked(true);
+                    break;
+
+            }
+        }
+    }
+
+    /**
+     *ViewPager切换Fragment,RadioGroup做相应变化
+     */
+    private class myOrderOnPageChangeListener implements ViewPager.OnPageChangeListener{
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            switch (position){
+                case 0:
+                    mGroup_page.check(R.id.rb_chat_page);
+                    break;
+                case 1:
+                    mGroup_page.check(R.id.rb_contacts_page);
+                    break;
+                case 2:
+                    mGroup_page.check(R.id.rb_discovery_page);
+                    break;
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    }
+
+
     private void initTitle() {
         tv_back = findViewById(R.id.tv_left);
-        iv_right=findviewByid(R.id.iv_right);
+        iv_right= findViewById(R.id.iv_right);
         Glide.with(this).load(R.drawable.icon_fx).into(iv_right);
-        iv_right.setVisibility(View.GONE);
-//        iv_right.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //TODO 点击分享
-//            }
-//        });
+        iv_right.setVisibility(View.VISIBLE);
         tv_back.setVisibility(View.VISIBLE);
         tv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,34 +259,72 @@ public class AdvertisingVideoActivity extends BaseActivity {
         tv_content = findViewById(R.id.tv_title);
         tv_content.setText("视频广告");
     }
+    @SuppressLint("NewApi")
     private void initViews() {
-        tv_name = findviewByid(R.id.tv_name);
-        tv_gold = findviewByid(R.id.tv_gold);
-        tv_datelong = findviewByid(R.id.tv_datelong);
-        timerText=findviewByid(R.id.timerText);
+        tv_name = findViewById(R.id.tv_name);
+        tv_gold = findViewById(R.id.tv_gold);
+        tv_datelong = findViewById(R.id.tv_datelong);
+        timerText=findViewById(R.id.timerText);
         timerText.setEnabled(false);
         tv_name.setText(name);
         tv_gold.setText("奖励金：￥"+gold);
-        tv_datelong.setText("时长："+timelong);
-        videoview = findviewByid(R.id.videoview);
+//        tv_datelong.setText("时长："+timelong);
+        videoview = findViewById(R.id.videoview);
         MediaController controller = new MediaController(this);//实例化控制器
         videoview.setVideoURI(Uri.parse(videourl));
         controller.setMediaPlayer(videoview);
         videoview.setMediaController(controller);
         videoview.getDuration();
+        /**
+         * 开始播放
+         */
         videoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
                 mediaPlayer.start();
-                mediaPlayer.setLooping(true);
+                mediaPlayer.setLooping(false);
+                ToastHelper.show(AdvertisingVideoActivity.this,"开始播放...");
+                timer.start();
+            }
+        });
+        /**
+         * 缓冲播放
+         */
+        videoview.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+            @Override
+            public boolean onInfo(MediaPlayer mediaPlayer, int what, int extra) {
+                ToastHelper.show(AdvertisingVideoActivity.this,"正在缓冲...");
+//                timer.cancel();
+//                if(what==MediaPlayer.MEDIA_INFO_BUFFERING_START ){
+//                    Animation operatingAnim = AnimationUtils.loadAnimation(context, R.anim.loading);
+//                    operatingAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+//                    loading.startAnimation(operatingAnim);
+//                    loading.setVisibility(View.VISIBLE);
+//                }else{
+//                    loading.setVisibility(View.INVISIBLE);
+//                    loading.clearAnimation(); loading.postInvalidate();
+//                }
+                return true;
+            }
+        });
+        /**
+         * 结束播放
+         */
+        videoview.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                // 播放结束后的动作
+                ToastHelper.show(AdvertisingVideoActivity.this,"播放结束...");
+                TaskOver(id,taskid);
+
             }
         });
 
         timerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAction = Platform.ACTION_SHARE;
-                showBroadView();
+//                mAction = Platform.ACTION_SHARE;
+//                showBroadView();
             }
         });
         Log.i("duration", "duration" + videoview.getCurrentPosition());
@@ -332,12 +491,23 @@ public class AdvertisingVideoActivity extends BaseActivity {
     private CountDownTimer timer = new CountDownTimer(20000, 1000) {
 
         @Override
-        public void onTick(long millisUntilFinished) {
-                timerText.setText("观看"+millisUntilFinished/1000+"秒视频,领取奖励金");
+        public void onTick(final long millisUntilFinished) {
+                timerText.setText("倒计时:"+millisUntilFinished/1000);
+            final String time= String.valueOf(millisUntilFinished/1000);
                 if((millisUntilFinished/1000)==1){
                     timerText.setBackgroundColor(Color.parseColor("#ff0000"));
-                    timerText.setText("观看0秒视频,领取奖励金");
+                    timerText.setText("倒计时:0秒");
                     timerText.setEnabled(true);
+                    iv_right.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //TODO 点击分享
+                                mAction = Platform.ACTION_SHARE;
+                                showBroadView();
+//                                ToastHelper.show(AdvertisingVideoActivity.this,time+"秒后可分享");
+
+                        }
+                    });
                 }
 
         }
@@ -392,6 +562,47 @@ public class AdvertisingVideoActivity extends BaseActivity {
 
             }
         });
+    }
 
+
+    /**
+     * Post请求  完成任务接口
+     * 参数一：请求Url
+     * 参数二：请求的键值对
+     * 参数三：请求回调
+     */
+    private void TaskOver(String id,String taskid){
+        Map<String,String> map = new HashMap<>();
+        map.put("id", id);
+        map.put("taskid", String.valueOf(taskid));
+
+        HttpUtils.doPost(Constants.SERVER_BASE_URL+"system/sys/SysMemIntegralController/saveIntegral.action", map, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("错误", "错误：" + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    String result=response.body().string();
+                    Log.i("result", "result:" + result);
+                    taskOverEntity=gson.fromJson(result,TaskOverEntity.class);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (taskOverEntity.getCode()==200){
+                                ToastHelper.show(AdvertisingVideoActivity.this,taskOverEntity.getMsg());
+                            }else {
+                                ToastHelper.show(AdvertisingVideoActivity.this,taskOverEntity.getMsg());
+                            }
+                        }
+                    });
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+        });
     }
 }

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.ouc.demo">
+    package="com.example.ouc.demo"
+    android:versionCode="2"
+    android:versionName="2.0.0">
+    <!--版本号：versionCode="2"   修改内容：添加注册验证码倒计时。2018.10.11  郭旭亮 -->
     <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="21" />
     <supports-screens
         android:largeScreens="true"
@@ -55,92 +58,111 @@
         android:roundIcon="@mipmap/ic_luncher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.SplashActivity">
+        <activity
+            android:name=".ui.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <!--过渡页-->
         <activity
             android:name=".ui.activity.LoginActivity"
             android:launchMode="standard"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--主界面-->
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <!--注册-->
         <activity
             android:name=".ui.activity.RegisteredActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <!--修改密码-->
         <activity
             android:name=".ui.activity.ForgotPasswordActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <!--我的订单-->
         <activity
             android:name=".ui.activity.vip.MyOrderActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--收入记录-->
         <activity
             android:name=".ui.activity.vip.IncomeActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--实名信息-->
         <activity
             android:name=".ui.activity.vip.RealNameActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--我的提现-->
         <activity
             android:name=".ui.activity.vip.WithdrawalActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--广告记录-->
         <activity
             android:name=".ui.activity.vip.AdvertisingActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--个人信息-->
         <activity
             android:name=".ui.activity.vip.MyInformationActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--修改密码-->
         <activity
             android:name=".ui.activity.vip.ChangePawdActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--忘记密码-->
         <activity
             android:name=".ui.activity.RetrievePwdActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <!--视频广告-->
         <activity
             android:name=".ui.activity.AdvertisingVideoActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <!--广告投放-->
         <activity
             android:name=".ui.activity.DeliveryActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
             android:name="com.lidong.photopicker.PhotoPickerActivity"
             android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
             android:theme="@style/PhotoPickerTheme" />
 
         <activity
             android:name="com.lidong.photopicker.PhotoPreviewActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/PhotoPickerTheme" />
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -175,6 +197,7 @@
             android:name="cn.jiguang.share.android.ui.JiguangShellActivity"
             android:exported="true"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <!-- Optional QQ分享回调-->

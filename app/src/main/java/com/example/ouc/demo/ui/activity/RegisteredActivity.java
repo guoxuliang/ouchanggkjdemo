@@ -1,6 +1,9 @@
 package com.example.ouc.demo.ui.activity;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.provider.Contacts;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
@@ -27,6 +30,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.jiguang.share.android.api.Platform;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -68,6 +72,7 @@ public class RegisteredActivity extends BaseActivity {
         et_pqr = findViewById(R.id.et_pqr);
         submit = findViewById(R.id.submit);
         btnCode = findViewById(R.id.btnCode);
+//        btnCode.setEnabled(false);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,10 +129,40 @@ public class RegisteredActivity extends BaseActivity {
                     ToastHelper.show(RegisteredActivity.this, "手机号码格式不对");
                     return;
                 }
+                btnCode.setBackgroundColor(Color.GRAY);
+                btnCode.setEnabled(false);
+                timer.start();
                 getCode();//获取验证码
             }
         });
     }
+
+    /**
+     * 倒计时
+     */
+
+    private TextView vertifyView;
+    private CountDownTimer timer = new CountDownTimer(60000, 1000) {
+
+        @Override
+        public void onTick(final long millisUntilFinished) {
+            btnCode.setText("倒计时:"+millisUntilFinished/1000);
+            final String time= String.valueOf(millisUntilFinished/1000);
+            if((millisUntilFinished/1000)==1){
+                btnCode.setBackgroundColor(Color.parseColor("#ff0000"));
+                btnCode.setText("倒计时:0秒");
+                btnCode.setEnabled(true);
+            }
+
+        }
+
+        @Override
+        public void onFinish() {
+//            vertifyView.setEnabled(true);
+//            vertifyView.setText("获取验证码");
+        }
+    };
+
 
     private void initTitle() {
         tv_back = findViewById(R.id.tv_left);

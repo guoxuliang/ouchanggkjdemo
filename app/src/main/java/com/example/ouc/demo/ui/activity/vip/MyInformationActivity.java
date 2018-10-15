@@ -113,7 +113,7 @@ public class MyInformationActivity extends BaseActivity {
             }
         });
         tv_content = findViewById(R.id.tv_title);
-        tv_content.setText("广告记录");
+        tv_content.setText("个人信息");
     }
     private void initViews() {
         nackName=findViewById(R.id.nickName);

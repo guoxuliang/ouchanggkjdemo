@@ -23,12 +23,17 @@ import com.bumptech.glide.Glide;
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.adapter.MyAdapter;
 import com.example.ouc.demo.base.BaseFragment;
+import com.example.ouc.demo.entity.GetTaskEntity;
+import com.example.ouc.demo.entity.LoginEntity;
 import com.example.ouc.demo.entity.RecommendedEntity;
 import com.example.ouc.demo.entity.RecommendedListEntity;
 import com.example.ouc.demo.http.HttpUtils;
+import com.example.ouc.demo.ui.MainActivity;
 import com.example.ouc.demo.ui.activity.AdvertisingVideoActivity;
 import com.example.ouc.demo.ui.activity.DeliveryActivity;
+import com.example.ouc.demo.ui.activity.LoginActivity;
 import com.example.ouc.demo.utils.Constants;
+import com.example.ouc.demo.utils.MD5Util;
 import com.example.ouc.demo.utils.ProgersssDialog;
 import com.example.ouc.demo.utils.ToastHelper;
 import com.example.ouc.demo.weigets.BounceScrollView;
@@ -45,7 +50,9 @@ import com.youth.banner.loader.ImageLoader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -68,11 +75,14 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     private String updateUrl, updateInfo, lastForce, msg;
     private RecommendedEntity recommendedEntity;
     private RecommendedListEntity recommendedListEntity;
+    private GetTaskEntity getTaskEntity;
     private String code;
     private ImageView iv_bigimg;
     private ProgersssDialog progersssDialog;
     private boolean change = false;
     private TextView title_rwtj,title_error;
+    private int taskid;
+
     /**
      * 版本更新
      */
@@ -94,7 +104,8 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     private Button btn;
     private TextView tv_back, tv_content,tv_advertising;
     private BounceScrollView scrollview;
-
+    private String id;
+    private String contents;
     int start=0;
     int limit=1000000;
     String url = Constants.SERVER_BASE_URL + "system/sys/SysMemTaskController/getIsCommTasklist.action?";
@@ -123,6 +134,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         progersssDialog = new ProgersssDialog(getActivity());
+        id=getStringSharePreferences("id","id");
         initView();
     }
 
@@ -131,7 +143,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         super.onStart();
         if(isNetworkAvailable(getActivity())==true){
             getRecommended();
-            String dhs="start="+start+"&"+"limit="+limit;
+            String dhs="start="+start+"&"+"limit="+limit+"userid="+id;
             getRecommendedList(url+dhs);
         }else {
             ToastHelper.show(getActivity(),"请检查网络");
@@ -142,6 +154,13 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     @Override
     public void onResume() {
         super.onResume();
+        if(isNetworkAvailable(getActivity())==true){
+            getRecommended();
+            String dhs="start="+start+"&"+"limit="+limit;
+            getRecommendedList(url+dhs);
+        }else {
+            ToastHelper.show(getActivity(),"请检查网络");
+        }
     }
 
     private void initListData() {
@@ -226,6 +245,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         tv_advertising.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO 跳转到广告投放
                 Intent intent=new Intent(getActivity(), DeliveryActivity.class);
                 startActivity(intent);
             }
@@ -248,11 +268,12 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ToastHelper.show(getActivity(),"点击了"+i+"项");
+//                ToastHelper.show(getActivity(),"点击了"+i+"项");
                 //TODO  点击列表跳转到视频播放页面
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), AdvertisingVideoActivity.class);
                 Bundle mBundle = new Bundle();
+                mBundle.putString("id", id);//用户id
                 mBundle.putString("name", dataBeansList2.get(i).getTitle());//名称
                 mBundle.putString("gold", dataBeansList2.get(i).getGold() + "");//奖励金
                 mBundle.putString("videourl", dataBeansList2.get(i).getVideo());//视频地址
@@ -260,7 +281,11 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                 mBundle.putString("content", dataBeansList2.get(i).getContent());//视频信息
                 mBundle.putString("shareUrl", dataBeansList2.get(i).getShareUrl());//要分享的web页面地址
                 mBundle.putString("taskid", dataBeansList2.get(i).getId()+"");//获取任务ID
-
+                contents =  dataBeansList2.get(i).getContent();//获取内容
+                Log.i("contents","contents"+contents);
+             setStringSharedPreferences("content","content",contents);
+                taskid = dataBeansList2.get(i).getId();
+                Gettask(id,taskid);//调用领取任务接口
                 intent.putExtras(mBundle);
                 startActivity(intent);
             }
@@ -319,6 +344,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), AdvertisingVideoActivity.class);
                 Bundle mBundle = new Bundle();
+                mBundle.putString("id", id);//用户id
                 mBundle.putString("name", dataBeans2.get(0).getTitle());//名称
                 mBundle.putString("gold", dataBeans2.get(0).getGold() + "");//奖励金
                 mBundle.putString("videourl", dataBeans2.get(0).getVideo());//视频地址
@@ -326,6 +352,11 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                 mBundle.putString("content", dataBeans2.get(0).getContent());//视频信息
                 mBundle.putString("shareUrl", dataBeans2.get(0).getShareUrl());//要分享的web页面地址
                 mBundle.putString("taskid", dataBeansList2.get(0).getId()+"");//获取任务ID
+                taskid = dataBeansList2.get(0).getId();
+                contents =  dataBeansList2.get(0).getContent();//获取内容
+                Log.i("contents","contents"+contents);
+                setStringSharedPreferences("content","content",contents);
+                Gettask(id,taskid);//调用领取任务接口
                 intent.putExtras(mBundle);
                 startActivity(intent);
             }
@@ -337,6 +368,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), AdvertisingVideoActivity.class);
                 Bundle mBundle = new Bundle();
+                mBundle.putString("id", id);//用户id
                 mBundle.putString("name", dataBeans2.get(1).getTitle());//名称
                 mBundle.putString("gold", dataBeans2.get(1).getGold() + "");//奖励金
                 mBundle.putString("videourl", dataBeans2.get(1).getVideo());//视频地址
@@ -344,6 +376,12 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                 mBundle.putString("content", dataBeans2.get(1).getContent());//视频信息
                 mBundle.putString("shareUrl", dataBeans2.get(1).getShareUrl());//要分享的web页面地址
                 mBundle.putString("taskid", dataBeansList2.get(1).getId()+"");//获取任务ID
+                contents =  dataBeansList2.get(1).getContent();//获取内容
+                Log.i("contents","contents"+contents);
+                setStringSharedPreferences("content","content",contents);
+                taskid = dataBeansList2.get(1).getId();
+                dataBeans2.get(1).getGold();
+                Gettask(id,taskid);//调用领取任务接口
                 intent.putExtras(mBundle);
                 startActivity(intent);
             }
@@ -353,7 +391,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
@@ -372,8 +410,8 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
             Glide.with(getActivity()).load(dataBeans2.get(1).getCover()).into(vi_tj2);
             rw_name.setText(dataBeans2.get(0).getTitle());
             rw_name2.setText(dataBeans2.get(1).getTitle());
-            yd_count.setText("已浏览:" + dataBeans2.get(0).getBrowsevolume());
-            yd_count2.setText("已浏览:" + dataBeans2.get(1).getBrowsevolume());
+            yd_count.setText("已浏览:" + dataBeans2.get(0).getBrowsevolume()+"w");
+            yd_count2.setText("已浏览:" + dataBeans2.get(1).getBrowsevolume()+"w");
             jlj.setText("奖励金:￥" + dataBeans2.get(0).getGold() + "元");
             jlj2.setText("奖励金:￥" + dataBeans2.get(1).getGold() + "元");
             syrw.setText("剩余任务:" + dataBeans2.get(0).getQuantity() + "");
@@ -394,7 +432,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
      */
     private void getRecommended() {
 
-                String url = Constants.SERVER_BASE_URL + "system/sys/SysMemTaskController/getTopTask.action";
+                String url = Constants.SERVER_BASE_URL + "system/sys/SysMemTaskController/getTopTask.action?userid="+id;
                 Log.i("url", "url:" + url);
                 HttpUtils.doGet(url, new Callback() {
                     @Override
@@ -429,12 +467,6 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                 });
 
     }
-
-
-
-
-
-
     /**
      * 接口名：getRecommendedList
      * Get请求   任务列表请求接口
@@ -454,7 +486,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                         try {
                             final String result = response.body().string();
                             progersssDialog.dismiss();
-                            Log.i("result", "resultCode:" + result);
+                            Log.i("result", "resultCode222222222:" + result);
                             recommendedListEntity = gson.fromJson(result, RecommendedListEntity.class);
                             Type listType2 = new TypeToken<ArrayList<RecommendedListEntity.DataBean>>() {
                             }.getType();//TypeToken内的泛型就是Json数据中的类型
@@ -474,7 +506,47 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
 
                     }
                 });
+    }
 
+    /**
+     * Post请求  领取任务接口
+     * 参数一：请求Url
+     * 参数二：请求的键值对
+     * 参数三：请求回调
+     */
+    private void Gettask(String id,int taskid){
+        Map<String,String> map = new HashMap<>();
+        map.put("id", id);
+        map.put("taskid", String.valueOf(taskid));
+
+        HttpUtils.doPost(Constants.SERVER_BASE_URL+"system/sys/SysMemUserTaskController/receivetask.action", map, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("错误", "错误：" + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    String result=response.body().string();
+                    Log.i("result", "result:" + result);
+                    getTaskEntity=gson.fromJson(result,GetTaskEntity.class);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (getTaskEntity.getCode()==200){
+                                ToastHelper.show(getActivity(),getTaskEntity.getMsg());
+                            }else {
+                                ToastHelper.show(getActivity(),getTaskEntity.getMsg());
+                            }
+                        }
+                    });
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+        });
     }
 
     @Override

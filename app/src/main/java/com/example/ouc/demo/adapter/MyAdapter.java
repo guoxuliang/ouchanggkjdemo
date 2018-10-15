@@ -2,6 +2,7 @@ package com.example.ouc.demo.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -23,11 +24,14 @@ private Context context;
     }
     @Override
     public void setData(ViewHolder holder, RecommendedListEntity.DataBean t) {
-        Glide.with(context).load(t.getCover()).into((ImageView) holder.getView(R.id.iv_imglist));
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, context.getResources().getDisplayMetrics()); int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200f, context.getResources().getDisplayMetrics());
+        Glide.with(context).load(t.getCover()).override(width,height).into((ImageView) holder.getView(R.id.iv_imglist));
         holder.setText(R.id.mTv1, t.getTitle());
         holder.setText(R.id.mTv2, "奖励金：￥"+t.getGold());
-        holder.setText(R.id.mTv4, "已浏览："+t.getBrowsevolume());
+        holder.setText(R.id.mTv4, "已浏览："+t.getBrowsevolume()+"w");
         holder.setText(R.id.mTv3, "剩余任务："+t.getQuantity());
+        holder.setText(R.id.getbutton, "有偿广告");
+        int money=t.getGold();
 //        holder.getView(R.id.getbutton).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {

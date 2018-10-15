@@ -510,7 +510,6 @@ public class BaseActivity extends Activity {
                     // 判断当前网络是否已连接
                     if (info.getState() == NetworkInfo.State.CONNECTED)
                         ;
-
                     return true;
                 }
             }

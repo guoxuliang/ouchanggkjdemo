@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Choosetype">
+        <item>类型1</item>
+        <item>类型2</item>
+        <item>类型3</item>
+        <item>类型4</item>
+    </string-array>
+
+    <string-array name="state">
+        <item >今日</item>
+        <item >昨日</item>
+        <item >本周</item>
+        <item >上周</item>
+        <item >本月</item>
+        <item >上月</item>
+    </string-array>
+</resources>

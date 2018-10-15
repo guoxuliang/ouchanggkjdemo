@@ -228,7 +228,7 @@
                     android:paddingLeft="15dp"
                     android:text="任务推荐"
                     android:textColor="#ffffff"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/title_error"

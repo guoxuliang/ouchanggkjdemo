@@ -144,12 +144,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             setBooleanSharedPreferences("is_login","is_login",is_login);
                             setStringSharedPreferences("id","id", String.valueOf(id));
 
-                                    ToastHelper.show(LoginActivity.this,msg);
+                                    ToastHelper.show(LoginActivity.this,loginEntity.getMsg());
                                 intent=new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 LoginActivity.this.finish();
                             }else {
-                                ToastHelper.show(LoginActivity.this,msg);
+                                ToastHelper.show(LoginActivity.this,loginEntity.getMsg());
                             }
                         }
                     });

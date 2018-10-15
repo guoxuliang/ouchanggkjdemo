@@ -3,7 +3,9 @@ package com.example.ouc.demo.weigets;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AbsListView;
+
 import com.example.ouc.demo.entity.RecommendedListEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,6 @@ public class MyOnScrollListener implements AbsListView.OnScrollListener {
     private OnloadDataListener listener;
     //数据
     private List<RecommendedListEntity.DataBean> data;
-    private List<RecommendedListEntity.DataBean> data2;
 
     public MyOnScrollListener(View footer) {
         this.footer = footer;
@@ -88,14 +89,15 @@ public class MyOnScrollListener implements AbsListView.OnScrollListener {
 //            listEntity.getVideo();
 //            data.add(listEntity);
 //        }
-        if (data2 != null) {
-            for (int i = 0; i < data2.size(); i++) {
-                data.get(i);
-                data.add(data2.get(i));
-            }
-        } else {
-//            ToastHelper.show(getActivity(), "暂无数据");
-        }
+//        if (data2 != null) {
+//            for (int i = 0; i < data2.size(); i++) {
+//                data.get(i);
+//                data.add(data2.get(i));
+//            }
+//        } else {
+////            ToastHelper.show(getActivity(), "暂无数据");
+//        }
+
     }
 
 
