@@ -42,7 +42,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private Gson gosn=new Gson();
 
     private int code,id;
-    private String msg,status;
+    private String msg,status,name;
     private boolean is_login;
     private LoginEntity loginEntity;
 
@@ -140,9 +140,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             status = loginEntity.getData().getStatus();
                             is_login = loginEntity.getData().isIs_login();
                             id = loginEntity.getData().getId();
+                            name = String.valueOf(loginEntity.getData().getName());
                             Log.i("is_login", "is_login:" + is_login);
                             setBooleanSharedPreferences("is_login","is_login",is_login);
                             setStringSharedPreferences("id","id", String.valueOf(id));
+                                setStringSharedPreferences("name","name", String.valueOf(id));
 
                                     ToastHelper.show(LoginActivity.this,loginEntity.getMsg());
                                 intent=new Intent(LoginActivity.this, MainActivity.class);

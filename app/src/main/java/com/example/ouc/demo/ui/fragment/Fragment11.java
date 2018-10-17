@@ -9,8 +9,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ouc.demo.R;
+import com.example.ouc.demo.adapter.AdvRecordAdapter;
 import com.example.ouc.demo.adapter.MyOrderAdapter;
 import com.example.ouc.demo.base.BaseFragment;
+import com.example.ouc.demo.entity.AdvRecordEntity;
 import com.example.ouc.demo.entity.MyOrderEntity;
 import com.example.ouc.demo.http.HttpUtils;
 import com.example.ouc.demo.utils.Constants;
@@ -30,13 +32,13 @@ import okhttp3.Response;
 public class Fragment11 extends BaseFragment {
     private View view;
     private ListView orderlist11;
-    private MyOrderEntity myOrderEntity;
-    private ArrayList<MyOrderEntity.DataBean> orderDataBeans;
+    private AdvRecordEntity advRecordEntity;
+    private ArrayList<AdvRecordEntity.DataBean> advRecordDataBeans;
     private Gson gson = new Gson();
     private int code;
-    private MyOrderAdapter myOrderAdapter;
+    private AdvRecordAdapter advRecordAdapter;
     private String userid;
-    private String type="2";//type=0 未完成   type=1 已完成   type=2 已取消
+    private String type="2";//   type=1 分享   type=2 观看
 private TextView nodata;
     private ProgersssDialog progersssDialog;
     @Override
@@ -83,12 +85,12 @@ private TextView nodata;
                     progersssDialog.dismiss();
                     final String result = response.body().string();
                     Log.i("result", "resultCode:" + result);
-                    myOrderEntity = gson.fromJson(result, MyOrderEntity.class);
-                    Type listType2 = new TypeToken<ArrayList<MyOrderEntity.DataBean>>() {
+                    advRecordEntity = gson.fromJson(result, AdvRecordEntity.class);
+                    Type listType2 = new TypeToken<ArrayList<AdvRecordEntity.DataBean>>() {
                     }.getType();//TypeToken内的泛型就是Json数据中的类型
-                    orderDataBeans = gson.fromJson(gson.toJson(myOrderEntity.getData()), listType2);
-                    code = myOrderEntity.getCode();
-                    Log.i("666", "eeee" + orderDataBeans);
+                    advRecordDataBeans = gson.fromJson(gson.toJson(advRecordEntity.getData()), listType2);
+                    code = advRecordEntity.getCode();
+                    Log.i("666", "eeee" + advRecordDataBeans);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -105,15 +107,14 @@ private TextView nodata;
         });
 
     }
-
     private void changeDatas() {
-        if (orderDataBeans != null) {
-            myOrderAdapter = new MyOrderAdapter(getActivity(), orderDataBeans);
-            orderlist11.setAdapter(myOrderAdapter);
-            ToastHelper.show(getActivity(),myOrderEntity.getMsg());
+        if (advRecordDataBeans != null) {
+            advRecordAdapter = new AdvRecordAdapter(getActivity(), advRecordDataBeans);
+            orderlist11.setAdapter(advRecordAdapter);
+            ToastHelper.show(getActivity(),advRecordEntity.getMsg());
         }else {
-                nodata.setVisibility(View.VISIBLE);
-                ToastHelper.show(getActivity(),"暂无数据");
-            }
+            nodata.setVisibility(View.VISIBLE);
+            ToastHelper.show(getActivity(),"暂无数据");
         }
+    }
 }

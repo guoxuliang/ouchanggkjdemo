@@ -24,6 +24,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -72,14 +74,11 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
     private  GetVersionEntity getVersionEntity;
     private ImageView imageview_back, imageView;
     private TextView textView2;
-    private TextView tv_back, tv_content;
+//    private TextView tv_back, tv_content;
     SharedPreferences userSettings;
-
-
     private static final String DOWNLOAD_NAME = "channelWe";
     private static final int REQUEST_CODE_PERMISSION_SD = 101;
     private static final int REQUEST_CODE_SETTING = 300;
-
     private String updateUrl,updateInfo,lastForce,msg;
     private   CheckUpdataEntity checkUpdataEntity;
     private int code;
@@ -89,12 +88,10 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
      */
     private CommonProgressDialog pBar;
     private Gson gson=new Gson();
-
     private ViewPager mPager;
     private RadioGroup mGroup;
     private RadioButton rbChat,rbContacts,rbDiscovery,rbMe;
     private ArrayList<Fragment> fragmentList;
-
     private boolean is_login=false;
     private PermissionHelper mPermissionHelper;
     private Fragment1 fragment1;
@@ -104,15 +101,17 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
     private Fragment mCurrentFragmen = null;  // 记录当前显示的Fragment
     private String[] mFragmentTagList = {"Fragment1", "Fragment2", "Fragment3"};
     private String  versioncode;
-
     public static boolean isForeground = false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //设置全屏
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         userSettings= getSharedPreferences("is_login", 0);
         Log.i("userSettings","userSettings"+userSettings);
         setContentView(R.layout.activity_main);
-        initTitle();
+        //initTitle();
         initViews();
         //初始化界面组件
         initView();
@@ -171,15 +170,6 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
 
     private void setCostomMsg(String msg){
     }
-
-
-
-
-
-
-
-
-
     private void initViewPager(){
         fragment1=new Fragment1();
         fragment2=new Fragment2();
@@ -274,14 +264,14 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
 
 //***********************************************************************************************************************************************************************************************************
     private void initViews() {
-        getVersions();
+        getVersions();//调用更新接口
     }
 
     private void initTitle() {
-        tv_back = findViewById(R.id.tv_left);
-        tv_back.setVisibility(View.GONE);
-        tv_content = findViewById(R.id.tv_title);
-        tv_content.setText("广告增值平台");
+//        tv_back = findViewById(R.id.tv_left);
+//        tv_back.setVisibility(View.GONE);
+//        tv_content = findViewById(R.id.tv_title);
+//        tv_content.setText("广告增值平台");
     }
 
     @Override
@@ -375,6 +365,7 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
                 Toast.makeText(this, R.string.message_setting_back, Toast.LENGTH_LONG).show();
                 //设置成功，再次请求更新
                 int vision = Tools.getVersion(this);
+                Log.i("vision:::::","vision:::::"+vision);
                 getVersionCode(String.valueOf(vision));
                 break;
             }

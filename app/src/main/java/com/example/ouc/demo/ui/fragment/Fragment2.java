@@ -49,13 +49,14 @@ import okhttp3.Response;
 
 public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
     View view;
+    private android.widget.TextView tv_back, tv_content;
     private int taskid;
     private String contents;
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private GetTaskEntity getTaskEntity;
     private int lastVisibleItem = 0;
-    private final int PAGE_COUNT = 20;
+    private final int PAGE_COUNT = 4;
     private GridLayoutManager mLayoutManager;
     private ItemAdapter adapter;
     private Handler mHandler = new Handler(Looper.getMainLooper());
@@ -68,7 +69,8 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
     String id;
     int start=0;
     int limit=1000000;
-    String url = Constants.SERVER_BASE_URL + "system/sys/SysMemTaskController/getIsCommTasklist.action?";
+//    String url = Constants.SERVER_BASE_URL + "system/sys/SysMemTaskController/getIsCommTasklist.action?";
+    String url = Constants.SERVER_BASE_URL + "system/sys/SysMemTaskController/tasklist.action?";
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -83,12 +85,20 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
         id=getStringSharePreferences("id","id");
 //        initData();
         findView();
+        initTitle();
         if(isNetworkAvailable(getActivity())==true){
             String dhs="start="+start+"&"+"limit="+limit+"&"+"userid="+id;
             getRecommendedList(url+dhs);
         }else {
             ToastHelper.show(getActivity(),"请检查网络");
         }
+    }
+
+        private void initTitle() {
+        tv_back = view.findViewById(R.id.tv_left);
+        tv_back.setVisibility(View.GONE);
+        tv_content = view.findViewById(R.id.tv_title);
+        tv_content.setText("广告增值平台");
     }
     private void initData() {
 //        list = new ArrayList<>();
@@ -193,6 +203,9 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
                 //TODO  recyclerView的点击事件
 //                Log.d("", "onItemClick : postion " + position);
 //                Toast.makeText(getActivity(),"position:"+position,Toast.LENGTH_LONG).show();
+                try {
+
+
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), AdvertisingVideoActivity.class);
                 Bundle mBundle = new Bundle();
@@ -200,8 +213,8 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
                 mBundle.putString("name", dataBeansList2.get(position).getTitle());//名称
                 mBundle.putString("gold", dataBeansList2.get(position).getGold() + "");//奖励金
                 mBundle.putString("videourl", dataBeansList2.get(position).getVideo());//视频地址
-                mBundle.putString("timelong", dataBeansList2.get(position).getTimelong());//视频地址
-                mBundle.putString("content", dataBeansList2.get(position).getContent());//视频信息
+//                mBundle.putString("timelong", dataBeansList2.get(position).getTimelong());//视频地址
+//                mBundle.putString("content", dataBeansList2.get(position).getContent());//视频信息
                 mBundle.putString("shareUrl", dataBeansList2.get(position).getShareUrl());//要分享的web页面地址
                 mBundle.putString("taskid", dataBeansList2.get(position).getId()+"");//获取任务ID
                 contents =  dataBeansList2.get(position).getContent();//获取内容
@@ -211,6 +224,9 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
                 Gettask(id,taskid);//调用领取任务接口
                 intent.putExtras(mBundle);
                 startActivity(intent);
+                }catch (Exception e){
+                    ToastHelper.show(getActivity(),"error:"+e);
+                }
             }
 
             @Override

@@ -74,8 +74,8 @@ public class RecommendedEntity {
          */
 
         private String cover;
-        private int gold;
-        private String timelong;
+        private double gold;
+//        private String timelong;
         private int quantity;
         private String browsevolume;
         private String shareUrl;
@@ -92,21 +92,21 @@ public class RecommendedEntity {
             this.cover = cover;
         }
 
-        public int getGold() {
+        public double getGold() {
             return gold;
         }
 
-        public void setGold(int gold) {
+        public void setGold(double gold) {
             this.gold = gold;
         }
 
-        public String getTimelong() {
-            return timelong;
-        }
-
-        public void setTimelong(String timelong) {
-            this.timelong = timelong;
-        }
+//        public String getTimelong() {
+//            return timelong;
+//        }
+//
+//        public void setTimelong(String timelong) {
+//            this.timelong = timelong;
+//        }
 
         public int getQuantity() {
             return quantity;

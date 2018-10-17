@@ -31,7 +31,7 @@ private Context context;
         holder.setText(R.id.mTv4, "已浏览："+t.getBrowsevolume()+"w");
         holder.setText(R.id.mTv3, "剩余任务："+t.getQuantity());
         holder.setText(R.id.getbutton, "有偿广告");
-        int money=t.getGold();
+        double money=t.getGold();
 //        holder.getView(R.id.getbutton).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {

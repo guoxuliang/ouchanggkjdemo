@@ -9,9 +9,11 @@
         layout="@layout/layout_title2"
         android:layout_width="match_parent"
         android:layout_height="60dp" />
+
     <com.example.ouc.demo.weigets.BounceScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,8 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -66,29 +68,28 @@
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/Choosetype"
                 android:layout_marginTop="25dp"
+                android:entries="@array/Choosetype"
                 android:paddingLeft="30dp"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
+
             <Spinner
-                android:padding="5dp"
-                android:layout_gravity="center"
+                android:id="@+id/spacer_select"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
                 android:dropDownHeight="80dp"
-                android:id="@+id/spacer_select" />
+                android:padding="5dp" />
 
             <TextView
-                android:padding="5dp"
-                android:layout_gravity="center"
+                android:id="@+id/tv_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_content"
-                android:visibility="gone"
-                />
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -104,7 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="30dp"
-                android:background="@drawable/icon_yyzzsc"/>
+                android:background="@drawable/icon_yyzzsc" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -120,8 +121,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:hint="请输入联系人姓名"
                 android:focusable="true"
+                android:hint="请输入联系人姓名"
                 android:textSize="14sp" />
 
             <TextView
@@ -138,8 +139,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:hint="请输入联系人姓名"
                 android:focusable="true"
+                android:hint="请输入联系人姓名"
                 android:textSize="14sp" />
 
             <TextView
@@ -156,18 +157,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:hint="请输入联系电话"
                 android:focusable="true"
+                android:hint="请输入联系电话"
                 android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp" />
+
+                <TextView
+                    android:id="@+id/tv_tiaokuan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="all"
+                    android:textColor="@color/gray"
+                    android:text="同意《升级广告商服务条款》" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_sendsubmit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20sp"
-                android:background="@color/hong"
-                android:text="提交信息"
+                android:background="@color/gray"
                 android:focusable="false"
+                android:text="提交信息"
                 android:textColor="#ffffff" />
         </LinearLayout>
     </com.example.ouc.demo.weigets.BounceScrollView>

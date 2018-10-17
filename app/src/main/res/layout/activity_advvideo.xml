@@ -6,7 +6,7 @@
 
     <include layout="@layout/layout_title2"
         android:layout_width="match_parent"
-        android:layout_height="60dp"/>
+        android:layout_height="40dp"/>
     <!--<com.example.ouc.demo.weigets.BounceScrollView-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent">-->
@@ -16,7 +16,7 @@
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:layout_gravity="center"
         android:background="#ffffff"
         android:gravity="center"
@@ -26,12 +26,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:layout_margin="5dp"
+            >
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="魅力城市"
                 android:textColor="@color/black"
@@ -69,10 +70,10 @@
         <VideoView
             android:id="@+id/videoview"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
             android:gravity="center"
+            android:layout_marginTop="8dp"
             android:visibility="visible"/>
         <WebView
             android:id="@+id/webview"
@@ -88,14 +89,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_margin="5dp"
         android:background="#cccccc"/>
     <include layout="@layout/layout_top_tab"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_margin="5dp"
         android:background="#cccccc"/>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/id_page_vp"
         android:layout_width="match_parent"

@@ -4,9 +4,6 @@
     android:orientation="vertical"
     android:layout_height="fill_parent" >
 
-    <include layout="@layout/layout_title2"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"/>
 
     <RadioGroup
         android:id="@+id/radiogroup"
@@ -57,7 +54,6 @@
         android:id="@+id/viewPager"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
         android:layout_above="@id/radiogroup" />
     <View
         android:layout_width="match_parent"

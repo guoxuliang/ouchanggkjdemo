@@ -17,7 +17,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.util.TimeUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,28 +28,19 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
-import com.example.ouc.demo.Application.ObjApplication;
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.ShareTypeActivity;
 import com.example.ouc.demo.adapter.FragmentAdapter;
-import com.example.ouc.demo.base.BaseActivity;
-import com.example.ouc.demo.entity.GetTaskEntity;
-import com.example.ouc.demo.entity.RecommendedListEntity;
 import com.example.ouc.demo.entity.ShareSuccessfulNoticeEntity;
 import com.example.ouc.demo.entity.TaskOverEntity;
 import com.example.ouc.demo.http.HttpUtils;
-import com.example.ouc.demo.ui.activity.vip.MyOrderActivity;
 import com.example.ouc.demo.ui.fragment.AdvertFragment1;
 import com.example.ouc.demo.ui.fragment.AdvertFragment2;
 import com.example.ouc.demo.ui.fragment.AdvertFragment3;
-import com.example.ouc.demo.ui.fragment.Fragment4;
-import com.example.ouc.demo.ui.fragment.Fragment5;
-import com.example.ouc.demo.ui.fragment.Fragment6;
 import com.example.ouc.demo.uitool.ShareBoard;
 import com.example.ouc.demo.uitool.ShareBoardlistener;
 import com.example.ouc.demo.uitool.SnsPlatform;
 import com.example.ouc.demo.utils.Constants;
-import com.example.ouc.demo.utils.TimeUtil;
 import com.example.ouc.demo.utils.ToastHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -131,8 +121,8 @@ public class AdvertisingVideoActivity extends FragmentActivity {
             name = bundle.getString("name");//读出数据
             gold = bundle.getString("gold");//读出数据
             videourl = bundle.getString("videourl");//读出数据
-            timelong = bundle.getString("timelong");//读出数据
-            content = bundle.getString("content");
+//            timelong = bundle.getString("timelong");//读出数据
+//            content = bundle.getString("content");
             shareUrl = bundle.getString("shareUrl");
             taskid = bundle.getString("taskid");
         }
@@ -167,7 +157,7 @@ public class AdvertisingVideoActivity extends FragmentActivity {
         rbChat_page=(RadioButton)findViewById(R.id.rb_chat_page);
         rbChat_page.setText("详情");
         rbContacts_page=(RadioButton)findViewById(R.id.rb_contacts_page);
-        rbContacts_page.setText("客服");
+        rbContacts_page.setText("公众号");
         rbDiscovery_page=(RadioButton)findViewById(R.id.rb_discovery_page);
         rbDiscovery_page.setText("评论");
         //RadioGroup选中状态改变监听
@@ -283,7 +273,7 @@ public class AdvertisingVideoActivity extends FragmentActivity {
             public void onPrepared(MediaPlayer mediaPlayer) {
                 mediaPlayer.start();
                 mediaPlayer.setLooping(false);
-                ToastHelper.show(AdvertisingVideoActivity.this,"开始播放...");
+//                ToastHelper.show(AdvertisingVideoActivity.this,"开始播放...");
                 timer.start();
             }
         });
@@ -293,7 +283,7 @@ public class AdvertisingVideoActivity extends FragmentActivity {
         videoview.setOnInfoListener(new MediaPlayer.OnInfoListener() {
             @Override
             public boolean onInfo(MediaPlayer mediaPlayer, int what, int extra) {
-                ToastHelper.show(AdvertisingVideoActivity.this,"正在缓冲...");
+//                ToastHelper.show(AdvertisingVideoActivity.this,"正在缓冲...");
 //                timer.cancel();
 //                if(what==MediaPlayer.MEDIA_INFO_BUFFERING_START ){
 //                    Animation operatingAnim = AnimationUtils.loadAnimation(context, R.anim.loading);
@@ -314,7 +304,13 @@ public class AdvertisingVideoActivity extends FragmentActivity {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 // 播放结束后的动作
-                ToastHelper.show(AdvertisingVideoActivity.this,"播放结束...");
+//                ToastHelper.show(AdvertisingVideoActivity.this,"播放结束...");
+                if(id==null){
+                    return;
+                }
+                if(taskid==null){
+                    return;
+                }
                 TaskOver(id,taskid);
 
             }
@@ -386,9 +382,10 @@ public class AdvertisingVideoActivity extends FragmentActivity {
                     shareParams.setShareType(Platform.SHARE_WEBPAGE);
                     shareParams.setTitle(ShareTypeActivity.share_title);
                     shareParams.setTitle(name);
-                    shareParams.setText(content);
+                    shareParams.setText(name);
                     shareParams.setShareType(Platform.SHARE_WEBPAGE);
                     shareParams.setUrl(shareUrl);
+//                    shareParams.setUrl("http://news.cctv.com/2018/10/15/ARTI2lXQgl2499SVUnlLL0p7181015.shtml");
 //                    shareParams.setImagePath(ObjApplication.ImagePath);
                     JShareInterface.share(platform, shareParams, mShareListener);
                     break;

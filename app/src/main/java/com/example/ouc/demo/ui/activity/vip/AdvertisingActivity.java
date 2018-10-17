@@ -81,9 +81,9 @@ public class AdvertisingActivity extends AppCompatActivity {
         mPageVp=(ViewPager)findViewById(R.id.id_page_vp);
         mGroup_page=(RadioGroup)findViewById(R.id.radiogroup_page);
         rbChat_page=(RadioButton)findViewById(R.id.rb_chat_page);
-        rbChat_page.setText("分享记录");
+        rbChat_page.setText("观看记录");
         rbContacts_page=(RadioButton)findViewById(R.id.rb_contacts_page);
-        rbContacts_page.setText("观看记录");
+        rbContacts_page.setText("分享记录");
         rbDiscovery_page=(RadioButton)findViewById(R.id.rb_discovery_page);
         rbDiscovery_page.setVisibility(View.GONE);
         //RadioGroup选中状态改变监听

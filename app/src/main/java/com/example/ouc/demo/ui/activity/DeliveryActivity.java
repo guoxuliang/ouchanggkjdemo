@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -24,6 +25,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -91,7 +94,8 @@ public class DeliveryActivity extends BaseActivity {
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo_yyzz.jpg");
     private File fileCropUri = new File(Environment.getExternalStorageDirectory().getPath() + "/crop_photo_yyzz.jpg");
     private AdvertApplyForEntity advertApplyForEntity;
-
+    private CheckBox box;
+    private TextView tv_tiaokuan;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +111,28 @@ public class DeliveryActivity extends BaseActivity {
         linkmanPhone =(EditText) findViewById(R.id.linkmanPhone);
         linkmanPhone.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         btn_sendsubmit =(Button)findViewById(R.id.btn_sendsubmit);
+        btn_sendsubmit.setEnabled(false);
+        box = (CheckBox) findviewByid(R.id.box);
+        tv_tiaokuan=findviewByid(R.id.tv_tiaokuan);
+        tv_tiaokuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivity(StatementActivity.class);
+            }
+        });
+        box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                   ToastHelper.show(DeliveryActivity.this,"选中");
+                    btn_sendsubmit.setBackgroundColor(Color.parseColor("#ff0000"));
+                    btn_sendsubmit.setEnabled(true);
+                    tv_tiaokuan.setTextColor(R.color.hong);
+                }else{
+                    ToastHelper.show(DeliveryActivity.this,"未选中");
+                }
+            }
+        });
         btn_sendsubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

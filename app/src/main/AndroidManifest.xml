@@ -5,6 +5,7 @@
     android:versionCode="2"
     android:versionName="2.0.0">
     <!--版本号：versionCode="2"   修改内容：添加注册验证码倒计时。2018.10.11  郭旭亮 -->
+    <!--版本号：versionCode="3"   修改内容：新广告上传。2018.10.16  郭旭亮 -->
     <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="21" />
     <supports-screens
         android:largeScreens="true"
@@ -131,6 +132,12 @@
         <!--修改密码-->
         <activity
             android:name=".ui.activity.vip.ChangePawdActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <!--免责声明服务条款-->
+        <activity
+            android:name=".ui.activity.StatementActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

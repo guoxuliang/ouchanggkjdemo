@@ -156,13 +156,30 @@
                 android:hint="请输入联系电话"
                 android:focusable="false"
                 android:textSize="14sp" />
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+              <CheckBox
+                  android:id="@+id/box"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="20dp"
+                  />
+                <TextView
+                    android:id="@+id/tv_tiaokuan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray"
+                    android:text="同意《升级广告商服务条款》"
+                    android:autoLink="all"/>
+            </LinearLayout>
             <Button
                 android:id="@+id/btn_sendsubmit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20sp"
-                android:background="@color/hong"
+                android:background="@color/gray"
                 android:text="提交信息"
                 android:focusable="false"
                 android:textColor="#ffffff" />

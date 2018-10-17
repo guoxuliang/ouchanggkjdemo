@@ -84,7 +84,7 @@ public class MyOrderEntity {
         private String content;
         private String is_top;
         private String cover;
-        private int gold;
+        private double gold;
         private long createTime;
         private int integral;
         private String publisher;
@@ -142,11 +142,11 @@ public class MyOrderEntity {
             this.cover = cover;
         }
 
-        public int getGold() {
+        public double getGold() {
             return gold;
         }
 
-        public void setGold(int gold) {
+        public void setGold(double gold) {
             this.gold = gold;
         }
 

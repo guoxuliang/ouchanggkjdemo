@@ -135,7 +135,9 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         super.onActivityCreated(savedInstanceState);
         progersssDialog = new ProgersssDialog(getActivity());
         id=getStringSharePreferences("id","id");
+        Log.i("id11111111111111111","id11111111111111111"+id);
         initView();
+
     }
 
     @Override
@@ -143,7 +145,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         super.onStart();
         if(isNetworkAvailable(getActivity())==true){
             getRecommended();
-            String dhs="start="+start+"&"+"limit="+limit+"userid="+id;
+            String dhs="start="+start+"&limit="+limit+"&userid="+id;
             getRecommendedList(url+dhs);
         }else {
             ToastHelper.show(getActivity(),"请检查网络");
@@ -270,6 +272,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                ToastHelper.show(getActivity(),"点击了"+i+"项");
                 //TODO  点击列表跳转到视频播放页面
+                try {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), AdvertisingVideoActivity.class);
                 Bundle mBundle = new Bundle();
@@ -277,17 +280,24 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                 mBundle.putString("name", dataBeansList2.get(i).getTitle());//名称
                 mBundle.putString("gold", dataBeansList2.get(i).getGold() + "");//奖励金
                 mBundle.putString("videourl", dataBeansList2.get(i).getVideo());//视频地址
-                mBundle.putString("timelong", dataBeansList2.get(i).getTimelong());//视频地址
-                mBundle.putString("content", dataBeansList2.get(i).getContent());//视频信息
+//                mBundle.putString("content", dataBeansList2.get(i).getContent());//视频信息
                 mBundle.putString("shareUrl", dataBeansList2.get(i).getShareUrl());//要分享的web页面地址
                 mBundle.putString("taskid", dataBeansList2.get(i).getId()+"");//获取任务ID
-                contents =  dataBeansList2.get(i).getContent();//获取内容
-                Log.i("contents","contents"+contents);
-             setStringSharedPreferences("content","content",contents);
+                    setStringSharedPreferences("content","content","");
+                    contents =  dataBeansList2.get(i).getContent();//获取内容
+                    if(contents!=null){
+                        setStringSharedPreferences("content","content",contents);
+                    }else {
+                        ToastHelper.show(getActivity(),"内容为空");
+                    }
+
                 taskid = dataBeansList2.get(i).getId();
                 Gettask(id,taskid);//调用领取任务接口
                 intent.putExtras(mBundle);
                 startActivity(intent);
+                }catch (Exception e){
+                    ToastHelper.show(getActivity(),"error:"+e);
+                }
             }
         });
 
@@ -304,14 +314,15 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         list_path = new ArrayList<>();
         //放标题的集合
         list_title = new ArrayList<>();
-        list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg");
-        list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic259ohaj30ci08c74r.jpg");
-        list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic2b16zuj30ci08cwf4.jpg");
-        list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic2e7vsaj30ci08cglz.jpg");
-        list_title.add("轮播图1");
-        list_title.add("轮播图2");
-        list_title.add("轮播图3");
-        list_title.add("轮播图4");
+        list_path.add("http://kgj.ockeji.com/upload/kgj/banner/1.jpg");
+        list_path.add("http://kgj.ockeji.com/upload/kgj/banner/2.jpg");
+        list_path.add("http://kgj.ockeji.com/upload/kgj/banner/3.jpg");
+        list_path.add("http://kgj.ockeji.com/upload/kgj/banner/4.jpg");
+        list_title.add("掌上营销");
+        list_title.add("畅联达广告机");
+        list_title.add("广告新模式");
+        list_title.add("广告推广");
+
         //设置内置样式，共有六种可以点入方法内逐一体验使用。
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
         //设置图片加载器，图片加载器在下方
@@ -341,6 +352,8 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
             @Override
             public void onClick(View view) {
 //TODO  点击广告跳转到视频详情页面
+                try{
+                if(dataBeans2!=null){
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), AdvertisingVideoActivity.class);
                 Bundle mBundle = new Bundle();
@@ -348,42 +361,62 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                 mBundle.putString("name", dataBeans2.get(0).getTitle());//名称
                 mBundle.putString("gold", dataBeans2.get(0).getGold() + "");//奖励金
                 mBundle.putString("videourl", dataBeans2.get(0).getVideo());//视频地址
-                mBundle.putString("timelong", dataBeans2.get(0).getTimelong());//视频地址
-                mBundle.putString("content", dataBeans2.get(0).getContent());//视频信息
+//                mBundle.putString("content", dataBeans2.get(0).getContent());//视频信息
                 mBundle.putString("shareUrl", dataBeans2.get(0).getShareUrl());//要分享的web页面地址
-                mBundle.putString("taskid", dataBeansList2.get(0).getId()+"");//获取任务ID
-                taskid = dataBeansList2.get(0).getId();
-                contents =  dataBeansList2.get(0).getContent();//获取内容
-                Log.i("contents","contents"+contents);
-                setStringSharedPreferences("content","content",contents);
+                mBundle.putString("taskid", dataBeans2.get(0).getId()+"");//获取任务ID
+                taskid = dataBeans2.get(0).getId();
+                setStringSharedPreferences("content","content","");
+                contents =  dataBeans2.get(0).getContent();//获取内容
+
+                    if(contents!=null){
+                        setStringSharedPreferences("content","content",contents);
+                    }else {
+                        ToastHelper.show(getActivity(),"内容为空");
+                    }
                 Gettask(id,taskid);//调用领取任务接口
                 intent.putExtras(mBundle);
                 startActivity(intent);
+            }else{
+                    ToastHelper.show(getActivity(),"数据为空");
+                }
+                }catch (Exception e){
+                    ToastHelper.show(getActivity(),"error:"+e);
+                }
             }
         });
         adv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //TODO  点击广告跳转到视频详情页面
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), AdvertisingVideoActivity.class);
-                Bundle mBundle = new Bundle();
-                mBundle.putString("id", id);//用户id
-                mBundle.putString("name", dataBeans2.get(1).getTitle());//名称
-                mBundle.putString("gold", dataBeans2.get(1).getGold() + "");//奖励金
-                mBundle.putString("videourl", dataBeans2.get(1).getVideo());//视频地址
-                mBundle.putString("timelong", dataBeans2.get(1).getTimelong());//视频地址
-                mBundle.putString("content", dataBeans2.get(1).getContent());//视频信息
-                mBundle.putString("shareUrl", dataBeans2.get(1).getShareUrl());//要分享的web页面地址
-                mBundle.putString("taskid", dataBeansList2.get(1).getId()+"");//获取任务ID
-                contents =  dataBeansList2.get(1).getContent();//获取内容
-                Log.i("contents","contents"+contents);
-                setStringSharedPreferences("content","content",contents);
-                taskid = dataBeansList2.get(1).getId();
-                dataBeans2.get(1).getGold();
-                Gettask(id,taskid);//调用领取任务接口
-                intent.putExtras(mBundle);
-                startActivity(intent);
+                try {
+                if(dataBeans2!=null){
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), AdvertisingVideoActivity.class);
+                    Bundle mBundle = new Bundle();
+//                    mBundle.putString("id", id);//用户id
+                    mBundle.putString("name", dataBeans2.get(1).getTitle());//名称
+                    mBundle.putString("gold", dataBeans2.get(1).getGold() + "");//奖励金
+                    mBundle.putString("videourl", dataBeans2.get(1).getVideo());//视频地址
+//                    mBundle.putString("content", dataBeans2.get(1).getContent());//视频信息
+                    mBundle.putString("shareUrl", dataBeans2.get(1).getShareUrl());//要分享的web页面地址
+                    mBundle.putString("taskid", dataBeans2.get(1).getId()+"");//获取任务ID
+                    taskid = dataBeans2.get(1).getId();
+                    setStringSharedPreferences("content","content","");
+                    contents =  dataBeans2.get(1).getContent();//获取内容
+                    if(contents!=null){
+                        setStringSharedPreferences("content","content",contents);
+                    }else {
+                        ToastHelper.show(getActivity(),"内容为空");
+                    }
+                    Gettask(id,taskid);//调用领取任务接口
+                    intent.putExtras(mBundle);
+                    startActivity(intent);
+                }else{
+                    ToastHelper.show(getActivity(),"数据为空");
+                }
+                }catch (Exception e){
+                    ToastHelper.show(getActivity(),"error:"+e);
+                }
             }
         });
         mList.setOnTouchListener(new View.OnTouchListener() {
@@ -431,9 +464,8 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
      * Get请求  推荐任务列表请求接口
      */
     private void getRecommended() {
-
                 String url = Constants.SERVER_BASE_URL + "system/sys/SysMemTaskController/getTopTask.action?userid="+id;
-                Log.i("url", "url:" + url);
+                Log.i("url", "url9999999999999:" + url);
                 HttpUtils.doGet(url, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
@@ -444,7 +476,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                     public void onResponse(Call call, Response response) throws IOException {
                         try {
                             final String result = response.body().string();
-                            Log.i("result", "resultCode:" + result);
+                            Log.i("result", "resultCode:getRecommended：：：" + result);
                             recommendedEntity = gson.fromJson(result, RecommendedEntity.class);
                             Type listType2 = new TypeToken<ArrayList<RecommendedEntity.DataBean>>() {
                             }.getType();//TypeToken内的泛型就是Json数据中的类型
@@ -474,7 +506,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     private void getRecommendedList(String url) {
 
 
-                Log.i("url", "url:" + url);
+                Log.i("url", "url00000000000000000000000000000000:" + url);
                 HttpUtils.doGet(url, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {

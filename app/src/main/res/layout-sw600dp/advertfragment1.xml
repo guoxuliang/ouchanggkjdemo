@@ -6,7 +6,7 @@
     <com.example.ouc.demo.weigets.BounceScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="50dp">
     <LinearLayout
         android:id="@+id/view"
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
     </com.example.ouc.demo.weigets.BounceScrollView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         android:gravity="center"
         android:background="#cccccc"
