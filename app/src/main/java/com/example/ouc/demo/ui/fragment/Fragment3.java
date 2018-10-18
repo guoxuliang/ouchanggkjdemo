@@ -36,6 +36,7 @@ import com.example.ouc.demo.entity.RecommendedEntity;
 import com.example.ouc.demo.entity.RecommendedListEntity;
 import com.example.ouc.demo.http.HttpUtils;
 import com.example.ouc.demo.ui.activity.LoginActivity;
+import com.example.ouc.demo.ui.activity.vip.AboutWeActivity;
 import com.example.ouc.demo.ui.activity.vip.AdvertisingActivity;
 import com.example.ouc.demo.ui.activity.vip.ChangePawdActivity;
 import com.example.ouc.demo.ui.activity.vip.IncomeActivity;
@@ -82,7 +83,7 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
     private LinearLayout advertising;
     private LinearLayout information;
     private LinearLayout changePawd;
-    private LinearLayout cheakversion;
+    private LinearLayout cheakversion,aboutwe;
     private TextView exitLogin;
     View v;
     private String updateUrl, updateInfo, lastForce;
@@ -129,6 +130,7 @@ String id;
         information = getActivity().findViewById(R.id.information);
         changePawd = getActivity().findViewById(R.id.changePawd);
         cheakversion = getActivity().findViewById(R.id.cheakversion);
+        aboutwe = getActivity().findViewById(R.id.aboutwe);
         exitLogin = getActivity().findViewById(R.id.exitLogin);
         order.setOnClickListener(this);
         income.setOnClickListener(this);
@@ -139,7 +141,7 @@ String id;
         cheakversion.setOnClickListener(this);
         changePawd.setOnClickListener(this);
         exitLogin.setOnClickListener(this);
-
+        aboutwe.setOnClickListener(this);
         getBalance(id);
     }
 
@@ -209,6 +211,11 @@ String id;
             case R.id.exitLogin:
                 //TODO  退出登录
                 postExit();
+                break;
+            case R.id.aboutwe:
+                //TODO
+                intent.setClass(getActivity(), AboutWeActivity.class);
+                startActivity(intent);
                 break;
         }
     }

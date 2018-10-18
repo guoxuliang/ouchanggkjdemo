@@ -111,6 +111,12 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <!--帮助&反馈-->
+        <activity
+            android:name=".ui.activity.vip.AboutWeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--我的提现-->
         <activity
             android:name=".ui.activity.vip.WithdrawalActivity"

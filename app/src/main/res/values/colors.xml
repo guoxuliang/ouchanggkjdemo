@@ -80,4 +80,6 @@
     <color name="plugin_camera_black">#000000</color>
     <color name="white_Smoke">#F5F5F5</color><!--	白烟 -->
     <color name="white_gainsboro">#F0F8FF</color><!--gainsboro白 -->
+
+    <color name="shadow">#cc222222</color>
 </resources>

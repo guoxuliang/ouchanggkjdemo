@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,6 +40,8 @@ import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.ToastHelper;
 import com.example.ouc.demo.utils.Tools;
 import com.example.ouc.demo.view.CommonProgressDialog;
+import com.example.ouc.demo.weigets.CountDownProgressView;
+import com.example.ouc.demo.weigets.MyCloseDialog;
 import com.google.gson.Gson;
 import com.yanzhenjie.alertdialog.AlertDialog;
 import com.yanzhenjie.permission.AndPermission;
@@ -94,18 +98,34 @@ public class SplashActivity extends BaseActivity {
     private ImageView imageview;
     private Intent intent;
     private boolean islogin;
+
+    private MyCloseDialog myCloseDialog;
+//    private CountDownProgressView countDownProgressView;//转圈的倒计时
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
          islogin = getBooleanSharePreferences("is_login","is_login");
+        myCloseDialog = new MyCloseDialog(this, 0);
+        myCloseDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);//代码中取消标题栏
+        myCloseDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        myCloseDialog.show();
+        myCloseDialog.setCancelable(false);
+
+//        countDownProgressView = (CountDownProgressView) findViewById(R.id.countdownProgressView);
+//        countDownProgressView.start();
+//        countDownProgressView.setProgressListener( new CountDownProgressView.OnProgressListener() {
+//            @Override
+//            public void onProgress(int progress) {
+//
+//            }
+//        });
 
         imageview= (ImageView) findViewById(R.id.imageview);
         textView = (TextView) findViewById(R.id.textView);
         textView_pass = (TextView) findViewById(R.id.pass);
         daojishi = (LinearLayout) findViewById(R.id.daojishi);
         new FetchDataTask().execute(url);
-
         handler.sendEmptyMessageDelayed(0, 1000);
         daojishi.setOnClickListener(new View.OnClickListener() {
             @Override

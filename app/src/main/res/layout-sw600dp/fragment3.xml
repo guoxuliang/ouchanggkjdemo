@@ -19,7 +19,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="330dp"
+                android:layout_height="350dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/icon_mybg"
                 android:gravity="center_vertical"
@@ -307,7 +307,59 @@
                         android:text="检查更新" />
                 </LinearLayout>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#cccccc" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="#ffffff"
+                android:orientation="horizontal">
 
+                <LinearLayout
+                    android:id="@+id/aboutwe"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableLeft="@drawable/icon_xgmm"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:text="帮助反馈" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="70dp"
+                    android:background="#cccccc" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableLeft="@drawable/icon_cheak"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:text="检查更新" />
+                </LinearLayout>
+            </LinearLayout>
             <TextView
                 android:id="@+id/exitLogin"
                 android:layout_width="match_parent"

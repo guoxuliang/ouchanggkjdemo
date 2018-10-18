@@ -1,5 +1,7 @@
 package com.example.ouc.demo.ui.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -44,6 +46,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private int code,id;
     private String msg,status,name;
     private boolean is_login;
+    private boolean islogin=false;
     private LoginEntity loginEntity;
 
 
@@ -51,8 +54,31 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        boolean islogin = getBooleanSharePreferences("is_login","is_login");
+         islogin = getBooleanSharePreferences("is_login","is_login");
+         Log.i("isloginisloginislogin","isloginisloginislogin:::::"+islogin);
         initView();
+    }
+
+    private void LoginDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Look at this dialog!")
+                .setCancelable(false)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        try {
+                            java.lang.reflect.Field field = builder.getClass().getSuperclass().getDeclaredField("mShowing");
+                            field.setAccessible(true);
+                            field.set(builder, false);
+                            System.exit(0);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+
     }
 
     private void initView() {
@@ -101,7 +127,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     Toast.makeText(LoginActivity.this,"密码过长",Toast.LENGTH_LONG).show();
                     return;
                 }
-
+                islogin = getBooleanSharePreferences("is_login","is_login");
+                if(islogin==true){
+                    LoginDialog();
+                    return;
+                }
                 post();
 
                 break;

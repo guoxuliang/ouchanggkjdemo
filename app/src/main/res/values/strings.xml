@@ -25,6 +25,12 @@
     <string name="logining">Running in background. Please see log.</string>
     <string name="setting_su">Succeed to set</string>
 
+    <string name="dummy_text1">maxCollapsedLines：（默认为8）显示的未被折叠的文本行数
+animDuration：（默认为300ms）为展开/折叠的动画时间
+animAlphaStart：（默认为0.7f）当动画开始时文字的透明的度。如果您想禁用透明度，设置这个值为1
+expanddrawable：自定义ImageButton展开的图像设置
+collapsedrawable：自定义ImageButton折叠的图像设置</string>
+
 
     <string-array name="number_array">
         <item>1000</item>

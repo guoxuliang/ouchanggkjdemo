@@ -12,17 +12,22 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -42,6 +47,7 @@ import com.example.ouc.demo.uitool.ShareBoardlistener;
 import com.example.ouc.demo.uitool.SnsPlatform;
 import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.ToastHelper;
+import com.example.ouc.demo.weigets.GuideView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -93,7 +99,6 @@ public class AdvertisingVideoActivity extends FragmentActivity {
     private int mAction = Platform.ACTION_SHARE;
     private ProgressDialog progressDialog;
     private ShareBoard mShareBoard;
-
     private ArrayList<Fragment> mFragmentList;
     private ViewPager mPageVp;
     private AdvertFragment1 advertFragment1;
@@ -101,6 +106,10 @@ public class AdvertisingVideoActivity extends FragmentActivity {
     private AdvertFragment3 advertFragment3;
     private RadioGroup mGroup_page;
     private RadioButton rbChat_page,rbContacts_page,rbDiscovery_page;
+
+    private GuideView guideView;
+    private GuideView guideView3;
+    private GuideView guideView2;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -115,6 +124,9 @@ public class AdvertisingVideoActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advvideo);
+//        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+//        LinearLayout parent = (LinearLayout) inflater.inflate(R.layout.activity_advvideo, null);
+//        setContentView(parent);
         Bundle bundle = getIntent().getExtras();   //得到传过来的bundle
         if (bundle != null) {
             id = bundle.getString("id");//读出用户id
@@ -126,12 +138,13 @@ public class AdvertisingVideoActivity extends FragmentActivity {
             shareUrl = bundle.getString("shareUrl");
             taskid = bundle.getString("taskid");
         }
-        initTitle();
+
         initViews();
 
 
         initView();
         initViewPager();
+        initTitle();
     }
 
 
@@ -232,7 +245,27 @@ public class AdvertisingVideoActivity extends FragmentActivity {
 
         }
     }
-
+    private void initMengBan(){
+        final ImageView iv = new ImageView(this);
+        iv.setImageResource(R.drawable.img_new_task_guide);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        iv.setLayoutParams(params);
+        guideView = GuideView.Builder
+                .newInstance(this)
+                .setTargetView(iv_right)//设置目标
+                .setCustomGuideView(iv)
+                .setDirction(GuideView.Direction.LEFT_BOTTOM)
+                .setShape(GuideView.MyShape.CIRCULAR)   // 设置圆形显示区域，
+                .setBgColor(getResources().getColor(R.color.shadow))
+                .setOnclickListener(new GuideView.OnClickCallback() {
+                    @Override
+                    public void onClickedGuideView() {
+                        guideView.hide();
+                    }
+                })
+                .build();
+        guideView.show();
+}
 
     private void initTitle() {
         tv_back = findViewById(R.id.tv_left);
@@ -283,17 +316,6 @@ public class AdvertisingVideoActivity extends FragmentActivity {
         videoview.setOnInfoListener(new MediaPlayer.OnInfoListener() {
             @Override
             public boolean onInfo(MediaPlayer mediaPlayer, int what, int extra) {
-//                ToastHelper.show(AdvertisingVideoActivity.this,"正在缓冲...");
-//                timer.cancel();
-//                if(what==MediaPlayer.MEDIA_INFO_BUFFERING_START ){
-//                    Animation operatingAnim = AnimationUtils.loadAnimation(context, R.anim.loading);
-//                    operatingAnim.setInterpolator(new AccelerateDecelerateInterpolator());
-//                    loading.startAnimation(operatingAnim);
-//                    loading.setVisibility(View.VISIBLE);
-//                }else{
-//                    loading.setVisibility(View.INVISIBLE);
-//                    loading.clearAnimation(); loading.postInvalidate();
-//                }
                 return true;
             }
         });
@@ -304,7 +326,6 @@ public class AdvertisingVideoActivity extends FragmentActivity {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 // 播放结束后的动作
-//                ToastHelper.show(AdvertisingVideoActivity.this,"播放结束...");
                 if(id==null){
                     return;
                 }
@@ -515,6 +536,12 @@ public class AdvertisingVideoActivity extends FragmentActivity {
 //            vertifyView.setText("获取验证码");
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initMengBan();
+    }
 
     private void getShareSuccessfulNotice() {
         /**c

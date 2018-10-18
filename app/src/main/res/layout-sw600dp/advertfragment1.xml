@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-    <com.example.ouc.demo.weigets.BounceScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp">
     <LinearLayout
         android:id="@+id/view"
         android:layout_width="match_parent"
@@ -30,33 +26,36 @@
     <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></WebView>
-    </LinearLayout>
-    </com.example.ouc.demo.weigets.BounceScrollView>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:background="#cccccc"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        android:layout_weight="20"
+        android:layout_height="0dp"></WebView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
+            android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="@color/subscribe_item_selected_stroke"
-            android:text="产品"/>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="40dp"
-            android:background="#ffffff"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="立即购买"/>
+            android:background="#cccccc"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/subscribe_item_selected_stroke"
+                android:text="产品"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="40dp"
+                android:background="#ffffff"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="立即购买"/>
+        </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+
+</LinearLayout>
