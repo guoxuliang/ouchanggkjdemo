@@ -96,7 +96,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <ImageView
                 android:id="@+id/clicksc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -118,6 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:hint="请输入法人姓名"
+                android:maxLength="8"
                 android:focusable="false"
                 android:textSize="14sp" />
 
@@ -137,6 +138,7 @@
                 android:layout_margin="20dp"
                 android:hint="请输入联系人姓名"
                 android:focusable="false"
+                android:maxLength="8"
                 android:textSize="14sp" />
 
             <TextView
@@ -154,6 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:hint="请输入联系电话"
+                android:maxLength="11"
                 android:focusable="false"
                 android:textSize="14sp" />
             <LinearLayout

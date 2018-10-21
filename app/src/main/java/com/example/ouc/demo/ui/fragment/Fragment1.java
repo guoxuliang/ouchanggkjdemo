@@ -158,7 +158,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         super.onResume();
         if(isNetworkAvailable(getActivity())==true){
             getRecommended();
-            String dhs="start="+start+"&"+"limit="+limit;
+            String dhs="start="+start+"&"+"limit="+limit+"&"+"userid="+id;
             getRecommendedList(url+dhs);
         }else {
             ToastHelper.show(getActivity(),"请检查网络");
@@ -283,6 +283,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
 //                mBundle.putString("content", dataBeansList2.get(i).getContent());//视频信息
                 mBundle.putString("shareUrl", dataBeansList2.get(i).getShareUrl());//要分享的web页面地址
                 mBundle.putString("taskid", dataBeansList2.get(i).getId()+"");//获取任务ID
+//                    mBundle.putString("cover", dataBeans2.get(i).getCover());//获取封面
                     setStringSharedPreferences("content","content","");
                     contents =  dataBeansList2.get(i).getContent();//获取内容
                     if(contents!=null){
@@ -364,6 +365,8 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
 //                mBundle.putString("content", dataBeans2.get(0).getContent());//视频信息
                 mBundle.putString("shareUrl", dataBeans2.get(0).getShareUrl());//要分享的web页面地址
                 mBundle.putString("taskid", dataBeans2.get(0).getId()+"");//获取任务ID
+//                    mBundle.putString("cover", dataBeans2.get(0).getCover());//获取封面
+
                 taskid = dataBeans2.get(0).getId();
                 setStringSharedPreferences("content","content","");
                 contents =  dataBeans2.get(0).getContent();//获取内容
@@ -400,6 +403,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
 //                    mBundle.putString("content", dataBeans2.get(1).getContent());//视频信息
                     mBundle.putString("shareUrl", dataBeans2.get(1).getShareUrl());//要分享的web页面地址
                     mBundle.putString("taskid", dataBeans2.get(1).getId()+"");//获取任务ID
+//                    mBundle.putString("cover", dataBeans2.get(1).getCover());//获取封面
                     taskid = dataBeans2.get(1).getId();
                     setStringSharedPreferences("content","content","");
                     contents =  dataBeans2.get(1).getContent();//获取内容
@@ -443,8 +447,8 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
             Glide.with(getActivity()).load(dataBeans2.get(1).getCover()).into(vi_tj2);
             rw_name.setText(dataBeans2.get(0).getTitle());
             rw_name2.setText(dataBeans2.get(1).getTitle());
-            yd_count.setText("已浏览:" + dataBeans2.get(0).getBrowsevolume()+"w");
-            yd_count2.setText("已浏览:" + dataBeans2.get(1).getBrowsevolume()+"w");
+            yd_count.setText("已浏览:" + dataBeans2.get(0).getBrowsevolume());
+            yd_count2.setText("已浏览:" + dataBeans2.get(1).getBrowsevolume());
             jlj.setText("奖励金:￥" + dataBeans2.get(0).getGold() + "元");
             jlj2.setText("奖励金:￥" + dataBeans2.get(1).getGold() + "元");
             syrw.setText("剩余任务:" + dataBeans2.get(0).getQuantity() + "");

@@ -23,6 +23,7 @@ import com.example.ouc.demo.entity.RealNameEntity;
 import com.example.ouc.demo.entity.UserInfoEntity;
 import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.PhoneFormatCheckUtils;
+import com.example.ouc.demo.utils.PopWindowUtil;
 import com.example.ouc.demo.utils.ToastHelper;
 import com.google.gson.Gson;
 import com.lidong.photopicker.PhotoPickerActivity;
@@ -99,6 +100,26 @@ public class RealNameActivity extends BaseActivity {
                 name=et_name.getText().toString().trim();
                 email=et_mail.getText().toString().trim();
                 cardNumber=et_sfid.getText().toString().trim();
+                if(id==null){
+                    ToastHelper.show(RealNameActivity.this,"用户id不能为空");
+                    return;
+                }
+                if(name==null){
+                    ToastHelper.show(RealNameActivity.this,"请输入姓名");
+                    return;
+                }
+                if(email==null){
+                    ToastHelper.show(RealNameActivity.this,"请输入邮箱");
+                    return;
+                }
+                if(PhoneFormatCheckUtils.isEmail(email)!=true){
+                    ToastHelper.show(RealNameActivity.this,"邮箱格式不对");
+                    return;
+                }
+                if(PhoneFormatCheckUtils.isEmail(cardNumber)!=true){
+                    ToastHelper.show(RealNameActivity.this,"身份证格式不对");
+                    return;
+                }
                 if (imagePaths.size() == 3) {
                     file1 = imagePaths.get(0);
                     file2 = imagePaths.get(1);

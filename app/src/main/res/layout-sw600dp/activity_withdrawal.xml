@@ -143,6 +143,7 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/black"
             android:hint="请填写金额"
+            android:inputType="number|numberDecimal"
             android:maxLength="11" />
 
         <Button

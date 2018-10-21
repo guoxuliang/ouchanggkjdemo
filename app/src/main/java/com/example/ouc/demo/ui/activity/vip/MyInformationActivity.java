@@ -60,7 +60,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- *个人信息
+ * 个人信息
  */
 public class MyInformationActivity extends BaseActivity {
     private EditText nackName;
@@ -70,7 +70,7 @@ public class MyInformationActivity extends BaseActivity {
     private String username;//	true	String	用户名
     private String headImg;//	true	String	会员头像
 
-    private Gson gson=new Gson();
+    private Gson gson = new Gson();
     private File file;
 
     // 声明PopupWindow
@@ -94,6 +94,7 @@ public class MyInformationActivity extends BaseActivity {
 
     private ImageView iv_right;
     private TextView tv_back, tv_content;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,9 +102,10 @@ public class MyInformationActivity extends BaseActivity {
         initViews();
         initTitle();
     }
+
     private void initTitle() {
         tv_back = findViewById(R.id.tv_left);
-        iv_right= findViewById(R.id.iv_right);
+        iv_right = findViewById(R.id.iv_right);
         iv_right.setVisibility(View.GONE);
         tv_back.setVisibility(View.VISIBLE);
         tv_back.setOnClickListener(new View.OnClickListener() {
@@ -115,17 +117,18 @@ public class MyInformationActivity extends BaseActivity {
         tv_content = findViewById(R.id.tv_title);
         tv_content.setText("个人信息");
     }
+
     private void initViews() {
-        nackName=findViewById(R.id.nickName);
-        iv_photo=findViewById(R.id.iv_photo);
-        submit_info=findViewById(R.id.submit_info);
+        nackName = findViewById(R.id.nickName);
+        iv_photo = findViewById(R.id.iv_photo);
+        submit_info = findViewById(R.id.submit_info);
         submit_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                username=nackName.getText().toString().trim();
-                String ids = getStringSharePreferences("id","id");
-Log.i("ids","ids"+ids);
-                    post_UpLoadIMG(String.valueOf(cropImageUri),username, ids);
+                username = nackName.getText().toString().trim();
+                String ids = getStringSharePreferences("id", "id");
+                Log.i("ids", "ids" + ids);
+                post_UpLoadIMG(String.valueOf(cropImageUri), username, ids);
 //                }
             }
         });
@@ -140,6 +143,7 @@ Log.i("ids","ids"+ids);
 
     /**
      * 弹出popupWindow更改头像
+     *
      * @param view
      */
     private void changeIcon(View view) {
@@ -170,7 +174,7 @@ Log.i("ids","ids"+ids);
                 @Override
                 public void onClick(View v) {
                     // 打开系统拍照程
-                    ToastHelper.show(MyInformationActivity.this,"点击拍照");
+                    ToastHelper.show(MyInformationActivity.this, "点击拍照");
 //                    takePhoto(v);
                     autoObtainCameraPermission();
                 }
@@ -179,7 +183,7 @@ Log.i("ids","ids"+ids);
                 @Override
                 public void onClick(View v) {
 //                    // 打开系统图库选择图片
-                    ToastHelper.show(MyInformationActivity.this,"点击相册");
+                    ToastHelper.show(MyInformationActivity.this, "点击相册");
 //                    getPhoto(v);
                     autoObtainStoragePermission();
                 }
@@ -196,10 +200,6 @@ Log.i("ids","ids"+ids);
         popupWindow.showAtLocation(MyInformationActivity.this.findViewById(R.id.lll), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         popupView.startAnimation(animation);
     }
-
-
-
-
 
 
     /**
@@ -313,9 +313,9 @@ Log.i("ids","ids"+ids);
                 case CODE_RESULT_REQUEST:
                     Bitmap bitmap = PhotoUtils.getBitmapFromUri(cropImageUri, this);
                     if (bitmap != null) {
-                        BitmapFileSetting bitmapFileSetting=new BitmapFileSetting();
-                        File f=bitmapFileSetting.saveBitmapFile(bitmap,Environment.getExternalStorageDirectory().getPath());
-                        Log.i("==filepath","==filepath:"+f);
+                        BitmapFileSetting bitmapFileSetting = new BitmapFileSetting();
+                        File f = bitmapFileSetting.saveBitmapFile(bitmap, Environment.getExternalStorageDirectory().getPath());
+                        Log.i("==filepath", "==filepath:" + f);
                         showImages(bitmap);
                     }
                     break;
@@ -323,6 +323,7 @@ Log.i("ids","ids"+ids);
             }
         }
     }
+
     /**
      * 自动获取sdk权限
      */
@@ -334,8 +335,10 @@ Log.i("ids","ids"+ids);
         }
 
     }
+
     /**
      * 展示图片
+     *
      * @param bitmap
      */
     private void showImages(Bitmap bitmap) {
@@ -350,110 +353,25 @@ Log.i("ids","ids"+ids);
         return state.equals(Environment.MEDIA_MOUNTED);
     }
 
-
-    /**
-     * Post请求
-     * 参数一：请求Url
-     * 参数二：请求的键值对
-     * 参数三：请求回调
-     */
-    private void post(){
-        Map<String,String> map = new HashMap<>();
-        map.put("username", username);
-        map.put("headImg","");
-        Log.i("username","username:"+username+"headImg:"+headImg);
-
-        HttpUtils.doPost(Constants.SERVER_BASE_URL+"system/sys/SysMemloginController/login.action", map, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.i("dfsd", "dsfsd" + e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    String result=response.body().string();
-                    Log.i("result", "result:" + result);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-            }
-        });
-    }
-
-    /**
-     * 上传图片
-     * @return 新图片的路径
-     * @throws IOException
-     * @throws JSONException
-     */
-
-    private void upImage() {
-        OkHttpClient mOkHttpClent = new OkHttpClient();
-        File file = new File(Environment.getExternalStorageDirectory()+"/HeadPortrait.jpg");
-        MultipartBody.Builder builder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("img", "HeadPortrait.jpg",
-                        RequestBody.create(MediaType.parse("image/png"), file));
-
-        RequestBody requestBody = builder.build();
-
-        Request request = new Request.Builder()
-                .url(Constants.SERVER_BASE_URL+"system/sys/SysMemloginController/login.action")
-                .post(requestBody)
-                .build();
-        Call call = mOkHttpClent.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e("", "onFailure: "+e );
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(MyInformationActivity.this, "失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.e("", "成功"+response);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(MyInformationActivity.this, "成功", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-
-    }
-
-
-
-
-
-
     public void post_UpLoadIMG(final String imgpath1, final String username, final String ids) {
         new Thread() {
             @Override
             public void run() {
                 MediaType MEDIA_TYPE = MediaType.parse("image/*");
                 MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-                Log.i("==gxl==fileCropUri",""+imgpath1+username);
-                    File f1 = new File(imgpath1);
-                Log.i("==gxl==f1","==gxl==f1"+f1);
-                int id= Integer.parseInt(ids);
-                    builder.addFormDataPart("username", username)
-                            .addFormDataPart("id",ids+"")
-                            .addFormDataPart("file", f1.getName(), RequestBody.create(MEDIA_TYPE, fileCropUri));
+                Log.i("==gxl==fileCropUri", "" + imgpath1 + username);
+                File f1 = new File(imgpath1);
+                Log.i("==gxl==f1", "==gxl==f1" + f1);
+                int id = Integer.parseInt(ids);
+                builder.addFormDataPart("username", username)
+                        .addFormDataPart("id", ids + "")
+                        .addFormDataPart("file", f1.getName(), RequestBody.create(MEDIA_TYPE, fileCropUri));
                 MultipartBody requestBody = builder.build();
-                Log.i("requestBody","requestBody"+requestBody);
+                Log.i("requestBody", "requestBody" + requestBody);
                 //构建请求
                 OkHttpClient okHttpClient = new OkHttpClient();
                 Request request = new Request.Builder()
-                        .url(Constants.SERVER_BASE_URL+"system/sys/SysMemUserController/updateUserInfo.action")
+                        .url(Constants.SERVER_BASE_URL + "system/sys/SysMemUserController/updateUserInfo.action")
                         .post(requestBody)
                         .build();
 //                        Call call = client.newCall(request);
@@ -462,7 +380,7 @@ Log.i("ids","ids"+ids);
                 call.enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        Log.d("onResponse", "onFailure: 访问失败!"+e);
+                        Log.d("onResponse", "onFailure: 访问失败!" + e);
 //                        ToastHelper.show(MyInformationActivity.this,"访问失败!"+e);
                     }
 
@@ -477,12 +395,17 @@ Log.i("ids","ids"+ids);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    int  code=userInfoEntity.getCode();
-                                    if(code==200){
-                                        ToastHelper.show(MyInformationActivity.this,""+userInfoEntity.getMsg());
+                                    int code = userInfoEntity.getCode();
+                                    if (code == 200) {
+                                        if(String.valueOf(cropImageUri)!=null){
+                                            String headphoto=String.valueOf(cropImageUri);
+                                            Log.i("headphoto","headphoto"+headphoto);
+                                            setStringSharedPreferences("headphoto","headphoto",headphoto);
+                                        }
+                                        ToastHelper.show(MyInformationActivity.this, "" + userInfoEntity.getMsg());
                                         MyInformationActivity.this.finish();
-                                    }else {
-                                        ToastHelper.show(MyInformationActivity.this,""+userInfoEntity.getMsg());
+                                    } else {
+                                        ToastHelper.show(MyInformationActivity.this, "" + userInfoEntity.getMsg());
                                     }
                                 }
                             });

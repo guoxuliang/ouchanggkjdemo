@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.adapter.MyOrderAdapter;
+import com.example.ouc.demo.adapter.MyOrderAdapter2;
 import com.example.ouc.demo.base.BaseFragment;
 import com.example.ouc.demo.entity.MyOrderEntity;
 import com.example.ouc.demo.http.HttpUtils;
@@ -34,7 +35,7 @@ public class Fragment8 extends BaseFragment {
     private ArrayList<MyOrderEntity.DataBean> orderDataBeans;
     private Gson gson = new Gson();
     private int code;
-    private MyOrderAdapter myOrderAdapter;
+    private MyOrderAdapter2 myOrderAdapter;
     private String userid;
     private String type="1";//type=0 未完成   type=1 已完成   type=2 已取消
 private TextView nodata;
@@ -108,7 +109,7 @@ private TextView nodata;
 
     private void changeDatas() {
         if (orderDataBeans != null) {
-            myOrderAdapter = new MyOrderAdapter(getActivity(), orderDataBeans);
+            myOrderAdapter = new MyOrderAdapter2(getActivity(), orderDataBeans);
             orderlist8.setAdapter(myOrderAdapter);
             ToastHelper.show(getActivity(),myOrderEntity.getMsg());
         }else {

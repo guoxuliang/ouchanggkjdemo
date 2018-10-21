@@ -1,5 +1,6 @@
 package com.example.ouc.demo.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,7 @@ private List<MyOrderEntity.DataBean> orderList;
         return i;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder = null;
@@ -51,6 +53,7 @@ private List<MyOrderEntity.DataBean> orderList;
             viewHolder.jlj_order = (TextView) view.findViewById(R.id.jlj_order);
             viewHolder.syrw_order = (TextView) view.findViewById(R.id.syrw_order);
             viewHolder.je_order = (TextView) view.findViewById(R.id.je_order);
+            viewHolder.syrw_type = (TextView) view.findViewById(R.id.syrw_type);
             view.setTag(viewHolder);
 
 
@@ -64,10 +67,18 @@ private List<MyOrderEntity.DataBean> orderList;
                 jlj_str= String.valueOf(orderList.get(i).getGold());
                  syrw_str= String.valueOf(orderList.get(i).getQuantity());
                   je_str= String.valueOf(orderList.get(i).getIntegral());
+                String type =  orderList.get(i).getType();
                 viewHolder.name_order.setText(name_str+"");
                 viewHolder.jlj_order.setText("奖励金:￥"+jlj_str+"元");
                 viewHolder.syrw_order.setText("剩余任务:"+syrw_str+"");
                 viewHolder.je_order.setText("+￥"+je_str+"");
+                if(type.equals("1")){
+                    viewHolder.syrw_type.setText("做任务金额");
+                    viewHolder.syrw_type.setTextColor(R.color.green);
+                }else if(type.equals("2")){
+                    viewHolder.syrw_type.setText("分享金额");
+                    viewHolder.syrw_type.setTextColor(R.color.blue_new);
+                }
             }
         }
         return view;
@@ -78,5 +89,6 @@ private List<MyOrderEntity.DataBean> orderList;
         TextView jlj_order;
         TextView syrw_order;
         TextView je_order;
+        TextView syrw_type;
     }
 }

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,28 +15,23 @@ import android.os.Environment;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.base.BaseFragment;
 import com.example.ouc.demo.entity.CheckUpdataEntity;
 import com.example.ouc.demo.entity.ExitEntiy;
-import com.example.ouc.demo.entity.LoginEntity;
 import com.example.ouc.demo.entity.MembersEntity;
-import com.example.ouc.demo.entity.RecommendedEntity;
-import com.example.ouc.demo.entity.RecommendedListEntity;
 import com.example.ouc.demo.http.HttpUtils;
-import com.example.ouc.demo.ui.activity.LoginActivity;
 import com.example.ouc.demo.ui.activity.vip.AboutWeActivity;
 import com.example.ouc.demo.ui.activity.vip.AdvertisingActivity;
 import com.example.ouc.demo.ui.activity.vip.ChangePawdActivity;
@@ -44,13 +40,13 @@ import com.example.ouc.demo.ui.activity.vip.MyInformationActivity;
 import com.example.ouc.demo.ui.activity.vip.MyOrderActivity;
 import com.example.ouc.demo.ui.activity.vip.RealNameActivity;
 import com.example.ouc.demo.ui.activity.vip.WithdrawalActivity;
+import com.example.ouc.demo.utils.BitmapFileSetting;
 import com.example.ouc.demo.utils.Constants;
-import com.example.ouc.demo.utils.MD5Util;
+import com.example.ouc.demo.utils.PhotoUtils;
 import com.example.ouc.demo.utils.ToastHelper;
 import com.example.ouc.demo.utils.Tools;
 import com.example.ouc.demo.view.CommonProgressDialog;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.yanzhenjie.alertdialog.AlertDialog;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionNo;
@@ -63,14 +59,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -98,14 +96,28 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
     ExitEntiy exitEntiy;
     private ArrayList<MembersEntity> data;
     private double waitaccount,commission;
-    private TextView yu_e,djz;
+    private TextView yu_e,djz,huiyuanStr;
+
+    private CircleImageView name_photo;
+    private TextView userphoneNub;
+    private TextView userendtime;
+    private String headImg;
+    private String mobilePhone;
+    private String endtime;
 //    int vision;
 String id;
+    String headphoto,level;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment3, null);
         Log.i("==view", "view" + v + "***************" + getActivity().getSupportFragmentManager());
          id = getStringSharePreferences("id","id");
+        mobilePhone = getStringSharePreferences("mobilePhone","mobilePhone");
+        Log.i("mobilePhone","mobilePhone"+mobilePhone);
+        endtime = getStringSharePreferences("endtime2","endtime2");
+        Log.i("endtime","endtime"+endtime);
+        level = getStringSharePreferences("level","level");
+        Log.i("level","level"+level);
         return v;
 
     }
@@ -120,6 +132,34 @@ String id;
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 //        initView();
+        name_photo = getActivity().findViewById(R.id.name_photo);
+        name_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO
+                ToastHelper.show(getActivity(),"请点击个人信息设置头像");
+            }
+        });
+        userphoneNub = getActivity().findViewById(R.id.userphoneNub);
+        if (mobilePhone!=null){
+            userphoneNub.setText(mobilePhone);
+        }
+        userendtime = getActivity().findViewById(R.id.userendtime);
+        if (endtime!=null){
+//            long l = Long.valueOf(endtime).longValue();
+            userendtime.setText("会员到期时间为:"+endtime);
+        }
+        huiyuanStr = getActivity().findViewById(R.id.huiyuan);
+        if(level.equals("1")){
+            huiyuanStr.setText("普通会员");
+        }else if(level.equals("2")){
+            huiyuanStr.setText("超级会员");
+        }else if(level.equals("3")){
+            huiyuanStr.setText("白金会员");
+        }else if(level.equals("4")){
+            huiyuanStr.setText("广告商");
+        }
+
         yu_e = getActivity().findViewById(R.id.yu_e);
         djz = getActivity().findViewById(R.id.djz);
         order = getActivity().findViewById(R.id.order);
@@ -148,7 +188,16 @@ String id;
     private void initView() {
 
     }
-
+    public static String formatData(String dataFormat, long timeStamp) {
+        if (timeStamp == 0) {
+            return "";
+        }
+        timeStamp = timeStamp * 1000;
+        String result = "";
+        SimpleDateFormat format = new SimpleDateFormat(dataFormat);
+        result = format.format(new Date(timeStamp));
+        return result;
+    }
 
     @Override
     public void onStart() {
@@ -159,6 +208,23 @@ String id;
     public void onResume() {
         super.onResume();
         getBalance(id);
+        headphoto= getStringSharePreferences("headphoto","headphoto");
+        if(headphoto!=null){
+            Uri ImageUri;
+            ImageUri= Uri.parse(headphoto);
+            Bitmap bitmap = PhotoUtils.getBitmapFromUri(ImageUri, getActivity());
+            if (bitmap != null) {
+                BitmapFileSetting bitmapFileSetting = new BitmapFileSetting();
+                File f = bitmapFileSetting.saveBitmapFile(bitmap, Environment.getExternalStorageDirectory().getPath());
+                Log.i("==filepath", "==filepath====:" + f);
+                name_photo.setImageBitmap(bitmap);
+            }
+        }else{
+            headImg = getStringSharePreferences("headImg","headImg");
+            if (headImg!=null){
+                Glide.with(getActivity()).load(headImg).into(name_photo);
+            }
+        }
     }
 
     @Override

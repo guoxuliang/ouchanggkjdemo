@@ -4,19 +4,18 @@ import java.util.List;
 
 public class MyOrderEntity {
 
-
     /**
-     * data : [{"quantity":1300,"video":"http://kgj.ockeji.com/video/1536974390479278.mp4","title":"魅力城市-2","content":"斯蒂芬森","is_top":"1","cover":"http://kgj.ockeji.com/upload/1537423654042411.jpg","gold":100,"createTime":1536805429000,"integral":240,"publisher":"www","startTime":1537804800000,"id":2,"endTime":1537977600000,"is_recomm":"1","status":"1"},{"quantity":1300,"video":"http://kgj.ockeji.com/video/1537423654046470.mp4","title":"魅力城市-3","content":"斯蒂芬森","cover":"http://kgj.ockeji.com/upload/1537423654042411.jpg","gold":100,"createTime":1536974363000,"integral":250,"publisher":"www","startTime":1537804800000,"id":3,"endTime":1537977600000,"is_recomm":"1","status":"1"}]
+     * data : [{"taskId":1,"id":37,"title":"魅力城市-1","taskid":1,"userId":3,"quantity":624,"gold":"0.2","type":"2","finishStatus":"1","integral":"0.22"},{"taskId":1,"id":37,"title":"魅力城市-1","taskid":1,"userId":3,"quantity":624,"gold":"0.2","type":"1","finishStatus":"1","integral":"0.02"},{"taskId":1,"id":37,"title":"魅力城市-1","taskid":1,"userId":3,"quantity":624,"gold":"0.2","type":"2","finishStatus":"1","integral":"0.02"},{"taskId":3,"id":40,"title":"魅力城市-3","taskid":3,"userId":3,"quantity":4611,"gold":"0.04","type":"1","finishStatus":"1","integral":"0.04"},{"taskId":4,"id":48,"title":"魅力城市-4","taskid":4,"userId":3,"quantity":1297,"gold":"0.05","type":"1","finishStatus":"1","integral":"0.06"},{"taskId":8,"id":39,"title":"策划大师","taskid":8,"userId":3,"quantity":996,"gold":"0.1","type":"1","finishStatus":"1","integral":"0.11"},{"taskId":8,"id":39,"title":"策划大师","taskid":8,"userId":3,"quantity":996,"gold":"0.1","type":"1","finishStatus":"1","integral":"0.01"},{"taskId":10,"id":38,"title":"广告机宣传","taskid":10,"userId":3,"quantity":1997,"gold":"0.2","type":"1","finishStatus":"1","integral":"0.22"},{"taskId":10,"id":38,"title":"广告机宣传","taskid":10,"userId":3,"quantity":1997,"gold":"0.2","type":"2","finishStatus":"1","integral":"0.02"},{"taskId":10,"id":38,"title":"广告机宣传","taskid":10,"userId":3,"quantity":1997,"gold":"0.2","type":"2","finishStatus":"1","integral":"0.02"},{"taskId":11,"id":56,"title":"广告机宣传2","taskid":11,"userId":3,"quantity":1300,"gold":"0.2","type":"2","finishStatus":"1","integral":"0.02"},{"taskId":11,"id":56,"title":"广告机宣传2","taskid":11,"userId":3,"quantity":1300,"gold":"0.2","type":"2","finishStatus":"1","integral":"0.02"}]
      * code : 200
      * success : true
-     * msg : 用户查询未完成任务成功
      * execute : true
+     * msg : 查询用户已进账成功
      */
 
     private int code;
     private boolean success;
-    private String msg;
     private boolean execute;
+    private String msg;
     private List<DataBean> data;
 
     public int getCode() {
@@ -35,20 +34,20 @@ public class MyOrderEntity {
         this.success = success;
     }
 
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
     public boolean isExecute() {
         return execute;
     }
 
     public void setExecute(boolean execute) {
         this.execute = execute;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public List<DataBean> getData() {
@@ -61,125 +60,35 @@ public class MyOrderEntity {
 
     public static class DataBean {
         /**
-         * quantity : 1300
-         * video : http://kgj.ockeji.com/video/1536974390479278.mp4
-         * title : 魅力城市-2
-         * content : 斯蒂芬森
-         * is_top : 1
-         * cover : http://kgj.ockeji.com/upload/1537423654042411.jpg
-         * gold : 100
-         * createTime : 1536805429000
-         * integral : 240
-         * publisher : www
-         * startTime : 1537804800000
-         * id : 2
-         * endTime : 1537977600000
-         * is_recomm : 1
-         * status : 1
+         * taskId : 1
+         * id : 37
+         * title : 魅力城市-1
+         * taskid : 1
+         * userId : 3
+         * quantity : 624
+         * gold : 0.2
+         * type : 2
+         * finishStatus : 1
+         * integral : 0.22
          */
 
-        private int quantity;
-        private String video;
-        private String title;
-        private String content;
-        private String is_top;
-        private String cover;
-        private double gold;
-        private long createTime;
-        private int integral;
-        private String publisher;
-        private long startTime;
+        private int taskId;
         private int id;
-        private long endTime;
-        private String is_recomm;
-        private String status;
+        private String title;
+        private int taskid;
+        private int userId;
+        private int quantity;
+        private String gold;
+        private String type;
+        private String finishStatus;
+        private String integral;
 
-        public int getQuantity() {
-            return quantity;
+        public int getTaskId() {
+            return taskId;
         }
 
-        public void setQuantity(int quantity) {
-            this.quantity = quantity;
-        }
-
-        public String getVideo() {
-            return video;
-        }
-
-        public void setVideo(String video) {
-            this.video = video;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-
-        public String getIs_top() {
-            return is_top;
-        }
-
-        public void setIs_top(String is_top) {
-            this.is_top = is_top;
-        }
-
-        public String getCover() {
-            return cover;
-        }
-
-        public void setCover(String cover) {
-            this.cover = cover;
-        }
-
-        public double getGold() {
-            return gold;
-        }
-
-        public void setGold(double gold) {
-            this.gold = gold;
-        }
-
-        public long getCreateTime() {
-            return createTime;
-        }
-
-        public void setCreateTime(long createTime) {
-            this.createTime = createTime;
-        }
-
-        public int getIntegral() {
-            return integral;
-        }
-
-        public void setIntegral(int integral) {
-            this.integral = integral;
-        }
-
-        public String getPublisher() {
-            return publisher;
-        }
-
-        public void setPublisher(String publisher) {
-            this.publisher = publisher;
-        }
-
-        public long getStartTime() {
-            return startTime;
-        }
-
-        public void setStartTime(long startTime) {
-            this.startTime = startTime;
+        public void setTaskId(int taskId) {
+            this.taskId = taskId;
         }
 
         public int getId() {
@@ -190,28 +99,68 @@ public class MyOrderEntity {
             this.id = id;
         }
 
-        public long getEndTime() {
-            return endTime;
+        public String getTitle() {
+            return title;
         }
 
-        public void setEndTime(long endTime) {
-            this.endTime = endTime;
+        public void setTitle(String title) {
+            this.title = title;
         }
 
-        public String getIs_recomm() {
-            return is_recomm;
+        public int getTaskid() {
+            return taskid;
         }
 
-        public void setIs_recomm(String is_recomm) {
-            this.is_recomm = is_recomm;
+        public void setTaskid(int taskid) {
+            this.taskid = taskid;
         }
 
-        public String getStatus() {
-            return status;
+        public int getUserId() {
+            return userId;
         }
 
-        public void setStatus(String status) {
-            this.status = status;
+        public void setUserId(int userId) {
+            this.userId = userId;
+        }
+
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public void setQuantity(int quantity) {
+            this.quantity = quantity;
+        }
+
+        public String getGold() {
+            return gold;
+        }
+
+        public void setGold(String gold) {
+            this.gold = gold;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getFinishStatus() {
+            return finishStatus;
+        }
+
+        public void setFinishStatus(String finishStatus) {
+            this.finishStatus = finishStatus;
+        }
+
+        public String getIntegral() {
+            return integral;
+        }
+
+        public void setIntegral(String integral) {
+            this.integral = integral;
         }
     }
 }

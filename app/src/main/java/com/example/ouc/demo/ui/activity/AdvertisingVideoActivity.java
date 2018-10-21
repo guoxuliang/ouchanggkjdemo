@@ -4,14 +4,19 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -90,7 +95,7 @@ public class AdvertisingVideoActivity extends FragmentActivity {
     private String gold;
     private String videourl, timelong,content,shareUrl;
     private Gson gson = new Gson();
-    private String id,taskid;
+    private String id,taskid,cover;
     private ArrayList<ShareSuccessfulNoticeEntity.DataBean> sharedataBeansList2;
     private ShareSuccessfulNoticeEntity shareSuccessfulNoticeEntity;
     private String code;
@@ -106,7 +111,7 @@ public class AdvertisingVideoActivity extends FragmentActivity {
     private AdvertFragment3 advertFragment3;
     private RadioGroup mGroup_page;
     private RadioButton rbChat_page,rbContacts_page,rbDiscovery_page;
-
+    private ImageView imageiew;
     private GuideView guideView;
     private GuideView guideView3;
     private GuideView guideView2;
@@ -137,6 +142,7 @@ public class AdvertisingVideoActivity extends FragmentActivity {
 //            content = bundle.getString("content");
             shareUrl = bundle.getString("shareUrl");
             taskid = bundle.getString("taskid");
+//            cover = bundle.getString("cover");
         }
 
         initViews();
@@ -290,6 +296,10 @@ public class AdvertisingVideoActivity extends FragmentActivity {
         timerText=findViewById(R.id.timerText);
         timerText.setEnabled(false);
         tv_name.setText(name);
+//        imageiew = (ImageView) findViewById(R.id.imageiew);
+//        if (cover!=null){
+//            Glide.with(this).load(cover).into(imageiew);
+//        }
         tv_gold.setText("奖励金：￥"+gold);
 //        tv_datelong.setText("时长："+timelong);
         videoview = findViewById(R.id.videoview);
@@ -298,6 +308,7 @@ public class AdvertisingVideoActivity extends FragmentActivity {
         controller.setMediaPlayer(videoview);
         videoview.setMediaController(controller);
         videoview.getDuration();
+
         /**
          * 开始播放
          */
@@ -308,6 +319,7 @@ public class AdvertisingVideoActivity extends FragmentActivity {
                 mediaPlayer.setLooping(false);
 //                ToastHelper.show(AdvertisingVideoActivity.this,"开始播放...");
                 timer.start();
+                imageiew.setVisibility(View.GONE);
             }
         });
         /**
@@ -357,6 +369,35 @@ public class AdvertisingVideoActivity extends FragmentActivity {
             }
         }
     }
+// 获取视频缩略图
+private Bitmap createVideoThumbnail(String url, int width, int height) {
+    Bitmap bitmap = null;
+    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+    int kind = MediaStore.Video.Thumbnails.MINI_KIND;
+    try {
+        if (Build.VERSION.SDK_INT >= 14) {
+            retriever.setDataSource(url, new HashMap<String, String>());
+        } else {
+            retriever.setDataSource(url);
+        }
+        bitmap = retriever.getFrameAtTime();
+    } catch (IllegalArgumentException ex) {
+        // Assume this is a corrupt video file
+    } catch (RuntimeException ex) {
+        // Assume this is a corrupt video file.
+    } finally {
+        try {
+            retriever.release();
+        } catch (RuntimeException ex) {
+            // Ignore failures while cleaning up.
+        }
+    }
+    if (kind == MediaStore.Images.Thumbnails.MICRO_KIND && bitmap != null) {
+        bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
+                ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+    }
+    return bitmap;
+}
 
     @Override
     protected void onStop() {

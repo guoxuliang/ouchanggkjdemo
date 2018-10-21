@@ -28,7 +28,7 @@ private Context context;
         Glide.with(context).load(t.getCover()).override(width,height).into((ImageView) holder.getView(R.id.iv_imglist));
         holder.setText(R.id.mTv1, t.getTitle());
         holder.setText(R.id.mTv2, "奖励金：￥"+t.getGold());
-        holder.setText(R.id.mTv4, "已浏览："+t.getBrowsevolume()+"w");
+        holder.setText(R.id.mTv4, "已浏览："+t.getBrowsevolume());
         holder.setText(R.id.mTv3, "剩余任务："+t.getQuantity());
         holder.setText(R.id.getbutton, "有偿广告");
         double money=t.getGold();

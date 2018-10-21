@@ -42,6 +42,7 @@ import com.example.ouc.demo.base.BaseActivity;
 import com.example.ouc.demo.entity.AdvertApplyForEntity;
 import com.example.ouc.demo.utils.BitmapFileSetting;
 import com.example.ouc.demo.utils.Constants;
+import com.example.ouc.demo.utils.PhoneFormatCheckUtils;
 import com.example.ouc.demo.utils.PhotoUtils;
 import com.example.ouc.demo.utils.ToastHelper;
 import com.google.gson.Gson;
@@ -68,7 +69,7 @@ public class DeliveryActivity extends BaseActivity {
     private RadioGroup rg_select;
     private RadioButton rb_tw, rb_shp;
     private Spinner spacer_select;
-    private CircleImageView clicksc;
+    private ImageView clicksc;
     private EditText FrName, linkmanName, linkmanPhone;
     private Button btn_sendsubmit;
     private String type="1";
@@ -155,6 +156,10 @@ public class DeliveryActivity extends BaseActivity {
                 if(contacts.equals("")){
                     ToastHelper.show(DeliveryActivity.this,"联系人不能为空");
                     return;
+                }
+                if (PhoneFormatCheckUtils.isMobileNO(phone)!=true){
+                    ToastHelper.show(DeliveryActivity.this,"手机号码格式不对");
+                    return ;
                 }
                 if(phone.equals("")){
                     ToastHelper.show(DeliveryActivity.this,"联系电话不能为空");

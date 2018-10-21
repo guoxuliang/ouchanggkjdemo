@@ -38,7 +38,7 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/black"
             android:hint="请填写银行卡号"
-            android:maxLength="11" />
+             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -143,6 +143,7 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/black"
             android:hint="请填写金额"
+            android:inputType="number|numberDecimal"
             android:maxLength="11" />
 
         <Button

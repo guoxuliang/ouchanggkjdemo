@@ -1,6 +1,5 @@
 package com.example.ouc.demo.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,20 +8,20 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.ouc.demo.R;
-import com.example.ouc.demo.entity.MyOrderEntity;
+import com.example.ouc.demo.entity.AdvRecordEntity;
+import com.example.ouc.demo.entity.AdvRecordEntity2;
 
 import java.util.List;
 
-public class MyOrderAdapter extends BaseAdapter{
+public class AdvRecordAdapter2 extends BaseAdapter{
 private Context context;
-private List<MyOrderEntity.DataBean> orderList;
-    private  String syrw_type;
+private List<AdvRecordEntity2.DataBean> orderList;
     private  String name_str;
     private  String jlj_str;
     private  String syrw_str;
     private  String je_str;
     private LayoutInflater inflater;
-    public MyOrderAdapter( Context context,List<MyOrderEntity.DataBean> orderList) {
+    public AdvRecordAdapter2(Context context, List<AdvRecordEntity2.DataBean> orderList) {
         this.orderList=orderList;
         this.context=context;
         inflater = LayoutInflater.from(context);
@@ -43,7 +42,6 @@ private List<MyOrderEntity.DataBean> orderList;
         return i;
     }
 
-    @SuppressLint("ResourceAsColor")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder = null;
@@ -66,13 +64,11 @@ private List<MyOrderEntity.DataBean> orderList;
                 name_str=orderList.get(i).getTitle();
                 jlj_str= String.valueOf(orderList.get(i).getGold());
                  syrw_str= String.valueOf(orderList.get(i).getQuantity());
-                  je_str= String.valueOf(orderList.get(i).getIntegral());
-
+                  je_str= String.valueOf(orderList.get(i).getShareTime());
                 viewHolder.name_order.setText(name_str+"");
                 viewHolder.jlj_order.setText("奖励金:￥"+jlj_str+"元");
                 viewHolder.syrw_order.setText("剩余任务:"+syrw_str+"");
-                viewHolder.je_order.setText("+￥"+je_str+"");
-
+                viewHolder.je_order.setText(je_str+"");
             }
         }
         return view;

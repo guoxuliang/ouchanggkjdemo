@@ -2,6 +2,7 @@ package com.example.ouc.demo.ui.activity.vip;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -67,11 +68,14 @@ public class WithdrawalActivity extends BaseActivity {
     }
     private void initView() {
         tx_cardNab = findViewById(R.id.tx_cardNab);
+        tx_cardNab.setInputType( InputType.TYPE_CLASS_NUMBER);
         tx_Name = findViewById(R.id.tx_Name);
         tx_address = findViewById(R.id.tx_address);
         tx_bankName = findViewById(R.id.tx_bankName);
         tx_phonenub = findViewById(R.id.tx_phonenub);
+        tx_phonenub.setInputType( InputType.TYPE_CLASS_NUMBER);
         yx_je = findViewById(R.id.yx_je);
+        yx_je.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         tx_submit = findviewByid(R.id.tx_submit);
         tx_submit.setOnClickListener(new View.OnClickListener() {
             @Override

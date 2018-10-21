@@ -276,6 +276,15 @@ public class BaseFragment extends Fragment {
             return "";
         }
     }
+    protected String getDateSharePreferences(String filename, String key) {
+        String result = getActivity().getSharedPreferences(filename, 0).getString(key, "");
+
+        if (!StringHelper.isNullOrEmpty(result)) {
+            return result;
+        } else {
+            return "";
+        }
+    }
 
     protected void setLongSharedpreferences(String filename, String key, long value) {
         if (mContent != null) {
