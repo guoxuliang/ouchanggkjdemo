@@ -69,7 +69,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textColor="#ffffff"
-                android:text="领取任务" />
+                android:text="有偿广告" />
 
             <TextView
                 android:id="@+id/mTv4"

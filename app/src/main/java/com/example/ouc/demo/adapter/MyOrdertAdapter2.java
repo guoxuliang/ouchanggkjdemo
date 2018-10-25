@@ -2,6 +2,7 @@ package com.example.ouc.demo.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import com.example.ouc.demo.entity.MyOrderEntity;
 
 import java.util.List;
 
-public class MyOrderAdapter2 extends BaseAdapter{
+public class MyOrdertAdapter2 extends BaseAdapter{
 private Context context;
 private List<MyOrderEntity.DataBean> orderList;
     private  String name_str;
@@ -21,7 +22,7 @@ private List<MyOrderEntity.DataBean> orderList;
     private  String syrw_str;
     private  String je_str;
     private LayoutInflater inflater;
-    public MyOrderAdapter2(Context context, List<MyOrderEntity.DataBean> orderList) {
+    public MyOrdertAdapter2(Context context, List<MyOrderEntity.DataBean> orderList) {
         this.orderList=orderList;
         this.context=context;
         inflater = LayoutInflater.from(context);
@@ -72,13 +73,18 @@ private List<MyOrderEntity.DataBean> orderList;
                 viewHolder.jlj_order.setText("奖励金:￥"+jlj_str+"元");
                 viewHolder.syrw_order.setText("剩余任务:"+syrw_str+"");
                 viewHolder.je_order.setText("+￥"+je_str+"");
-//                if(type=="1"){
-//                    viewHolder.syrw_type.setText("做任务金额");
-//                    viewHolder.syrw_type.setTextColor(R.color.green);
-//                }else if(type=="2"){
-//                    viewHolder.syrw_type.setText("分享金额");
-//                    viewHolder.syrw_type.setTextColor(R.color.blue_new);
-//                }
+                try {
+                    if(type.equals("1")){
+                        viewHolder.syrw_type.setText("做任务金额");
+                        viewHolder.syrw_type.setTextColor(R.color.green);
+                    }else if(type.equals("2")){
+                        viewHolder.syrw_type.setText("分享金额");
+                        viewHolder.syrw_type.setTextColor(R.color.blue_new);
+                    }
+                }catch (Exception e){
+                    Log.i("e","e"+e);
+                }
+
             }
         }
         return view;

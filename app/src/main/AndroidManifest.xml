@@ -99,6 +99,19 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <!--购物-->
+        <activity
+            android:name=".ui.activity.ChooseCommodityDialogActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <!--购物车-->
+        <activity
+            android:name=".ui.activity.ShoppingCartActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--收入记录-->
         <activity
             android:name=".ui.activity.vip.IncomeActivity"
@@ -150,6 +163,13 @@
         <!--忘记密码-->
         <activity
             android:name=".ui.activity.RetrievePwdActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <!--意向客户-->
+        <activity
+            android:name=".ui.activity.InterestedBuyersActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

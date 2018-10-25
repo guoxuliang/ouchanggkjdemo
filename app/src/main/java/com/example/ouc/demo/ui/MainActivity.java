@@ -729,8 +729,6 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
                                 if(vision_str!=versioncode){
                                     getVersionCode(String.valueOf(vision));
                                 }
-
-
                             }
                         }
                     });

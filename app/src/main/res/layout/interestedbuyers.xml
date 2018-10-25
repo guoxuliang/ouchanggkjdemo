@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/titleq"
+        layout="@layout/layout_title2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+    <com.example.ouc.demo.weigets.BounceScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp"
+        android:layout_below="@+id/titleq">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/buyersname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入姓名"/>
+
+            <EditText
+                android:id="@+id/buyersphone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:maxLines="11"
+                android:hint="请输入手机号"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="请选择购买类型："/>
+
+            <Spinner
+                android:id="@+id/buyerstype"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                />
+            <Button
+                android:id="@+id/buyerssubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@color/hong"
+                android:textColor="@color/white"
+                android:text="确定"/>
+        </LinearLayout>
+    </com.example.ouc.demo.weigets.BounceScrollView>
+</RelativeLayout>

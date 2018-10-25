@@ -66,10 +66,7 @@
                 android:text="倒计时:20"
                 />
         </LinearLayout>
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-        <VideoView
+        <com.example.ouc.demo.weigets.CustomVideoView
             android:id="@+id/videoview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,16 +74,6 @@
             android:gravity="center"
             android:layout_marginTop="8dp"
             android:visibility="visible"/>
-    <ImageView
-        android:id="@+id/imageiew"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
-        android:background="@drawable/b"/>
-</RelativeLayout>
         <WebView
             android:id="@+id/webview"
             android:layout_width="match_parent"

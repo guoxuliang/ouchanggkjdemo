@@ -67,12 +67,10 @@ private List<MyOrderEntity.DataBean> orderList;
                 jlj_str= String.valueOf(orderList.get(i).getGold());
                  syrw_str= String.valueOf(orderList.get(i).getQuantity());
                   je_str= String.valueOf(orderList.get(i).getIntegral());
-
                 viewHolder.name_order.setText(name_str+"");
                 viewHolder.jlj_order.setText("奖励金:￥"+jlj_str+"元");
                 viewHolder.syrw_order.setText("剩余任务:"+syrw_str+"");
                 viewHolder.je_order.setText("+￥"+je_str+"");
-
             }
         }
         return view;

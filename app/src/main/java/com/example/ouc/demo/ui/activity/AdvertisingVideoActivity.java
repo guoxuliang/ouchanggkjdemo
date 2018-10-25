@@ -52,9 +52,12 @@ import com.example.ouc.demo.uitool.ShareBoardlistener;
 import com.example.ouc.demo.uitool.SnsPlatform;
 import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.ToastHelper;
+import com.example.ouc.demo.weigets.CustomVideoView;
 import com.example.ouc.demo.weigets.GuideView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.xutils.common.util.DensityUtil;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -88,7 +91,7 @@ import okhttp3.Response;
 public class AdvertisingVideoActivity extends FragmentActivity {
     private TextView tv_name, tv_gold, tv_datelong;
     private Button timerText;
-    private VideoView videoview;
+    private CustomVideoView videoview;
     private ImageView iv_right;
     private TextView tv_back, tv_content;
     private String name;
@@ -111,7 +114,7 @@ public class AdvertisingVideoActivity extends FragmentActivity {
     private AdvertFragment3 advertFragment3;
     private RadioGroup mGroup_page;
     private RadioButton rbChat_page,rbContacts_page,rbDiscovery_page;
-    private ImageView imageiew;
+//    private ImageView imageiew;
     private GuideView guideView;
     private GuideView guideView3;
     private GuideView guideView2;
@@ -256,21 +259,24 @@ public class AdvertisingVideoActivity extends FragmentActivity {
         iv.setImageResource(R.drawable.img_new_task_guide);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         iv.setLayoutParams(params);
-        guideView = GuideView.Builder
-                .newInstance(this)
-                .setTargetView(iv_right)//设置目标
-                .setCustomGuideView(iv)
-                .setDirction(GuideView.Direction.LEFT_BOTTOM)
-                .setShape(GuideView.MyShape.CIRCULAR)   // 设置圆形显示区域，
-                .setBgColor(getResources().getColor(R.color.shadow))
-                .setOnclickListener(new GuideView.OnClickCallback() {
-                    @Override
-                    public void onClickedGuideView() {
-                        guideView.hide();
-                    }
-                })
-                .build();
-        guideView.show();
+        /**
+         * 下边为显示引导蒙版，为了防止和购物popwindow冲突，暂时先注销
+         */
+//        guideView = GuideView.Builder
+//                .newInstance(this)
+//                .setTargetView(iv_right)//设置目标
+//                .setCustomGuideView(iv)
+//                .setDirction(GuideView.Direction.LEFT_BOTTOM)
+//                .setShape(GuideView.MyShape.CIRCULAR)   // 设置圆形显示区域，
+//                .setBgColor(getResources().getColor(R.color.shadow))
+//                .setOnclickListener(new GuideView.OnClickCallback() {
+//                    @Override
+//                    public void onClickedGuideView() {
+//                        guideView.hide();
+//                    }
+//                })
+//                .build();
+//        guideView.show();
 }
 
     private void initTitle() {
@@ -319,7 +325,7 @@ public class AdvertisingVideoActivity extends FragmentActivity {
                 mediaPlayer.setLooping(false);
 //                ToastHelper.show(AdvertisingVideoActivity.this,"开始播放...");
                 timer.start();
-                imageiew.setVisibility(View.GONE);
+//                imageiew.setVisibility(View.GONE);
             }
         });
         /**

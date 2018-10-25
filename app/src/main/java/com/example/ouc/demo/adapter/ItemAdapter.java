@@ -62,8 +62,13 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((NormalHolder) holder).mTv1.setText(datas.get(position).getTitle());
             ((NormalHolder) holder).mTv2.setText("奖励金：￥"+datas.get(position).getGold());
             ((NormalHolder) holder).mTv3.setText("剩余任务："+datas.get(position).getQuantity());
-            ((NormalHolder) holder).mTv4.setText("已浏览："+datas.get(position).getBrowsevolume()+"w");
-//            ((NormalHolder) holder).getbutton.setText(datas.get(position));
+            ((NormalHolder) holder).mTv4.setText("已浏览："+datas.get(position).getBrowsevolume());
+//            ((NormalHolder) holder).getbutton.setText(datas.get(position).getQuantity());
+            if(datas.get(position).getQuantity()==0){
+                ((NormalHolder) holder).getbutton.setText("无偿广告");
+            }else {
+                ((NormalHolder) holder).getbutton.setText("有偿广告");
+            }
             instance.displayImage(datas.get(position).getCover(),((NormalHolder)holder).iv_imglist,build);
 
         } else {

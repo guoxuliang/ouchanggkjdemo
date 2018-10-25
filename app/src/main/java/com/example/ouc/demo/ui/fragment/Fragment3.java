@@ -141,11 +141,11 @@ String id;
             }
         });
         userphoneNub = getActivity().findViewById(R.id.userphoneNub);
-        if (mobilePhone!=null){
+        if (!mobilePhone.equals("")){
             userphoneNub.setText(mobilePhone);
         }
         userendtime = getActivity().findViewById(R.id.userendtime);
-        if (endtime!=null){
+        if (!endtime.equals("")){
 //            long l = Long.valueOf(endtime).longValue();
             userendtime.setText("会员到期时间为:"+endtime);
         }
@@ -209,7 +209,7 @@ String id;
         super.onResume();
         getBalance(id);
         headphoto= getStringSharePreferences("headphoto","headphoto");
-        if(headphoto!=null){
+        if(!headphoto.equals("")){
             Uri ImageUri;
             ImageUri= Uri.parse(headphoto);
             Bitmap bitmap = PhotoUtils.getBitmapFromUri(ImageUri, getActivity());
@@ -221,7 +221,7 @@ String id;
             }
         }else{
             headImg = getStringSharePreferences("headImg","headImg");
-            if (headImg!=null){
+            if (!headImg.equals("")){
                 Glide.with(getActivity()).load(headImg).into(name_photo);
             }
         }

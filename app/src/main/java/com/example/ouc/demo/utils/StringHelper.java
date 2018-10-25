@@ -18,6 +18,31 @@ import android.util.Base64;
  * 
  */
 public final class StringHelper {
+
+
+
+
+	/**
+	 * 判断字符串是否为空
+	 *
+	 * @param str
+	 * @return
+	 */
+	public static boolean isEmpty(String str) {
+
+		return null == str || "".equals(str) || str.length() == 0 ? true
+				: false;
+	}
+
+	/**
+	 * 判断对象是否为空
+	 *
+	 * @param obj
+	 * @return
+	 */
+	public static boolean isEmpty(Object obj) {
+		return null == obj || "" == obj ? true : false;
+	}
 	/**
 	 * 表示空字符串
 	 */
@@ -106,8 +131,7 @@ public final class StringHelper {
 	}
 
 	/**
-	 * @param 卡号
-	 *            验证正确的卡号，只能是数字和字母
+	 * 验证正确的卡号，只能是数字和字母
 	 * @return
 	 */
 	public static boolean isCardNoValid(String cardno) {

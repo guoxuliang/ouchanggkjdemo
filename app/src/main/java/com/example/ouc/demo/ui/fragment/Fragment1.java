@@ -262,6 +262,8 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         rw_name2 = v.findViewById(R.id.rw_name2);
         yd_count = v.findViewById(R.id.yd_count);
         yd_count2 = v.findViewById(R.id.yd_count2);
+
+
         jlj = v.findViewById(R.id.jlj);
         jlj2 = v.findViewById(R.id.jlj2);
         syrw = v.findViewById(R.id.syrw);
