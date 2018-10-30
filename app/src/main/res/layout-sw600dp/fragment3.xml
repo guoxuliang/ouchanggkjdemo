@@ -61,6 +61,16 @@
                     android:layout_marginTop="20dp"
                     android:textColor="#ffffff"
                     android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/usertjm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="推荐码:"
+                    android:textIsSelectable="true"
+                    android:layout_marginTop="20dp"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
