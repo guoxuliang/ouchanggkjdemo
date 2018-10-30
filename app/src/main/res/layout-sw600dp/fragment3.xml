@@ -30,14 +30,14 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/icon_photo" />
+                    android:background="@drawable/suo" />
 
                 <TextView
                     android:id="@+id/userphoneNub"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="M5568944854"
+                    android:text="账号:"
                     android:textColor="#ffffff"
                     android:layout_marginTop="20dp"
                     android:textSize="14sp" />
@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="普通会员"
+                    android:text="会员等级:"
                     android:textColor="#ffffff"
                     android:layout_marginTop="20dp"
                     android:textSize="20sp" />
@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="会员到期时间:2019-12-08"
+                    android:text="会员到期时间为:"
                     android:layout_marginTop="20dp"
                     android:textColor="#ffffff"
                     android:textSize="14sp" />

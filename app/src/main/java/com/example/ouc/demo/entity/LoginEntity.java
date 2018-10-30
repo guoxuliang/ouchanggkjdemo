@@ -100,7 +100,7 @@ public class LoginEntity implements Serializable{
         private String commendNo;
         private String personNo;
         private Object referee;
-        private boolean is_login;
+        private String is_login;
         private long createTime;
         private String email;
         private String cardFaceImg;
@@ -234,11 +234,11 @@ public class LoginEntity implements Serializable{
             this.referee = referee;
         }
 
-        public boolean isIs_login() {
+        public String isIs_login() {
             return is_login;
         }
 
-        public void setIs_login(boolean is_login) {
+        public void setIs_login(String is_login) {
             this.is_login = is_login;
         }
 

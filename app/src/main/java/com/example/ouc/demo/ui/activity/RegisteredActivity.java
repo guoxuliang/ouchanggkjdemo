@@ -1,5 +1,6 @@
 package com.example.ouc.demo.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.example.ouc.demo.base.BaseActivity;
 import com.example.ouc.demo.entity.CodeEntity;
 import com.example.ouc.demo.entity.RegistEntity;
 import com.example.ouc.demo.http.HttpUtils;
+import com.example.ouc.demo.ui.activity.vip.AboutWeActivity;
 import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.MD5Util;
 import com.example.ouc.demo.utils.PhoneFormatCheckUtils;
@@ -36,9 +38,9 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class RegisteredActivity extends BaseActivity {
-    private TextView tv_back, tv_content;
+    private TextView tv_back, tv_content,tv_right;
 
-    private EditText et_phone, et_yz, et_u, et_p, et_pqr;
+    private EditText et_phone, et_yz, et_u, et_p, et_pqr,et_tjm;
     private Button submit, btnCode;
 
     //============
@@ -47,6 +49,7 @@ public class RegisteredActivity extends BaseActivity {
     private String password;    //true	String	密码
     private String password_qr;    //true	String	密码
     private String verCode;    //true	String	验证码
+    private String personNo;    //true	String	推荐码
     private String level = "1";    //true	String	用户等级，默认为1，普通会员
     private String ways = "0";    //true	String	注册方式，默认为0，平台注册
     private String status = "1";   //	true	String	用户状态，默认为1，启用状态
@@ -72,6 +75,7 @@ public class RegisteredActivity extends BaseActivity {
         et_pqr = findViewById(R.id.et_pqr);
         submit = findViewById(R.id.submit);
         btnCode = findViewById(R.id.btnCode);
+        et_tjm = findViewById(R.id.et_tjm);
 //        btnCode.setEnabled(false);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +84,7 @@ public class RegisteredActivity extends BaseActivity {
                 username = et_u.getText().toString().trim();
                 password = et_p.getText().toString().trim();
                 password_qr = et_pqr.getText().toString().trim();
-
+                personNo = et_tjm.getText().toString().trim();
                 if (mobilePhone.equals("")) {
                     ToastHelper.show(RegisteredActivity.this, "请输入手机号");
                     return;
@@ -93,8 +97,12 @@ public class RegisteredActivity extends BaseActivity {
                     ToastHelper.show(RegisteredActivity.this, "请输入用户名");
                     return;
                 }
-                if (password != null && password.equals("")) {
+                if (password == null || password.equals("")) {
                     ToastHelper.show(RegisteredActivity.this, "请输入密码");
+                    return;
+                }
+                if(personNo==null || personNo.equals("")){
+                    ToastHelper.show(RegisteredActivity.this, "请输入验证码");
                     return;
                 }
                 if (password.length() < 6) {
@@ -164,13 +172,22 @@ public class RegisteredActivity extends BaseActivity {
     };
 
 
+    @SuppressLint("ResourceAsColor")
     private void initTitle() {
         tv_back = findViewById(R.id.tv_left);
+        tv_right = findViewById(R.id.tv_right);
+        tv_right.setText("帮助");
         tv_back.setVisibility(View.VISIBLE);
         tv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RegisteredActivity.this.finish();
+            }
+        });
+        tv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivity(AboutWeActivity.class);
             }
         });
         tv_content = findViewById(R.id.tv_title);
@@ -187,6 +204,7 @@ public class RegisteredActivity extends BaseActivity {
         Map<String, String> map = new HashMap<>();
         map.put("mobilePhone", mobilePhone);
         map.put("username", username);
+        map.put("personNo", personNo);
         map.put("password", MD5Util.MD5(password));
         //TODO   此处应该加入验证码  字段
         map.put("level", "1");
@@ -212,6 +230,8 @@ public class RegisteredActivity extends BaseActivity {
                             int code = registEntity.getCode();
                             if (code == 200) {
                                 setStringSharedPreferences("", mobilePhone, mobilePhone);
+                                String commendNo = registEntity.getData().getCommendNo();
+                                setStringSharedPreferences("commendNo",commendNo,commendNo);
                                 RegisteredActivity.this.finish();
                             }
                         }

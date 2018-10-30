@@ -309,10 +309,12 @@ public class AdvertisingVideoActivity extends FragmentActivity {
         tv_gold.setText("奖励金：￥"+gold);
 //        tv_datelong.setText("时长："+timelong);
         videoview = findViewById(R.id.videoview);
+        videoview.setZOrderMediaOverlay(true);
         MediaController controller = new MediaController(this);//实例化控制器
         videoview.setVideoURI(Uri.parse(videourl));
         controller.setMediaPlayer(videoview);
         videoview.setMediaController(controller);
+        videoview.setZOrderOnTop(true);
         videoview.getDuration();
 
         /**

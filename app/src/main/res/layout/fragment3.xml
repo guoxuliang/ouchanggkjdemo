@@ -16,7 +16,6 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="50dp"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
@@ -30,14 +29,14 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/icon_photo" />
+                    android:src="@drawable/suo" />
 
                 <TextView
                     android:id="@+id/userphoneNub"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="M5568944854"
+                    android:text="账号:"
                     android:textColor="#ffffff"
                     android:textSize="14sp" />
 
@@ -46,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="普通会员"
+                    android:text="会员等级:"
                     android:textColor="#ffffff"
                     android:textSize="20sp" />
 
@@ -55,7 +54,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="会员到期时间:2019-12-08"
+                    android:text="会员到期时间为:"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/usertjm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="推荐码:"
+                    android:layout_marginTop="5dp"
+                    android:textIsSelectable="true"
                     android:textColor="#ffffff"
                     android:textSize="14sp" />
             </LinearLayout>

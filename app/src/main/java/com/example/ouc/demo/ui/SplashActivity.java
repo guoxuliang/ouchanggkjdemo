@@ -97,7 +97,7 @@ public class SplashActivity extends BaseActivity {
     private LinearLayout daojishi;
     private ImageView imageview;
     private Intent intent;
-    private boolean islogin;
+    private String is_login;
 
     private MyCloseDialog myCloseDialog;
 //    private CountDownProgressView countDownProgressView;//转圈的倒计时
@@ -105,7 +105,8 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-         islogin = getBooleanSharePreferences("is_login","is_login");
+        is_login = getStringSharePreferences("is_login","is_login");
+        Log.i("is_login", "SplashActivity:is_login:" + is_login);
         myCloseDialog = new MyCloseDialog(this, 0);
         myCloseDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);//代码中取消标题栏
         myCloseDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -117,7 +118,6 @@ public class SplashActivity extends BaseActivity {
 //        countDownProgressView.setProgressListener( new CountDownProgressView.OnProgressListener() {
 //            @Override
 //            public void onProgress(int progress) {
-//
 //            }
 //        });
 
@@ -130,15 +130,15 @@ public class SplashActivity extends BaseActivity {
         daojishi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(islogin==true){
+//                if(is_login.equals("1")){
                     intent=new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
                     SplashActivity.this.finish();
-                }else{
-                    intent=new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    SplashActivity.this.finish();
-                }
+//                }else{
+//                    intent=new Intent(SplashActivity.this, LoginActivity.class);
+//                    startActivity(intent);
+//                    SplashActivity.this.finish();
+//                }
                 handler.removeMessages(0);
             }
         });
@@ -347,31 +347,10 @@ public class SplashActivity extends BaseActivity {
 
     //----------------------------------权限回调处理----------------------------------//
 
-//    private void update() {
-//        //安装应用
-//        Intent intent = new Intent(Intent.ACTION_VIEW);
-//        intent.setDataAndType(Uri.fromFile(new File(Environment
-//                        .getExternalStorageDirectory(), DOWNLOAD_NAME)),
-//                "application/vnd.android.package-archive");
-//        startActivity(intent);
-//    }
 
     private void update() {
         try{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //判读版本是否在7.0以上
-//                        File file= new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-//                                , "app-release.apk");
-////                        File file=new File(getActivity().getCacheDir(),"app-release.apk");
-//                        Log.i("****apkUri","file"+file);
-//                        //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
-//                        Uri apkUri = FileProvider.getUriForFile(getContext().getApplicationContext(), getContext().getApplicationContext().getPackageName() + ".FileProvider", file);//在AndroidManifest中的android:authorities值
-//                        Log.i("****apkUri","apkUri"+apkUri);
-//                        Intent install = new Intent(Intent.ACTION_VIEW);
-//                        install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//                        install.setDataAndType(apkUri, "application/vnd.android.package-archive");
-//                        getActivity().startActivity(install);
-//                    } else {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent = intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), DOWNLOAD_NAME)), "application/vnd.android.package-archive");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -379,11 +358,6 @@ public class SplashActivity extends BaseActivity {
                 Log.i("****apkUri2","file"+f);
                 startActivity(intent);
             }
-//                }else {
-//                    //无权限 申请权限
-////                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, INSTALL_APK_REQUESTCODE);
-//                }
-//            }
         }catch (Exception e) {
             Log.i("==e","==e"+e);
         }
@@ -547,15 +521,15 @@ public class SplashActivity extends BaseActivity {
     private int getCount() {
         count--;
         if (count == 0) {
-            if(islogin==true){
+//            if(is_login.equals("1")){
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 finish();
-            }else{
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
+//            }else{
+//                Intent intent = new Intent(this, LoginActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
 
         }
         return count;

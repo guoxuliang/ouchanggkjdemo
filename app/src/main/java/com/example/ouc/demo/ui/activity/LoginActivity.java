@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,42 +49,41 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private int code, id;
     private String msg, status, name, level, mobilePhone, headImg, commendNo, personNo, username, createTime, email, cardFaceImg, ways, openId, beginTime, cardNumber, cardConImg, referee;
-    private boolean is_login;
-    private boolean islogin = false;
+    private String is_login="0";
     private LoginEntity loginEntity;
     private long endtime;
-
+    private String endtime2;
+//    private String msgError;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        islogin = getBooleanSharePreferences("is_login", "is_login");
-        Log.i("isloginisloginislogin", "isloginisloginislogin:::::" + islogin);
+        is_login = getStringSharePreferences("is_login", "is_login");
         initView();
     }
 
-    private void LoginDialog() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Look at this dialog!")
-                .setCancelable(false)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        try {
-                            java.lang.reflect.Field field = builder.getClass().getSuperclass().getDeclaredField("mShowing");
-                            field.setAccessible(true);
-                            field.set(builder, false);
-                            System.exit(0);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-
-    }
+//    private void LoginDialog() {
+//        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("Look at this dialog!")
+//                .setCancelable(false)
+//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        try {
+//                            java.lang.reflect.Field field = builder.getClass().getSuperclass().getDeclaredField("mShowing");
+//                            field.setAccessible(true);
+//                            field.set(builder, false);
+//                            System.exit(0);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                    }
+//                });
+//        AlertDialog alert = builder.create();
+//        alert.show();
+//
+//    }
 
     private void initView() {
         etU = findViewById(R.id.etU);
@@ -131,11 +131,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     Toast.makeText(LoginActivity.this, "密码过长", Toast.LENGTH_LONG).show();
                     return;
                 }
-                islogin = getBooleanSharePreferences("is_login", "is_login");
-                if (islogin == true) {
-                    LoginDialog();
-                    return;
-                }
+//                is_login = getStringSharePreferences("is_login", "is_login");
+//                if (is_login.equals("1")) {
+//                    LoginDialog();
+//                    return;
+//                }
                 post();
 
                 break;
@@ -177,15 +177,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 name = String.valueOf(loginEntity.getData().getName());
                                 level = String.valueOf(loginEntity.getData().getLevel());//会员等级
                                 endtime = loginEntity.getData().getEndTime();//会员结束时间
-                                SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
-                                String endtime2=sdf.format(endtime);
+                                String endtimestr= String.valueOf(endtime);
+                                if(!endtimestr.equals("0")){
+                                    SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+                                    endtime2=sdf.format(endtime);
+                                }
+
                                 mobilePhone = String.valueOf(loginEntity.getData().getMobilePhone());//手机号
                                 headImg = String.valueOf(loginEntity.getData().getHeadImg());//用户头像
                                 commendNo = String.valueOf(loginEntity.getData().getCommendNo());//推荐码
                                 personNo = String.valueOf(loginEntity.getData().getPersonNo());//邀请码
                                 username = String.valueOf(loginEntity.getData().getUsername());//昵称
-                                Log.i("is_login", "is_login:" + is_login);
-                                setBooleanSharedPreferences("is_login", "is_login", is_login);
+                                Log.i("is_login", "is_login:is_login:is_login:" + is_login);
+                                setStringSharedPreferences("is_login", "is_login", is_login);
                                 setStringSharedPreferences("id", "id", String.valueOf(id));
                                 setStringSharedPreferences("name", "name", name);
                                 setStringSharedPreferences("level", "level", level);
@@ -200,13 +204,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 LoginActivity.this.finish();
-                            } else {
+                            } else if(loginEntity.getCode() == 405){
+                                ToastHelper.show(LoginActivity.this, loginEntity.getMsg());
+                                String msgError=loginEntity.getMsg();
+                                showCustomizeDialog(msgError);
+                            }else {
                                 ToastHelper.show(LoginActivity.this, loginEntity.getMsg());
                             }
                         }
                     });
 
-                    Log.i("====", "保存的数据：" + getBooleanSharePreferences("is_login", "is_login"));
+                    Log.i("====", "保存的数据：" + getStringSharePreferences("is_login", "is_login"));
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -215,4 +223,25 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         });
     }
+
+
+    private void showCustomizeDialog(String msgError){
+        AlertDialog.Builder customizeDialog = new AlertDialog.Builder(LoginActivity.this);
+        final View dialogView = LayoutInflater.from(LoginActivity.this).inflate(R.layout.dialog_customize,null);
+        customizeDialog.setTitle("错误信息");
+        customizeDialog.setView(dialogView);
+        TextView edit_text =(TextView)dialogView.findViewById(R.id.edit_text);
+        edit_text.setText("您的账号已在其他设备上登录,不能重复登录哦!");
+        customizeDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which){
+                        //获取EditView中的输入内容
+
+                    }
+                });
+        customizeDialog.setCancelable(false);
+        customizeDialog.show();
+    }
+
 }

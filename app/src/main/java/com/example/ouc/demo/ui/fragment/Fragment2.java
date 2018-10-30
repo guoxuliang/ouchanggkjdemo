@@ -29,6 +29,7 @@ import com.example.ouc.demo.entity.GetTaskEntity;
 import com.example.ouc.demo.entity.RecommendedListEntity;
 import com.example.ouc.demo.http.HttpUtils;
 import com.example.ouc.demo.ui.activity.AdvertisingVideoActivity;
+import com.example.ouc.demo.ui.activity.LoginActivity;
 import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.ProgersssDialog;
 import com.example.ouc.demo.utils.ToastHelper;
@@ -61,7 +62,7 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
     private ItemAdapter adapter;
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
-
+    private String is_login;
     private Gson gson = new Gson();
     private ArrayList<RecommendedListEntity.DataBean> dataBeansList2;
     private RecommendedListEntity recommendedListEntity;
@@ -81,12 +82,12 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        is_login = getStringSharePreferences("is_login", "is_login");
         progersssDialog = new ProgersssDialog(getActivity());
         id=getStringSharePreferences("id","id");
-//        initData();
         findView();
         initTitle();
-        if(isNetworkAvailable(getActivity())==true){
+        if(isConnNet(getActivity())==true){
             String dhs="start="+start+"&"+"limit="+limit+"&"+"userid="+id;
             getRecommendedList(url+dhs);
         }else {
@@ -100,54 +101,10 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
         tv_content = view.findViewById(R.id.tv_title);
         tv_content.setText("广告增值平台");
     }
-    private void initData() {
-//        list = new ArrayList<>();
-//        for (int i = 1; i <= 40; i++) {
-//            list.add("条目" + i);
-//        }
-        if(dataBeansList2!=null){
-            Log.i("dataBeansList2","dataBeansList2***********************************:"+dataBeansList2.size());
-        }
-
-    }
-    /**
-     * 检测当的网络（WLAN、3G/2G）状态
-     * @param context Context
-     * @return true 表示网络可用
-     */
-    public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager connectivity = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity != null) {
-            NetworkInfo info = connectivity.getActiveNetworkInfo();
-            if (info != null && info.isConnected())
-            {
-                // 当前网络是连接的
-                if (info.getState() == NetworkInfo.State.CONNECTED)
-                {
-                    // 当前所连接的网络可用
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
     private void findView() {
         refreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refreshLayout);
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView);
-//        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(),
-//                new RecyclerItemClickListener.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(View view, int position) {
-//                        Log.i("", "onItemClick : postion " + position);
-//                    }
-//
-//                    @Override
-//                    public void onLongClick(View view, int posotion) {
-//                        Log.i("", "onLongClick position : " + posotion);
-//                    }
-//                }));
 
     }
 
@@ -203,9 +160,8 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
                 //TODO  recyclerView的点击事件
 //                Log.d("", "onItemClick : postion " + position);
 //                Toast.makeText(getActivity(),"position:"+position,Toast.LENGTH_LONG).show();
+                if(is_login.equals("1")){
                 try {
-
-
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), AdvertisingVideoActivity.class);
                 Bundle mBundle = new Bundle();
@@ -226,6 +182,9 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
                 startActivity(intent);
                 }catch (Exception e){
                     ToastHelper.show(getActivity(),"error:"+e);
+                }
+                }else {
+                    openActivity(LoginActivity.class);
                 }
             }
 
@@ -271,10 +230,11 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
         }, 1000);
     }
 
-
-
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        is_login = getStringSharePreferences("is_login", "is_login");
+    }
 
     /**
      * 接口名：getRecommendedList

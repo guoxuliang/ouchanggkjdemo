@@ -179,11 +179,12 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
         fragmentList.add(1,fragment2);
         fragmentList.add(2,fragment3);
         //ViewPager设置适配器
-        mPager.setAdapter(new myFragmentPagerAdapter(getSupportFragmentManager(), fragmentList));
         //ViewPager显示第一个Fragment
         mPager.setCurrentItem(0);
         //ViewPager页面切换监听
         mPager.setOnPageChangeListener(new myOnPageChangeListener());
+        mPager.setAdapter(new myFragmentPagerAdapter(getSupportFragmentManager(), fragmentList));
+
     }
     private void initView(){
         mPager=(ViewPager)findViewById(R.id.viewPager);
@@ -413,13 +414,6 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
             }
 
         });
-//        if (code == 200) {
-//            lastForce = checkUpdataEntity.getData().getLastForce();
-//            updateUrl = checkUpdataEntity.getData().getUpdateUrl().toString().trim();
-//            updateInfo = checkUpdataEntity.getData().getUpdateInfo().toString().trim();
-//            int oldversion = Integer.parseInt(version) - 1;
-//            ShowDialog(oldversion, version, updateInfo, updateUrl);
-//        }
     }
 
     /**
@@ -430,10 +424,10 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
      */
     private void ShowDialog(int vision, String newversion, String content,
                             final String url) {
-        new android.app.AlertDialog.Builder(MainActivity.this)
-                .setTitle("版本更新")
-                .setMessage(content)
-                .setPositiveButton("更新", new DialogInterface.OnClickListener() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("版本更新");
+        builder.setMessage(content);
+        builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -458,8 +452,8 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
                             }
                         });
                     }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (lastForce.equals("2")) {
@@ -469,8 +463,9 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
                         }
 
                     }
-                })
-                .show();
+                });
+        builder.setCancelable(false);
+        builder.show();
     }
     /**
      * 下载应用

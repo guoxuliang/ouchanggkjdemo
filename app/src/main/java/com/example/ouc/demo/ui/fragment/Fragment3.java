@@ -32,6 +32,7 @@ import com.example.ouc.demo.entity.CheckUpdataEntity;
 import com.example.ouc.demo.entity.ExitEntiy;
 import com.example.ouc.demo.entity.MembersEntity;
 import com.example.ouc.demo.http.HttpUtils;
+import com.example.ouc.demo.ui.activity.LoginActivity;
 import com.example.ouc.demo.ui.activity.vip.AboutWeActivity;
 import com.example.ouc.demo.ui.activity.vip.AdvertisingActivity;
 import com.example.ouc.demo.ui.activity.vip.ChangePawdActivity;
@@ -101,12 +102,15 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
     private CircleImageView name_photo;
     private TextView userphoneNub;
     private TextView userendtime;
+    private TextView usertjm;
     private String headImg;
     private String mobilePhone;
     private String endtime;
+    private String commendNo;//推荐码
 //    int vision;
 String id;
     String headphoto,level;
+    private String is_login;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment3, null);
@@ -118,6 +122,10 @@ String id;
         Log.i("endtime","endtime"+endtime);
         level = getStringSharePreferences("level","level");
         Log.i("level","level"+level);
+        commendNo = getStringSharePreferences("commendNo","commendNo");
+        Log.i("commendNo","commendNo"+commendNo);
+        is_login = getStringSharePreferences("is_login", "is_login");
+
         return v;
 
     }
@@ -125,7 +133,9 @@ String id;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+//        if(!is_login.equals("1")){
+//            openActivity(LoginActivity.class);
+//        }
     }
 
     @Override
@@ -136,8 +146,13 @@ String id;
         name_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO
-                ToastHelper.show(getActivity(),"请点击个人信息设置头像");
+                if(is_login.equals("0")){
+                    openActivity(LoginActivity.class);
+                }else{
+                    //TODO
+                    ToastHelper.show(getActivity(),"请点击个人信息设置头像");
+                }
+
             }
         });
         userphoneNub = getActivity().findViewById(R.id.userphoneNub);
@@ -148,6 +163,10 @@ String id;
         if (!endtime.equals("")){
 //            long l = Long.valueOf(endtime).longValue();
             userendtime.setText("会员到期时间为:"+endtime);
+        }
+        usertjm = getActivity().findViewById(R.id.usertjm);
+        if(!commendNo.equals("")){
+            usertjm.setText("推荐码:"+commendNo);
         }
         huiyuanStr = getActivity().findViewById(R.id.huiyuan);
         if(level.equals("1")){
@@ -202,11 +221,13 @@ String id;
     @Override
     public void onStart() {
         super.onStart();
+        is_login = getStringSharePreferences("is_login", "is_login");
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        is_login = getStringSharePreferences("is_login", "is_login");
         getBalance(id);
         headphoto= getStringSharePreferences("headphoto","headphoto");
         if(!headphoto.equals("")){
@@ -231,57 +252,106 @@ String id;
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()) {
-
             case R.id.order:
                 //TODO  我的订单
-                intent.setClass(getActivity(), MyOrderActivity.class);
-                startActivity(intent);
+                if (is_login.equals("1")){
+                    intent.setClass(getActivity(), MyOrderActivity.class);
+                    startActivity(intent);
+                }else {
+                    openActivity(LoginActivity.class);
+                }
+
                 break;
             case R.id.income:
                 //TODO  收入记录
-                intent.setClass(getActivity(), IncomeActivity.class);
-                startActivity(intent);
+                if (is_login.equals("1")){
+                    intent.setClass(getActivity(), IncomeActivity.class);
+                    startActivity(intent);
+                }else {
+                    openActivity(LoginActivity.class);
+                }
+
                 break;
             case R.id.realName:
                 //TODO  实名信息
-                intent.setClass(getActivity(), RealNameActivity.class);
-                startActivity(intent);
+                if (is_login.equals("1")){
+                    intent.setClass(getActivity(), RealNameActivity.class);
+                    startActivity(intent);
+                }else {
+                    openActivity(LoginActivity.class);
+                }
+
                 break;
             case R.id.withdrawal:
                 //TODO  我的提现
-                intent.setClass(getActivity(), WithdrawalActivity.class);
-                startActivity(intent);
+                if (is_login.equals("1")){
+                    intent.setClass(getActivity(), WithdrawalActivity.class);
+                    startActivity(intent);
+                }else {
+                    openActivity(LoginActivity.class);
+                }
+
                 break;
             case R.id.advertising:
                 //TODO  广告记录
-                intent.setClass(getActivity(), AdvertisingActivity.class);
-                startActivity(intent);
+                if (is_login.equals("1")){
+                    intent.setClass(getActivity(), AdvertisingActivity.class);
+                    startActivity(intent);
+                }else {
+                    openActivity(LoginActivity.class);
+                }
+
                 break;
             case R.id.information:
                 //TODO  个人信息
-                intent.setClass(getActivity(), MyInformationActivity.class);
-                startActivity(intent);
+                if (is_login.equals("1")){
+                    intent.setClass(getActivity(), MyInformationActivity.class);
+                    startActivity(intent);
+                }else {
+                    openActivity(LoginActivity.class);
+                }
+
                 break;
             case R.id.changePawd:
                 //TODO  修改密码
-                intent.setClass(getActivity(), ChangePawdActivity.class);
-                startActivity(intent);
+                if (is_login.equals("1")){
+                    intent.setClass(getActivity(), ChangePawdActivity.class);
+                    startActivity(intent);
+                }else {
+                    openActivity(LoginActivity.class);
+                }
+
                 break;
             case R.id.cheakversion:
                 //TODO  检查更新
+                if (is_login.equals("1")){
+                    int vision = Tools.getVersion(getActivity());
+                    getVersionCode(String.valueOf(vision));
+                }else {
+                    openActivity(LoginActivity.class);
+                }
 //                intent.setClass(getActivity(), ChangePawdActivity.class);
 //                startActivity(intent);
-                int vision = Tools.getVersion(getActivity());
-                getVersionCode(String.valueOf(vision));
+
                 break;
             case R.id.exitLogin:
                 //TODO  退出登录
-                postExit();
+                if (is_login.equals("1")){
+                    postExit();
+                }else {
+                    openActivity(LoginActivity.class);
+                }
+
                 break;
             case R.id.aboutwe:
                 //TODO
-                intent.setClass(getActivity(), AboutWeActivity.class);
-                startActivity(intent);
+                if (is_login.equals("1")){
+                    intent.setClass(getActivity(), AboutWeActivity.class);
+                    startActivity(intent);
+                }else {
+                    openActivity(LoginActivity.class);
+                }
+
                 break;
         }
     }
@@ -662,21 +732,39 @@ String id;
                     Log.i("result", "resultCode:" + result);
                     exitEntiy = gson.fromJson(result, ExitEntiy.class);
                     final String exitCode = String.valueOf(exitEntiy.getCode());
-                    if(exitCode.equals("200")){
-                        boolean is_login=false;
-                        setBooleanSharedPreferences("is_login","is_login",is_login);
-                    }
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 //                            initListData();
                             if(exitCode.equals("200")){
                                 ToastHelper.show(getActivity(),""+exitEntiy.getMsg());
+                                String is_login="0";
+                                setStringSharedPreferences("is_login","is_login",is_login);
+                                setStringSharedPreferences("id", "id", "");
+                                setStringSharedPreferences("name", "name", "");
+                                setStringSharedPreferences("level", "level", "");
+                                setStringSharedPreferences("endtime2", "endtime2", "");
+                                setStringSharedPreferences("mobilePhone", "mobilePhone", "");
+                                setStringSharedPreferences("headImg", "headImg", "");
+                                setStringSharedPreferences("commendNo", "commendNo", "");
+                                setStringSharedPreferences("personNo", "personNo", "");
+                                userphoneNub.setText("");
+                                userendtime.setText("");
+                                usertjm.setText("");
+                                huiyuanStr.setText("");
                                 getActivity().finish();
-                                System.exit(0);
+
+//                                System.exit(0);
+
                             }
                         }
                     });
+                    if(exitCode.equals("200")){
+//                        String is_login="0";
+//                        setStringSharedPreferences("is_login","is_login",is_login);
+                    openActivity(LoginActivity.class);
+                    }
+
 
                 }catch (Exception e){
                     e.printStackTrace();

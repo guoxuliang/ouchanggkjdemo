@@ -70,7 +70,6 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((NormalHolder) holder).getbutton.setText("有偿广告");
             }
             instance.displayImage(datas.get(position).getCover(),((NormalHolder)holder).iv_imglist,build);
-
         } else {
             ((FootHolder) holder).tips.setVisibility(View.VISIBLE);
             if (hasMore == true) {

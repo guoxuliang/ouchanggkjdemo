@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="140dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -29,8 +29,8 @@
             android:id="@+id/etP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginBottom="50dp"
+            android:layout_marginTop="60dp"
             android:hint="请输入6--18位密码"
             android:textSize="14sp"
             android:drawablePadding="3dp"
@@ -52,6 +52,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
         <TextView
