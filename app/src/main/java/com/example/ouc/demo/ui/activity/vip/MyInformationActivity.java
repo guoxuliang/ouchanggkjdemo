@@ -127,7 +127,7 @@ public class MyInformationActivity extends BaseActivity {
             public void onClick(View view) {
                 username = nackName.getText().toString().trim();
                 String ids = getStringSharePreferences("id", "id");
-                Log.i("ids", "ids" + ids);
+                Log.i("ids", "ids" + ids+"cropImageUri;;;;;;;;;;;;;;;;"+String.valueOf(cropImageUri));
                 post_UpLoadIMG(String.valueOf(cropImageUri), username, ids);
 //                }
             }
@@ -295,12 +295,14 @@ public class MyInformationActivity extends BaseActivity {
                 //拍照完成回调
                 case CODE_CAMERA_REQUEST:
                     cropImageUri = Uri.fromFile(fileCropUri);
+                    Log.i("====cropImageUri","cropImageUri"+cropImageUri);
                     PhotoUtils.cropImageUri(this, imageUri, cropImageUri, 1, 1, OUTPUT_X, OUTPUT_Y, CODE_RESULT_REQUEST);
                     break;
                 //访问相册完成回调
                 case CODE_GALLERY_REQUEST:
                     if (hasSdcard()) {
                         cropImageUri = Uri.fromFile(fileCropUri);
+                        Log.i("====cropImageUri","cropImageUri"+cropImageUri);
                         Uri newUri = Uri.parse(PhotoUtils.getPath(this, data.getData()));
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             newUri = FileProvider.getUriForFile(getApplicationContext(), getApplication().getPackageName() + ".FileProvider", new File(newUri.getPath()));

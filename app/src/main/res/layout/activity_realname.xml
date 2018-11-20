@@ -102,6 +102,30 @@
             android:textColor="@color/black"
             android:maxLength="18" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:text="设备识别码(不可编辑)"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/sb_sbm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:inputType="number"
+            android:digits="0123456789xyzXYZ"
+            android:layout_marginTop="10dp"
+            android:maxLines="18"
+            android:background="@drawable/bg_cursor"
+            android:hint=""
+            android:textColor="@color/gray"
+            android:maxLength="18" />
         <GridView
             android:id="@+id/gridView"
             android:layout_width="fill_parent"
@@ -119,6 +143,30 @@
             android:background="@drawable/submitbutton"
             android:hint="提交"
             android:textColorHint="#ffffff" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:text="什么是设备信息？"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/red_bg"
+            android:text="打开拨号盘，输入*#06#,出现如下界面,并长按关机键+音量下键组合键3秒，即可截图成功。\n点击设备信息，上传图片即可。"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:src="@drawable/shili"/>
     </LinearLayout>
 
 </LinearLayout>

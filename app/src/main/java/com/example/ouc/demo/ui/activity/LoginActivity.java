@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,41 +50,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private int code, id;
     private String msg, status, name, level, mobilePhone, headImg, commendNo, personNo, username, createTime, email, cardFaceImg, ways, openId, beginTime, cardNumber, cardConImg, referee;
-    private String is_login="0";
+    private String is_login = "0";
     private LoginEntity loginEntity;
     private long endtime;
     private String endtime2;
-//    private String msgError;
+    //    private String msgError;
+    long endtime3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        is_login = getStringSharePreferences("is_login", "is_login");
+//        is_login = getStringSharePreferences("is_login", "is_login");
         initView();
     }
-
-//    private void LoginDialog() {
-//        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage("Look at this dialog!")
-//                .setCancelable(false)
-//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        try {
-//                            java.lang.reflect.Field field = builder.getClass().getSuperclass().getDeclaredField("mShowing");
-//                            field.setAccessible(true);
-//                            field.set(builder, false);
-//                            System.exit(0);
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                    }
-//                });
-//        AlertDialog alert = builder.create();
-//        alert.show();
-//
-//    }
 
     private void initView() {
         etU = findViewById(R.id.etU);
@@ -136,10 +116,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //                    LoginDialog();
 //                    return;
 //                }
-                post();
+                String equipmentID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+                if (!equipmentID.equals("")) {
+                    post(equipmentID);
+                }
+
 
                 break;
         }
+    }
+
+    private String getAndroidId() {
+        String m_szAndroidID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        Log.i("m_szAndroidID", "m_szAndroidID" + m_szAndroidID);
+        return m_szAndroidID;
     }
 
     /**
@@ -148,10 +138,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      * 参数二：请求的键值对
      * 参数三：请求回调
      */
-    private void post() {
+    private void post(String equipmentID) {
         Map<String, String> map = new HashMap<>();
         map.put("phone", phone);
         map.put("password", MD5Util.MD5(password));
+        map.put("equipmentID", equipmentID);
+        map.put("type", "1");
+
         Log.i("phone", "phone:" + MD5Util.MD5(phone) + "password:" + MD5Util.MD5(password));
 
         HttpUtils.doPost(Constants.SERVER_BASE_URL + "system/sys/SysMemloginController/login.action", map, new Callback() {
@@ -177,10 +170,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 name = String.valueOf(loginEntity.getData().getName());
                                 level = String.valueOf(loginEntity.getData().getLevel());//会员等级
                                 endtime = loginEntity.getData().getEndTime();//会员结束时间
-                                String endtimestr= String.valueOf(endtime);
-                                if(!endtimestr.equals("0")){
-                                    SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
-                                    endtime2=sdf.format(endtime);
+                                String endtimestr = String.valueOf(endtime);
+                                if (!endtimestr.equals("0")) {
+                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                    endtime2 = sdf.format(endtime);
+                                    endtime3 = endtime;
                                 }
 
                                 mobilePhone = String.valueOf(loginEntity.getData().getMobilePhone());//手机号
@@ -204,11 +198,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 LoginActivity.this.finish();
-                            } else if(loginEntity.getCode() == 405){
+//                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");// HH:mm:ss
+//                                Date date = new Date(System.currentTimeMillis());
+//                                long nowData2 = Long.parseLong(simpleDateFormat.format(date));
+//                                Log.i("date=", "date=======" + simpleDateFormat.format(date));
+//                                if (nowData2 > endtime3) {
+//                                    showCustomizeDialog("温馨提示", "您的会员已到期,请您进行升级");
+//                                }
+                            } else if (loginEntity.getCode() == 405) {
                                 ToastHelper.show(LoginActivity.this, loginEntity.getMsg());
-                                String msgError=loginEntity.getMsg();
-                                showCustomizeDialog(msgError);
-                            }else {
+                                String msgError = loginEntity.getMsg();
+                                showCustomizeDialog("错误信息", "您的账号已在其他设备上登录,不能重复登录哦!");
+                            } else {
                                 ToastHelper.show(LoginActivity.this, loginEntity.getMsg());
                             }
                         }
@@ -225,23 +226,32 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
 
-    private void showCustomizeDialog(String msgError){
+    private void showCustomizeDialog(String titleinfo, String msgError) {
         AlertDialog.Builder customizeDialog = new AlertDialog.Builder(LoginActivity.this);
-        final View dialogView = LayoutInflater.from(LoginActivity.this).inflate(R.layout.dialog_customize,null);
-        customizeDialog.setTitle("错误信息");
+        final View dialogView = LayoutInflater.from(LoginActivity.this).inflate(R.layout.dialog_customize, null);
+        customizeDialog.setTitle(titleinfo);
         customizeDialog.setView(dialogView);
-        TextView edit_text =(TextView)dialogView.findViewById(R.id.edit_text);
-        edit_text.setText("您的账号已在其他设备上登录,不能重复登录哦!");
+        TextView edit_text = (TextView) dialogView.findViewById(R.id.edit_text);
+        edit_text.setText(msgError);
         customizeDialog.setPositiveButton("确定",
-                new DialogInterface.OnClickListener(){
+                new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which){
+                    public void onClick(DialogInterface dialog, int which) {
                         //获取EditView中的输入内容
 
                     }
                 });
         customizeDialog.setCancelable(false);
         customizeDialog.show();
+    }
+
+
+    public String getTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");// HH:mm:ss
+        Date date = new Date(System.currentTimeMillis());
+        Log.i("date=", "date=======" + simpleDateFormat.format(date));
+        return simpleDateFormat.format(date);
+
     }
 
 }

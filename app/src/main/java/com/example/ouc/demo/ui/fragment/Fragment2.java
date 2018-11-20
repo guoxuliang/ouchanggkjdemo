@@ -1,6 +1,8 @@
 package com.example.ouc.demo.ui.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -20,6 +22,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ouc.demo.R;
@@ -57,7 +60,7 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
     private RecyclerView recyclerView;
     private GetTaskEntity getTaskEntity;
     private int lastVisibleItem = 0;
-    private final int PAGE_COUNT = 4;
+    private  int PAGE_COUNT = 10;
     private GridLayoutManager mLayoutManager;
     private ItemAdapter adapter;
     private Handler mHandler = new Handler(Looper.getMainLooper());
@@ -115,7 +118,13 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
     }
 
     private void initRecyclerView() {
-        adapter = new ItemAdapter(getDatas(0, PAGE_COUNT), getActivity(), getDatas(0, PAGE_COUNT).size() > 0 ? true : false);
+        if(dataBeansList2.size()<=15){
+            PAGE_COUNT=15;
+            adapter = new ItemAdapter(getDatas(0, PAGE_COUNT), getActivity(), getDatas(0, PAGE_COUNT).size() > 0 ? true : false);
+        }else {
+            adapter = new ItemAdapter(getDatas(0, PAGE_COUNT), getActivity(), getDatas(0, PAGE_COUNT).size() > 0 ? true : false);
+        }
+
         mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(adapter);
@@ -160,7 +169,7 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
                 //TODO  recyclerView的点击事件
 //                Log.d("", "onItemClick : postion " + position);
 //                Toast.makeText(getActivity(),"position:"+position,Toast.LENGTH_LONG).show();
-                if(is_login.equals("1")){
+                if(id!=null){
                 try {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), AdvertisingVideoActivity.class);
@@ -184,7 +193,7 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
                     ToastHelper.show(getActivity(),"error:"+e);
                 }
                 }else {
-                    openActivity(LoginActivity.class);
+                    showCustomizeDialog();
                 }
             }
 
@@ -322,5 +331,31 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
 
             }
         });
+    }
+
+    private void showCustomizeDialog(){
+        AlertDialog.Builder customizeDialog = new AlertDialog.Builder(getActivity());
+        final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_customize,null);
+        customizeDialog.setTitle("提示");
+        customizeDialog.setView(dialogView);
+        TextView edit_text =(TextView)dialogView.findViewById(R.id.edit_text);
+        edit_text.setText("请先登录您的账号");
+        customizeDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which){
+                        //获取EditView中的输入内容
+                        openActivity(LoginActivity.class);
+
+                    }
+                });
+        customizeDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        customizeDialog.setCancelable(false);
+        customizeDialog.show();
     }
 }

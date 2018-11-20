@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.ThumbnailUtils;
@@ -17,19 +16,20 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -52,12 +52,12 @@ import com.example.ouc.demo.uitool.ShareBoardlistener;
 import com.example.ouc.demo.uitool.SnsPlatform;
 import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.ToastHelper;
-import com.example.ouc.demo.weigets.CustomVideoView;
 import com.example.ouc.demo.weigets.GuideView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.xutils.common.util.DensityUtil;
+import com.xiao.nicevideoplayer.NiceVideoPlayer;
+import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
+import com.xiao.nicevideoplayer.TxVideoPlayerController;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -91,14 +91,16 @@ import okhttp3.Response;
 public class AdvertisingVideoActivity extends FragmentActivity {
     private TextView tv_name, tv_gold, tv_datelong;
     private Button timerText;
-    private CustomVideoView videoview;
+    //    private CustomVideoView videoview;
+    private VideoView videoview;
+    //    private NiceVideoPlayer mNiceVideoPlayer;
     private ImageView iv_right;
     private TextView tv_back, tv_content;
     private String name;
     private String gold;
-    private String videourl, timelong,content,shareUrl;
+    private String videourl, timelong, content, shareUrl;
     private Gson gson = new Gson();
-    private String id,taskid,cover;
+    private String id, taskid, cover;
     private ArrayList<ShareSuccessfulNoticeEntity.DataBean> sharedataBeansList2;
     private ShareSuccessfulNoticeEntity shareSuccessfulNoticeEntity;
     private String code;
@@ -113,11 +115,13 @@ public class AdvertisingVideoActivity extends FragmentActivity {
     private AdvertFragment2 advertFragment2;
     private AdvertFragment3 advertFragment3;
     private RadioGroup mGroup_page;
-    private RadioButton rbChat_page,rbContacts_page,rbDiscovery_page;
-//    private ImageView imageiew;
+    private RadioButton rbChat_page, rbContacts_page, rbDiscovery_page;
+    //    private ImageView imageiew;
     private GuideView guideView;
     private GuideView guideView3;
     private GuideView guideView2;
+
+    private ProgressBar loading;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -128,44 +132,36 @@ public class AdvertisingVideoActivity extends FragmentActivity {
             }
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advvideo);
-//        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-//        LinearLayout parent = (LinearLayout) inflater.inflate(R.layout.activity_advvideo, null);
-//        setContentView(parent);
         Bundle bundle = getIntent().getExtras();   //得到传过来的bundle
         if (bundle != null) {
             id = bundle.getString("id");//读出用户id
             name = bundle.getString("name");//读出数据
             gold = bundle.getString("gold");//读出数据
             videourl = bundle.getString("videourl");//读出数据
-//            timelong = bundle.getString("timelong");//读出数据
-//            content = bundle.getString("content");
             shareUrl = bundle.getString("shareUrl");
             taskid = bundle.getString("taskid");
-//            cover = bundle.getString("cover");
         }
 
         initViews();
-
-
         initView();
         initViewPager();
         initTitle();
     }
 
 
-
-    private void initViewPager(){
-        advertFragment1=new AdvertFragment1();
-        advertFragment2=new AdvertFragment2();
-        advertFragment3=new AdvertFragment3();
-        mFragmentList=new ArrayList<Fragment>();
-        mFragmentList.add(0,advertFragment1);
-        mFragmentList.add(1,advertFragment2);
-        mFragmentList.add(2,advertFragment3);
+    private void initViewPager() {
+        advertFragment1 = new AdvertFragment1();
+        advertFragment2 = new AdvertFragment2();
+        advertFragment3 = new AdvertFragment3();
+        mFragmentList = new ArrayList<Fragment>();
+        mFragmentList.add(0, advertFragment1);
+        mFragmentList.add(1, advertFragment2);
+        mFragmentList.add(2, advertFragment3);
         //ViewPager设置适配器
         mPageVp.setAdapter(new FragmentAdapter(getSupportFragmentManager(), mFragmentList));
         //ViewPager显示第一个Fragment
@@ -173,31 +169,30 @@ public class AdvertisingVideoActivity extends FragmentActivity {
         //ViewPager页面切换监听
         mPageVp.setOnPageChangeListener(new myOrderOnPageChangeListener());
     }
-    private void initView(){
-        mPageVp=(ViewPager)findViewById(R.id.id_page_vp);
-        mGroup_page=(RadioGroup)findViewById(R.id.radiogroup_page);
-        rbChat_page=(RadioButton)findViewById(R.id.rb_chat_page);
+
+    private void initView() {
+        mPageVp = (ViewPager) findViewById(R.id.id_page_vp);
+        mGroup_page = (RadioGroup) findViewById(R.id.radiogroup_page);
+        rbChat_page = (RadioButton) findViewById(R.id.rb_chat_page);
         rbChat_page.setText("详情");
-        rbContacts_page=(RadioButton)findViewById(R.id.rb_contacts_page);
+        rbContacts_page = (RadioButton) findViewById(R.id.rb_contacts_page);
         rbContacts_page.setText("公众号");
-        rbDiscovery_page=(RadioButton)findViewById(R.id.rb_discovery_page);
+        rbDiscovery_page = (RadioButton) findViewById(R.id.rb_discovery_page);
         rbDiscovery_page.setText("评论");
         //RadioGroup选中状态改变监听
         mGroup_page.setOnCheckedChangeListener(new myAdvCheckChangeListener());
-        mPageVp .setOffscreenPageLimit(2);
+        mPageVp.setOffscreenPageLimit(2);
     }
 
 
-
-
     /**
-     *RadioButton切换Fragment
+     * RadioButton切换Fragment
      */
-    private class myAdvCheckChangeListener implements RadioGroup.OnCheckedChangeListener{
+    private class myAdvCheckChangeListener implements RadioGroup.OnCheckedChangeListener {
 
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            switch (checkedId){
+            switch (checkedId) {
                 case R.id.rb_chat_page:
                     //ViewPager显示第一个Fragment且关闭页面切换动画效果
                     mPageVp.setCurrentItem(0);
@@ -225,9 +220,9 @@ public class AdvertisingVideoActivity extends FragmentActivity {
     }
 
     /**
-     *ViewPager切换Fragment,RadioGroup做相应变化
+     * ViewPager切换Fragment,RadioGroup做相应变化
      */
-    private class myOrderOnPageChangeListener implements ViewPager.OnPageChangeListener{
+    private class myOrderOnPageChangeListener implements ViewPager.OnPageChangeListener {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -236,7 +231,7 @@ public class AdvertisingVideoActivity extends FragmentActivity {
 
         @Override
         public void onPageSelected(int position) {
-            switch (position){
+            switch (position) {
                 case 0:
                     mGroup_page.check(R.id.rb_chat_page);
                     break;
@@ -254,7 +249,8 @@ public class AdvertisingVideoActivity extends FragmentActivity {
 
         }
     }
-    private void initMengBan(){
+
+    private void initMengBan() {
         final ImageView iv = new ImageView(this);
         iv.setImageResource(R.drawable.img_new_task_guide);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -277,11 +273,22 @@ public class AdvertisingVideoActivity extends FragmentActivity {
 //                })
 //                .build();
 //        guideView.show();
-}
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        timer.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 
     private void initTitle() {
         tv_back = findViewById(R.id.tv_left);
-        iv_right= findViewById(R.id.iv_right);
+        iv_right = findViewById(R.id.iv_right);
         Glide.with(this).load(R.drawable.icon_fx).into(iv_right);
         iv_right.setVisibility(View.VISIBLE);
         tv_back.setVisibility(View.VISIBLE);
@@ -294,28 +301,29 @@ public class AdvertisingVideoActivity extends FragmentActivity {
         tv_content = findViewById(R.id.tv_title);
         tv_content.setText("视频广告");
     }
+
     @SuppressLint("NewApi")
     private void initViews() {
         tv_name = findViewById(R.id.tv_name);
         tv_gold = findViewById(R.id.tv_gold);
         tv_datelong = findViewById(R.id.tv_datelong);
-        timerText=findViewById(R.id.timerText);
+        timerText = findViewById(R.id.timerText);
         timerText.setEnabled(false);
         tv_name.setText(name);
-//        imageiew = (ImageView) findViewById(R.id.imageiew);
-//        if (cover!=null){
-//            Glide.with(this).load(cover).into(imageiew);
-//        }
-        tv_gold.setText("奖励金：￥"+gold);
-//        tv_datelong.setText("时长："+timelong);
+        tv_gold.setText("奖励金：￥" + gold);
         videoview = findViewById(R.id.videoview);
+
+
         videoview.setZOrderMediaOverlay(true);
         MediaController controller = new MediaController(this);//实例化控制器
+        controller.setVisibility(View.VISIBLE);
         videoview.setVideoURI(Uri.parse(videourl));
+//        videoview.setVideoPath(videourl);
         controller.setMediaPlayer(videoview);
         videoview.setMediaController(controller);
-        videoview.setZOrderOnTop(true);
-        videoview.getDuration();
+        videoview.setZOrderOnTop(false);
+//        videoview.getDuration();
+//        videoview.requestFocus();
 
         /**
          * 开始播放
@@ -336,6 +344,16 @@ public class AdvertisingVideoActivity extends FragmentActivity {
         videoview.setOnInfoListener(new MediaPlayer.OnInfoListener() {
             @Override
             public boolean onInfo(MediaPlayer mediaPlayer, int what, int extra) {
+//                if (what == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
+//                    Animation operatingAnim = AnimationUtils.loadAnimation(AdvertisingVideoActivity.this, R.anim.loading);
+//                    operatingAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+//                    loading.startAnimation(operatingAnim);
+//                    loading.setVisibility(View.VISIBLE);
+//                } else {
+//                    loading.setVisibility(View.INVISIBLE);
+//                    loading.clearAnimation();
+//                    loading.postInvalidate();
+//                }
                 return true;
             }
         });
@@ -346,13 +364,13 @@ public class AdvertisingVideoActivity extends FragmentActivity {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 // 播放结束后的动作
-                if(id==null){
+                if (id == null) {
                     return;
                 }
-                if(taskid==null){
+                if (taskid == null) {
                     return;
                 }
-                TaskOver(id,taskid);
+                TaskOver(id, taskid);
 
             }
         });
@@ -364,52 +382,81 @@ public class AdvertisingVideoActivity extends FragmentActivity {
 //                showBroadView();
             }
         });
-        Log.i("duration", "duration" + videoview.getCurrentPosition());
 
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("请稍候");
 
-        if(Build.VERSION.SDK_INT >= 23){
-            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
             }
         }
     }
-// 获取视频缩略图
-private Bitmap createVideoThumbnail(String url, int width, int height) {
-    Bitmap bitmap = null;
-    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-    int kind = MediaStore.Video.Thumbnails.MINI_KIND;
-    try {
-        if (Build.VERSION.SDK_INT >= 14) {
-            retriever.setDataSource(url, new HashMap<String, String>());
-        } else {
-            retriever.setDataSource(url);
-        }
-        bitmap = retriever.getFrameAtTime();
-    } catch (IllegalArgumentException ex) {
-        // Assume this is a corrupt video file
-    } catch (RuntimeException ex) {
-        // Assume this is a corrupt video file.
-    } finally {
+
+//    @Override
+//    public void onBackPressed() {
+//        if (videoview.backPress()) {
+//            return;
+//        }
+//        super.onBackPressed();
+//    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        videoview.releaseAllVideos();
+//                        // 播放结束后的动作
+//                if(id==null){
+//                    return;
+//                }
+//                if(taskid==null){
+//                    return;
+//                }
+//                TaskOver(id,taskid);
+//    }
+
+    // 获取视频缩略图
+    private Bitmap createVideoThumbnail(String url, int width, int height) {
+        Bitmap bitmap = null;
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        int kind = MediaStore.Video.Thumbnails.MINI_KIND;
         try {
-            retriever.release();
+            if (Build.VERSION.SDK_INT >= 14) {
+                retriever.setDataSource(url, new HashMap<String, String>());
+            } else {
+                retriever.setDataSource(url);
+            }
+            bitmap = retriever.getFrameAtTime();
+        } catch (IllegalArgumentException ex) {
+            // Assume this is a corrupt video file
         } catch (RuntimeException ex) {
-            // Ignore failures while cleaning up.
+            // Assume this is a corrupt video file.
+        } finally {
+            try {
+                retriever.release();
+            } catch (RuntimeException ex) {
+                // Ignore failures while cleaning up.
+            }
         }
+        if (kind == MediaStore.Images.Thumbnails.MICRO_KIND && bitmap != null) {
+            bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
+                    ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+        }
+        return bitmap;
     }
-    if (kind == MediaStore.Images.Thumbnails.MICRO_KIND && bitmap != null) {
-        bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
-                ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
-    }
-    return bitmap;
-}
 
     @Override
     protected void onStop() {
         super.onStop();
+        NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+//        Toast.makeText(AdvertisingVideoActivity.this, "视频播放结束", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (NiceVideoPlayerManager.instance().onBackPressd()) return;
+        super.onBackPressed();
     }
 
     @Override
@@ -423,6 +470,7 @@ private Bitmap createVideoThumbnail(String url, int width, int height) {
             progressDialog.dismiss();
         }
     }
+
     private void showBroadView() {
         if (mShareBoard == null) {
             mShareBoard = new ShareBoard(this);
@@ -497,7 +545,6 @@ private Bitmap createVideoThumbnail(String url, int width, int height) {
     };
 
 
-
     public static SnsPlatform createSnsPlatform(String platformName) {
         String mShowWord = platformName;
         String mIcon = "";
@@ -542,7 +589,7 @@ private Bitmap createVideoThumbnail(String url, int width, int height) {
             mIcon = "jiguang_socialize_messenger";
             mGrayIcon = "jiguang_socialize_messenger";
             mShowWord = "jiguang_socialize_text_messenger_key";
-        }else if (Twitter.Name.equals(platformName)) {
+        } else if (Twitter.Name.equals(platformName)) {
             mIcon = "jiguang_socialize_twitter";
             mGrayIcon = "jiguang_socialize_twitter";
             mShowWord = "jiguang_socialize_text_twitter_key";
@@ -553,29 +600,28 @@ private Bitmap createVideoThumbnail(String url, int width, int height) {
     }
 
 
-
     private TextView vertifyView;
     private CountDownTimer timer = new CountDownTimer(20000, 1000) {
 
         @Override
         public void onTick(final long millisUntilFinished) {
-                timerText.setText("倒计时:"+millisUntilFinished/1000);
-            final String time= String.valueOf(millisUntilFinished/1000);
-                if((millisUntilFinished/1000)==1){
-                    timerText.setBackgroundColor(Color.parseColor("#ff0000"));
-                    timerText.setText("倒计时:0秒");
-                    timerText.setEnabled(true);
-                    iv_right.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            //TODO 点击分享
-                                mAction = Platform.ACTION_SHARE;
-                                showBroadView();
+            timerText.setText("倒计时:" + millisUntilFinished / 1000);
+            final String time = String.valueOf(millisUntilFinished / 1000);
+            if ((millisUntilFinished / 1000) == 1) {
+                timerText.setBackgroundColor(Color.parseColor("#ff0000"));
+                timerText.setText("倒计时:0秒");
+                timerText.setEnabled(true);
+                iv_right.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //TODO 点击分享
+                        mAction = Platform.ACTION_SHARE;
+                        showBroadView();
 //                                ToastHelper.show(AdvertisingVideoActivity.this,time+"秒后可分享");
 
-                        }
-                    });
-                }
+                    }
+                });
+            }
 
         }
 
@@ -598,7 +644,7 @@ private Bitmap createVideoThumbnail(String url, int width, int height) {
          * 参数一：请求Ur
          * 参数二：请求回调
          */
-        String url = Constants.SERVER_BASE_URL + "system/sys/SysMemUserTaskController/updateShare.action?userid="+id+"&taskid="+taskid;
+        String url = Constants.SERVER_BASE_URL + "system/sys/SysMemUserTaskController/updateShare.action?userid=" + id + "&taskid=" + taskid;
         Log.i("url", "url:" + url);
         HttpUtils.doGet(url, new Callback() {
             @Override
@@ -612,7 +658,7 @@ private Bitmap createVideoThumbnail(String url, int width, int height) {
                     final String result = response.body().string();
 //                    progersssDialog.dismiss();
                     Log.i("result", "resultCode:" + result);
-                     shareSuccessfulNoticeEntity = gson.fromJson(result, ShareSuccessfulNoticeEntity.class);
+                    shareSuccessfulNoticeEntity = gson.fromJson(result, ShareSuccessfulNoticeEntity.class);
                     Type listType2 = new TypeToken<ArrayList<ShareSuccessfulNoticeEntity.DataBean>>() {
                     }.getType();//TypeToken内的泛型就是Json数据中的类型
                     sharedataBeansList2 = gson.fromJson(gson.toJson(shareSuccessfulNoticeEntity.getData()), listType2);
@@ -620,10 +666,10 @@ private Bitmap createVideoThumbnail(String url, int width, int height) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                             code= String.valueOf(shareSuccessfulNoticeEntity.getCode());
+                            code = String.valueOf(shareSuccessfulNoticeEntity.getCode());
                             Log.i("dataBeansList2", "dataBeansList2" + sharedataBeansList2);
-                            if(code.equals("200")){
-                                ToastHelper.show(AdvertisingVideoActivity.this,""+shareSuccessfulNoticeEntity.getMsg()+"");
+                            if (code.equals("200")) {
+                                ToastHelper.show(AdvertisingVideoActivity.this, "" + shareSuccessfulNoticeEntity.getMsg() + "");
                             }
 //                            initListData();
                         }
@@ -644,12 +690,12 @@ private Bitmap createVideoThumbnail(String url, int width, int height) {
      * 参数二：请求的键值对
      * 参数三：请求回调
      */
-    private void TaskOver(String id,String taskid){
-        Map<String,String> map = new HashMap<>();
+    private void TaskOver(String id, String taskid) {
+        Map<String, String> map = new HashMap<>();
         map.put("id", id);
         map.put("taskid", String.valueOf(taskid));
 
-        HttpUtils.doPost(Constants.SERVER_BASE_URL+"system/sys/SysMemIntegralController/saveIntegral.action", map, new Callback() {
+        HttpUtils.doPost(Constants.SERVER_BASE_URL + "system/sys/SysMemIntegralController/saveIntegral.action", map, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i("错误", "错误：" + e);
@@ -658,24 +704,26 @@ private Bitmap createVideoThumbnail(String url, int width, int height) {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    String result=response.body().string();
+                    String result = response.body().string();
                     Log.i("result", "result:" + result);
-                    taskOverEntity=gson.fromJson(result,TaskOverEntity.class);
+                    taskOverEntity = gson.fromJson(result, TaskOverEntity.class);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (taskOverEntity.getCode()==200){
-                                ToastHelper.show(AdvertisingVideoActivity.this,taskOverEntity.getMsg());
-                            }else {
-                                ToastHelper.show(AdvertisingVideoActivity.this,taskOverEntity.getMsg());
+                            if (taskOverEntity.getCode() == 200) {
+                                ToastHelper.show(AdvertisingVideoActivity.this, taskOverEntity.getMsg());
+                            } else {
+                                ToastHelper.show(AdvertisingVideoActivity.this, taskOverEntity.getMsg());
                             }
                         }
                     });
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
             }
         });
     }
+
+
 }

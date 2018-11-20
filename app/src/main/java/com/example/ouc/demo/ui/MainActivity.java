@@ -94,9 +94,9 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
     private ArrayList<Fragment> fragmentList;
     private boolean is_login=false;
     private PermissionHelper mPermissionHelper;
-    private Fragment1 fragment1;
-    private Fragment2 fragment2;
-    private Fragment3 fragment3;
+    public Fragment1 fragment1;
+    public Fragment2 fragment2;
+    public Fragment3 fragment3;
     private FragmentManager mFm;
     private Fragment mCurrentFragmen = null;  // 记录当前显示的Fragment
     private String[] mFragmentTagList = {"Fragment1", "Fragment2", "Fragment3"};
@@ -184,7 +184,6 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
         //ViewPager页面切换监听
         mPager.setOnPageChangeListener(new myOnPageChangeListener());
         mPager.setAdapter(new myFragmentPagerAdapter(getSupportFragmentManager(), fragmentList));
-
     }
     private void initView(){
         mPager=(ViewPager)findViewById(R.id.viewPager);
@@ -594,19 +593,6 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
     private void update() {
         try{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {      //判读版本是否在7.0以上
-//                        File file= new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-//                                , "app-release.apk");
-////                        File file=new File(getActivity().getCacheDir(),"app-release.apk");
-//                        Log.i("****apkUri","file"+file);
-//                        //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
-//                        Uri apkUri = FileProvider.getUriForFile(getContext().getApplicationContext(), getContext().getApplicationContext().getPackageName() + ".FileProvider", file);//在AndroidManifest中的android:authorities值
-//                        Log.i("****apkUri","apkUri"+apkUri);
-//                        Intent install = new Intent(Intent.ACTION_VIEW);
-//                        install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//                        install.setDataAndType(apkUri, "application/vnd.android.package-archive");
-//                        getActivity().startActivity(install);
-//                    } else {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent = intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), DOWNLOAD_NAME)), "application/vnd.android.package-archive");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -621,11 +607,6 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
                 Log.i("****apkUri2","file"+f);
                 startActivity(intent);
             }
-//                }else {
-//                    //无权限 申请权限
-////                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, INSTALL_APK_REQUESTCODE);
-//                }
-//            }
         }catch (Exception e) {
             Log.i("==e","==e"+e);
         }
@@ -661,8 +642,7 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         /**
          * 转给AndPermission分析结果。
-         *
-         * @param object     要接受结果的Activity、Fragment。
+         * @param object  要接受结果的Activity、Fragment。
          * @param requestCode  请求码。
          * @param permissions  权限数组，一个或者多个。
          * @param grantResults 请求结果。
@@ -721,8 +701,12 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
                                 versioncode= String.valueOf(getVersionEntity.getData());
                                 int vision = Tools.getVersion(MainActivity.this);
                                 String vision_str= String.valueOf(vision);
+                                int versioncodes= Integer.parseInt(versioncode);
                                 if(vision_str!=versioncode){
-                                    getVersionCode(String.valueOf(vision));
+                                    if(vision<versioncodes){
+                                        getVersionCode(String.valueOf(vision));
+                                    }
+
                                 }
                             }
                         }

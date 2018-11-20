@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ouc.demo.R;
+import com.example.ouc.demo.receiver.ActivityCollector;
+import com.example.ouc.demo.ui.MainActivity;
 import com.example.ouc.demo.ui.activity.WebMoreActivity;
 import com.example.ouc.demo.utils.DimenUtils;
 import com.example.ouc.demo.utils.StringHelper;
@@ -37,16 +39,19 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
  * @日期 2013-9-7 下午1:32:03
  * 
  */
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     private Dialog loginDialog;
     private Context mContent;
+    //上下文
+    public MainActivity mActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         mContent = getActivity();
+        ActivityCollector.addActivity(getActivity());
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(mContent));
     }
 
@@ -60,7 +65,11 @@ public class BaseFragment extends Fragment {
         // TODO Auto-generated method stub
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-
+    /**
+     * 主界面的抽象方法初始化view
+     *
+     * @return
+     */
     @Override
     public void onStart() {
         // TODO Auto-generated method stub
@@ -72,6 +81,7 @@ public class BaseFragment extends Fragment {
         // TODO Auto-generated method stub
         super.onDestroy();
         imageLoader.stop();
+        ActivityCollector.removeActivity(getActivity());
     }
 
     @Override

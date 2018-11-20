@@ -1,69 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:layout_gravity="center_vertical"
+android:background="#cccccc"
+android:gravity="center_vertical"
+android:orientation="horizontal">
+
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="60dp"
     android:layout_gravity="center_vertical"
-    android:background="#cccccc"
-    android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:layout_weight="0.5"
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="0.5"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/name_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="魅力城市"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/jlj_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="奖励金:￥0.2元" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/name_order"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:gravity="center"
+        android:text="魅力城市"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/syrw_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="剩余任务:5600" />
-            <TextView
-                android:id="@+id/syrw_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
-        </LinearLayout>
+    <TextView
+        android:id="@+id/jlj_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="奖励金:￥0.2元" />
+</LinearLayout>
 
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
         <TextView
-            android:id="@+id/je_order"
+            android:id="@+id/syrw_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="+￥0.1"
-            android:textColor="@color/hong" />
+            android:text="剩余任务:5600" />
+        <TextView
+            android:id="@+id/syrw_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
     </LinearLayout>
+    <TextView
+        android:id="@+id/je_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="+￥0.1"
+        android:textColor="@color/hong" />
+</LinearLayout>
 </LinearLayout>

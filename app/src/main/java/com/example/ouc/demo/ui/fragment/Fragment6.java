@@ -71,7 +71,7 @@ private ProgersssDialog progersssDialog;
          * 参数一：请求Ur
          * 参数二：请求回调
          */
-        String url = Constants.SERVER_BASE_URL + "system/sys/SysMemUserTaskController/getTaskStatus.action?userid=" + userid + "&type=" + type;
+        String url = Constants.SERVER_BASE_URL + "system/sys/SysMemUserTaskController/getTaskStatus.action?userid=" + userid + "&type=" + type+"&start=0"+"&limit=1000000000";
         Log.i("url", "url:" + url);
         HttpUtils.doGet(url, new Callback() {
             @Override

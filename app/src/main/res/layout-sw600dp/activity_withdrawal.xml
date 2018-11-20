@@ -5,155 +5,344 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_title2"
+    <include
+        layout="@layout/layout_title2"
         android:layout_width="match_parent"
-        android:layout_height="60dp"/>
-<com.example.ouc.demo.weigets.BounceScrollView
+        android:layout_height="60dp" />
+
+    <com.example.ouc.demo.weigets.BounceScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/rg_select_tx"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_yhk_tx"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio"
+                        android:button="@null"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:text="银行卡提现"
+                        android:textColor="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/rb_zfb_tx"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="支付宝提现"
+                        android:textColor="@color/white" />
+                </RadioGroup>
+            </LinearLayout>
+<LinearLayout
+    android:id="@+id/yhk_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="visible">
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:background="#ffd9ac"
+        android:textColor="@color/chengse"
+        android:gravity="center_horizontal"
+        android:textSize="22sp"
+        android:text="重要提醒:"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#ffd9ac"
+        android:textColor="@color/sendbackgound"
+        android:gravity="center_horizontal"
+        android:textSize="18sp"
+        android:text="请谨慎填写,如果填写有误,将无法进行银行卡转账，最终导致提现失败。"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:text="银行卡号"
+                android:drawableLeft="@drawable/icon_red_star"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="银行卡号"
-            android:textStyle="bold"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="10dp"
-            android:textColor="#000000" />
+            <EditText
+                android:id="@+id/tx_cardNab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_cursor"
+                android:hint=""
+                android:maxLength="19"
+                android:textColor="@color/black" />
 
-        <EditText
-            android:id="@+id/tx_cardNab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/bg_cursor"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/black"
-            android:hint="请填写银行卡号"
-            android:maxLength="11" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="户名"
-            android:textStyle="bold"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="10dp"
-            android:textColor="#000000" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:text="户名"
+                android:drawableLeft="@drawable/icon_red_star"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/tx_Name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/bg_cursor"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/black"
-            android:hint="请填写您的户名"
-            android:maxLength="11" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="地区支行地址"
-            android:textStyle="bold"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="10dp"
-            android:textColor="#000000" />
+            <EditText
+                android:id="@+id/tx_Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_cursor"
+                android:hint="请填写您的户名"
+                android:maxLength="11"
+                android:textColor="@color/black" />
 
-        <EditText
-            android:id="@+id/tx_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/bg_cursor"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/black"
-            android:hint="请填写地区支行地址"
-            android:maxLength="11" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="开户银行"
-            android:textStyle="bold"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="10dp"
-            android:textColor="#000000" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/icon_red_star"
+                android:text="地区支行地址"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/tx_bankName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/bg_cursor"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/black"
-            android:hint="请填写开户行名称"
-            android:maxLength="11" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="手机号"
-            android:textStyle="bold"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="10dp"
-            android:textColor="#000000" />
+            <EditText
+                android:id="@+id/tx_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_cursor"
+                android:hint="请填写地区支行地址"
+                android:maxLength="11"
+                android:textColor="@color/black" />
 
-        <EditText
-            android:id="@+id/tx_phonenub"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/bg_cursor"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/black"
-            android:hint="请填写您手机号"
-            android:maxLength="11" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="提现金额"
-            android:textStyle="bold"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="10dp"
-            android:textColor="#000000" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/icon_red_star"
+                android:text="开户银行"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/yx_je"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/bg_cursor"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/black"
-            android:hint="请填写金额"
-            android:inputType="number|numberDecimal"
-            android:maxLength="11" />
+            <EditText
+                android:id="@+id/tx_bankName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_cursor"
+                android:hint="请填写开户行名称"
+                android:maxLength="11"
+                android:textColor="@color/black" />
 
-        <Button
-            android:id="@+id/tx_submit"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="16dp"
-            android:background="@drawable/submitbutton"
-            android:hint="提交"
-            android:textColorHint="#ffffff" />
-</LinearLayout>
-</com.example.ouc.demo.weigets.BounceScrollView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:text="手机号"
+                android:drawableLeft="@drawable/icon_red_star"
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/tx_phonenub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_cursor"
+                android:hint="请填写您手机号"
+                android:maxLength="11"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/icon_red_star"
+                android:text="提现金额(建议大额提现，100元起)"
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/yx_je"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_cursor"
+                android:hint="请填写金额"
+                android:numeric="integer"
+                android:inputType="number|numberDecimal"
+                android:maxLength="11"
+                android:textColor="@color/black" />
+
+
+        </LinearLayout>
+<LinearLayout
+                android:id="@+id/zfb_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffd9ac"
+        android:textColor="@color/chengse"
+        android:gravity="center_horizontal"
+        android:textSize="22sp"
+        android:text="重要提醒:"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#ffd9ac"
+        android:textColor="@color/sendbackgound"
+        android:gravity="center_horizontal"
+        android:textSize="18sp"
+        android:text="如果填写有误,将无法进行支付宝转账,导致提现失败，造成的后果自负,请仔细阅读填写。"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"
+                    android:text="支付宝账号"
+                    android:drawableLeft="@drawable/icon_red_star"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/tx_zfbNab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_cursor"
+                    android:hint="请填写支付宝账号"
+                    android:maxLength="20"
+                    android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"
+                    android:text="真实姓名"
+                    android:drawableLeft="@drawable/icon_red_star"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/tx_zfbName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_cursor"
+                    android:hint="请填写真实姓名"
+                    android:maxLength="11"
+                    android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"
+                    android:text="有效手机号"
+                    android:drawableLeft="@drawable/icon_red_star"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/tx_zfbPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_cursor"
+                    android:hint="请填写手机号"
+                    android:maxLength="11"
+                    android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"
+                    android:text="请输入金额（建议小额提现,100元以下）"
+                    android:drawableLeft="@drawable/icon_red_star"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/tx_zfbJe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_cursor"
+                    android:hint="请填写提现金额"
+                    android:maxLength="11"
+                    android:inputType="number|numberDecimal"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+            <Button
+                android:id="@+id/tx_submit"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="20dp"
+                android:background="@drawable/submitbutton"
+                android:hint="提交"
+                android:textColorHint="#ffffff" />
+        </LinearLayout>
+
+    </com.example.ouc.demo.weigets.BounceScrollView>
 </LinearLayout>

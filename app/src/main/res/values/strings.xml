@@ -10,7 +10,7 @@
     <string name="message_post_succeed">获取SD卡权限成功</string>
     <string name="message_post_failed">获取SD卡权限失败</string>
 
-<!--极光-->
+    <!--极光-->
     <string name="hello">Hello World, JPush!</string>
     <string name="tag_hint">Tag can be number, alphabet, underscore, Chinese. Use , to split many tags.</string>
     <string name="alias_hint">Alias can be number, alphabet, underscore, Chinese.</string>
@@ -24,14 +24,11 @@
     <string name="error_network">Failed to init due to network exception.</string>
     <string name="logining">Running in background. Please see log.</string>
     <string name="setting_su">Succeed to set</string>
-
     <string name="dummy_text1">maxCollapsedLines：（默认为8）显示的未被折叠的文本行数
 animDuration：（默认为300ms）为展开/折叠的动画时间
 animAlphaStart：（默认为0.7f）当动画开始时文字的透明的度。如果您想禁用透明度，设置这个值为1
 expanddrawable：自定义ImageButton展开的图像设置
 collapsedrawable：自定义ImageButton折叠的图像设置</string>
-
-
     <string-array name="number_array">
         <item>1000</item>
         <item>2000</item>
@@ -43,4 +40,11 @@ collapsedrawable：自定义ImageButton折叠的图像设置</string>
         <item>8000</item>
         <item>9000</item>
     </string-array>
+    <string name="zhuanqian">1.分享任务到微信好友，微信朋友圈，分享越多，赚取的佣金越多。/n
+2.邀请好友下载注册app，并告知好友自己的推荐码（会员页顶部，推荐码CX******），	邀请的好友越多，让好友成为您的下级。好友升级为会员，做任务，分享等均会给您返佣。/n
+3.升级成为VIP代理，享受最高等级的返佣。</string>
+    <string name="tuijianma">会员注册成功生成唯一一个属于自己的推荐码，将您的推荐码发送给好友，
+好友注册成功之后，好友的邀请码就是您的推荐码。好友就成为您的下级。</string>
+    <string name="ruhrtixain">在会员页找到我的提现，提交自己的信息，请注意，手机号即为注册APP时填写的手机号，户名为实名信息中的真实姓名，否则审核不通过，将无法提现。</string>
+    <string name="shourujilu">在会员页查看收入记录，即可在已进账记录中查看任务返佣和分享返佣。</string>
 </resources>

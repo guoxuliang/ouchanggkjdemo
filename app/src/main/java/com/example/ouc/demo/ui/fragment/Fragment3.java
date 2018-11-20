@@ -30,6 +30,7 @@ import com.example.ouc.demo.R;
 import com.example.ouc.demo.base.BaseFragment;
 import com.example.ouc.demo.entity.CheckUpdataEntity;
 import com.example.ouc.demo.entity.ExitEntiy;
+import com.example.ouc.demo.entity.IsSmInfoEntity;
 import com.example.ouc.demo.entity.MembersEntity;
 import com.example.ouc.demo.http.HttpUtils;
 import com.example.ouc.demo.ui.activity.LoginActivity;
@@ -40,6 +41,7 @@ import com.example.ouc.demo.ui.activity.vip.IncomeActivity;
 import com.example.ouc.demo.ui.activity.vip.MyInformationActivity;
 import com.example.ouc.demo.ui.activity.vip.MyOrderActivity;
 import com.example.ouc.demo.ui.activity.vip.RealNameActivity;
+import com.example.ouc.demo.ui.activity.vip.TierActivity;
 import com.example.ouc.demo.ui.activity.vip.WithdrawalActivity;
 import com.example.ouc.demo.utils.BitmapFileSetting;
 import com.example.ouc.demo.utils.Constants;
@@ -82,7 +84,7 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
     private LinearLayout advertising;
     private LinearLayout information;
     private LinearLayout changePawd;
-    private LinearLayout cheakversion,aboutwe;
+    private LinearLayout cheakversion, aboutwe,layout_cengji;
     private TextView exitLogin;
     View v;
     private String updateUrl, updateInfo, lastForce;
@@ -96,34 +98,38 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
 
     ExitEntiy exitEntiy;
     private ArrayList<MembersEntity> data;
-    private double waitaccount,commission;
-    private TextView yu_e,djz,huiyuanStr;
+    private double waitaccount, commission;
+    private TextView yu_e, djz, huiyuanStr;
 
     private CircleImageView name_photo;
-    private TextView userphoneNub;
+    private TextView userphoneNub,tv_isreal;
     private TextView userendtime;
     private TextView usertjm;
     private String headImg;
     private String mobilePhone;
     private String endtime;
     private String commendNo;//推荐码
-//    int vision;
-String id;
-    String headphoto,level;
+    //    int vision;
+    String id;
+    String headphoto, level;
     private String is_login;
+private String isreal;
 
+    private IsSmInfoEntity isSmInfoEntity;
+    private List<IsSmInfoEntity.DataBean> dataList = new ArrayList<>();
+//    private String isreal;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment3, null);
         Log.i("==view", "view" + v + "***************" + getActivity().getSupportFragmentManager());
-         id = getStringSharePreferences("id","id");
-        mobilePhone = getStringSharePreferences("mobilePhone","mobilePhone");
-        Log.i("mobilePhone","mobilePhone"+mobilePhone);
-        endtime = getStringSharePreferences("endtime2","endtime2");
-        Log.i("endtime","endtime"+endtime);
-        level = getStringSharePreferences("level","level");
-        Log.i("level","level"+level);
-        commendNo = getStringSharePreferences("commendNo","commendNo");
-        Log.i("commendNo","commendNo"+commendNo);
+        id = getStringSharePreferences("id", "id");
+        mobilePhone = getStringSharePreferences("mobilePhone", "mobilePhone");
+        Log.i("mobilePhone", "mobilePhone" + mobilePhone);
+        endtime = getStringSharePreferences("endtime2", "endtime2");
+        Log.i("endtime", "endtime" + endtime);
+        level = getStringSharePreferences("level", "level");
+        Log.i("level", "level" + level);
+        commendNo = getStringSharePreferences("commendNo", "commendNo");
+        Log.i("commendNo", "commendNo" + commendNo);
         is_login = getStringSharePreferences("is_login", "is_login");
 
         return v;
@@ -146,39 +152,39 @@ String id;
         name_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(is_login.equals("0")){
-                    openActivity(LoginActivity.class);
-                }else{
+                if (id==null) {
+                    showCustomizeDialog();
+                } else {
                     //TODO
-                    ToastHelper.show(getActivity(),"请点击个人信息设置头像");
+                    ToastHelper.show(getActivity(), "请点击个人信息设置头像");
                 }
 
             }
         });
         userphoneNub = getActivity().findViewById(R.id.userphoneNub);
-        if (!mobilePhone.equals("")){
+        if (!mobilePhone.equals("")) {
             userphoneNub.setText(mobilePhone);
         }
         userendtime = getActivity().findViewById(R.id.userendtime);
-        if (!endtime.equals("")){
+        if (!endtime.equals("")) {
 //            long l = Long.valueOf(endtime).longValue();
-            userendtime.setText("会员到期时间为:"+endtime);
+            userendtime.setText("会员到期时间为:" + endtime);
         }
         usertjm = getActivity().findViewById(R.id.usertjm);
-        if(!commendNo.equals("")){
-            usertjm.setText("推荐码:"+commendNo);
+        if (!commendNo.equals("")) {
+            usertjm.setText("推荐码:" + commendNo);
         }
         huiyuanStr = getActivity().findViewById(R.id.huiyuan);
-        if(level.equals("1")){
+        if (level.equals("1")) {
             huiyuanStr.setText("普通会员");
-        }else if(level.equals("2")){
+        } else if (level.equals("2")) {
             huiyuanStr.setText("超级会员");
-        }else if(level.equals("3")){
+        } else if (level.equals("3")) {
             huiyuanStr.setText("白金会员");
-        }else if(level.equals("4")){
-            huiyuanStr.setText("广告商");
+        } else if (level.equals("4")) {
+            huiyuanStr.setText("VIP代理");
         }
-
+        tv_isreal = getActivity().findViewById(R.id.isreal);
         yu_e = getActivity().findViewById(R.id.yu_e);
         djz = getActivity().findViewById(R.id.djz);
         order = getActivity().findViewById(R.id.order);
@@ -190,6 +196,7 @@ String id;
         changePawd = getActivity().findViewById(R.id.changePawd);
         cheakversion = getActivity().findViewById(R.id.cheakversion);
         aboutwe = getActivity().findViewById(R.id.aboutwe);
+        layout_cengji = getActivity().findViewById(R.id.layout_cengji);
         exitLogin = getActivity().findViewById(R.id.exitLogin);
         order.setOnClickListener(this);
         income.setOnClickListener(this);
@@ -201,12 +208,15 @@ String id;
         changePawd.setOnClickListener(this);
         exitLogin.setOnClickListener(this);
         aboutwe.setOnClickListener(this);
+        layout_cengji.setOnClickListener(this);
         getBalance(id);
+
     }
 
     private void initView() {
 
     }
+
     public static String formatData(String dataFormat, long timeStamp) {
         if (timeStamp == 0) {
             return "";
@@ -229,10 +239,10 @@ String id;
         super.onResume();
         is_login = getStringSharePreferences("is_login", "is_login");
         getBalance(id);
-        headphoto= getStringSharePreferences("headphoto","headphoto");
-        if(!headphoto.equals("")){
+        headphoto = getStringSharePreferences("headphoto", "headphoto");
+        if (!headphoto.equals("")) {
             Uri ImageUri;
-            ImageUri= Uri.parse(headphoto);
+            ImageUri = Uri.parse(headphoto);
             Bitmap bitmap = PhotoUtils.getBitmapFromUri(ImageUri, getActivity());
             if (bitmap != null) {
                 BitmapFileSetting bitmapFileSetting = new BitmapFileSetting();
@@ -240,12 +250,15 @@ String id;
                 Log.i("==filepath", "==filepath====:" + f);
                 name_photo.setImageBitmap(bitmap);
             }
-        }else{
-            headImg = getStringSharePreferences("headImg","headImg");
-            if (!headImg.equals("")){
+        } else {
+            headImg = getStringSharePreferences("headImg", "headImg");
+            if (!headImg.equals("")) {
                 Glide.with(getActivity()).load(headImg).into(name_photo);
             }
         }
+        post_isSM();
+
+
     }
 
     @Override
@@ -254,105 +267,113 @@ String id;
         switch (v.getId()) {
             case R.id.order:
                 //TODO  我的订单
-                if (is_login.equals("1")){
+                if (id != null) {
                     intent.setClass(getActivity(), MyOrderActivity.class);
                     startActivity(intent);
-                }else {
-                    openActivity(LoginActivity.class);
+                } else {
+                    showCustomizeDialog();
                 }
 
                 break;
             case R.id.income:
                 //TODO  收入记录
-                if (is_login.equals("1")){
+                if (id != null) {
                     intent.setClass(getActivity(), IncomeActivity.class);
                     startActivity(intent);
-                }else {
-                    openActivity(LoginActivity.class);
+                } else {
+                    showCustomizeDialog();
                 }
 
                 break;
             case R.id.realName:
                 //TODO  实名信息
-                if (is_login.equals("1")){
+                if (id != null) {
                     intent.setClass(getActivity(), RealNameActivity.class);
                     startActivity(intent);
-                }else {
-                    openActivity(LoginActivity.class);
+                } else {
+                    showCustomizeDialog();
                 }
 
                 break;
             case R.id.withdrawal:
                 //TODO  我的提现
-                if (is_login.equals("1")){
+                if (id != null) {
                     intent.setClass(getActivity(), WithdrawalActivity.class);
                     startActivity(intent);
-                }else {
-                    openActivity(LoginActivity.class);
+                } else {
+                    showCustomizeDialog();
                 }
 
                 break;
             case R.id.advertising:
                 //TODO  广告记录
-                if (is_login.equals("1")){
+                if (id != null) {
                     intent.setClass(getActivity(), AdvertisingActivity.class);
                     startActivity(intent);
-                }else {
-                    openActivity(LoginActivity.class);
+                } else {
+                    showCustomizeDialog();
                 }
 
                 break;
             case R.id.information:
                 //TODO  个人信息
-                if (is_login.equals("1")){
+                if (id != null) {
                     intent.setClass(getActivity(), MyInformationActivity.class);
                     startActivity(intent);
-                }else {
-                    openActivity(LoginActivity.class);
+                } else {
+                    showCustomizeDialog();
                 }
 
                 break;
             case R.id.changePawd:
                 //TODO  修改密码
-                if (is_login.equals("1")){
+                if (id != null) {
                     intent.setClass(getActivity(), ChangePawdActivity.class);
                     startActivity(intent);
-                }else {
-                    openActivity(LoginActivity.class);
+                } else {
+                    showCustomizeDialog();
                 }
 
                 break;
             case R.id.cheakversion:
                 //TODO  检查更新
-                if (is_login.equals("1")){
+                if (id != null) {
                     int vision = Tools.getVersion(getActivity());
                     getVersionCode(String.valueOf(vision));
-                }else {
-                    openActivity(LoginActivity.class);
+                } else {
+                    showCustomizeDialog();
                 }
-//                intent.setClass(getActivity(), ChangePawdActivity.class);
-//                startActivity(intent);
 
                 break;
             case R.id.exitLogin:
                 //TODO  退出登录
-                if (is_login.equals("1")){
+                if (id != null) {
                     postExit();
-                }else {
-                    openActivity(LoginActivity.class);
+                } else {
+                    showCustomizeDialog();
                 }
 
                 break;
             case R.id.aboutwe:
                 //TODO
-                if (is_login.equals("1")){
+                if (id != null) {
                     intent.setClass(getActivity(), AboutWeActivity.class);
                     startActivity(intent);
-                }else {
-                    openActivity(LoginActivity.class);
+                } else {
+                    showCustomizeDialog();
                 }
-
                 break;
+
+            case R.id.layout_cengji:
+                //TODO
+                if (id != null) {
+                    intent.setClass(getActivity(), TierActivity.class);
+                    startActivity(intent);
+                } else {
+                    showCustomizeDialog();
+                }
+                break;
+
         }
     }
 
@@ -362,7 +383,7 @@ String id;
          * 参数一：请求Ur
          * 参数二：请求回调
          */
-        String url = Constants.SERVER_BASE_URL+"system/sys/sysController/updateAppEdition.action?serverFlag=1&localVersion=" + version;
+        String url = Constants.SERVER_BASE_URL + "system/sys/sysController/updateAppEdition.action?serverFlag=1&localVersion=" + version;
         Log.i("url", "url:" + url);
         HttpUtils.doGet(url, new Callback() {
             @Override
@@ -382,18 +403,18 @@ String id;
                         public void run() {
                             code = checkUpdataEntity.getCode();
                             if (code == 200) {
-                                ToastHelper.show(getActivity(),checkUpdataEntity.getMsg());
+                                ToastHelper.show(getActivity(), checkUpdataEntity.getMsg());
                                 lastForce = checkUpdataEntity.getData().getLastForce();
                                 updateUrl = checkUpdataEntity.getData().getUpdateUrl().toString().trim();
                                 updateInfo = checkUpdataEntity.getData().getUpdateInfo().toString().trim();
-                               String newversion=version+1;
-                               Log.i("newversion","newversion:"+newversion);
+                                String newversion = version + 1;
+                                Log.i("newversion", "newversion:" + newversion);
                                 ShowDialog(Integer.parseInt(version), newversion, updateInfo, updateUrl);
+                            }else {
+                                ToastHelper.show(getActivity(),checkUpdataEntity.getMsg());
                             }
                         }
                     });
-
-
                     Log.i("data", "data:==" + "code" + code + "lastForce" + lastForce + "updateUrl" + updateUrl + "updateInfo" + updateInfo);
 
                 } catch (Exception e) {
@@ -458,7 +479,7 @@ String id;
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                        dialog.dismiss();
 
                     }
                 })
@@ -504,7 +525,7 @@ String id;
                         // 判断父文件夹是否存在
                         if (!file.getParentFile().exists()) {
                             file.getParentFile().mkdirs();
-                            Log.i("==path","path:"+ file.getParentFile().mkdirs());
+                            Log.i("==path", "path:" + file.getParentFile().mkdirs());
                         }
                     }
 
@@ -678,8 +699,8 @@ String id;
 
 
     private void update() {
-        try{
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //判读版本是否在7.0以上
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //判读版本是否在7.0以上
 //                        File file= new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
 //                                , "app-release.apk");
 ////                        File file=new File(getActivity().getCacheDir(),"app-release.apk");
@@ -693,33 +714,34 @@ String id;
 //                        install.setDataAndType(apkUri, "application/vnd.android.package-archive");
 //                        getActivity().startActivity(install);
 //                    } else {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent = intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), DOWNLOAD_NAME)), "application/vnd.android.package-archive");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        File   f= new File(Environment.getExternalStorageDirectory(),DOWNLOAD_NAME);
-                        Log.i("****apkUri2","file"+f);
-                        startActivity(intent);
-                    }
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent = intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory(), DOWNLOAD_NAME)), "application/vnd.android.package-archive");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                File f = new File(Environment.getExternalStorageDirectory(), DOWNLOAD_NAME);
+                Log.i("****apkUri2", "file" + f);
+                startActivity(intent);
+            }
 //                }else {
 //                    //无权限 申请权限
 ////                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, INSTALL_APK_REQUESTCODE);
 //                }
 //            }
-        }catch (Exception e) {
-            Log.i("==e","==e"+e);
+        } catch (Exception e) {
+            Log.i("==e", "==e" + e);
         }
 
     }
+
     /**
      * 退出登录
      */
-    private void postExit(){
-        Map<String,String> map = new HashMap<>();
-        String id = getStringSharePreferences("id","id");
-        Log.i("id::::::","id::::::"+id);
+    private void postExit() {
+        Map<String, String> map = new HashMap<>();
+        String id = getStringSharePreferences("id", "id");
+        Log.i("id::::::", "id::::::" + id);
         map.put("id", id);
 
-        HttpUtils.doPost(Constants.SERVER_BASE_URL+"system/sys/SysMemloginController/logout.action", map, new Callback() {
+        HttpUtils.doPost(Constants.SERVER_BASE_URL + "system/sys/SysMemloginController/logout.action", map, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i("dfsd", "dsfsd" + e);
@@ -736,10 +758,10 @@ String id;
                         @Override
                         public void run() {
 //                            initListData();
-                            if(exitCode.equals("200")){
-                                ToastHelper.show(getActivity(),""+exitEntiy.getMsg());
-                                String is_login="0";
-                                setStringSharedPreferences("is_login","is_login",is_login);
+                            if (exitCode.equals("200")) {
+                                ToastHelper.show(getActivity(), "" + exitEntiy.getMsg());
+                                String is_login = "0";
+                                setStringSharedPreferences("is_login", "is_login", is_login);
                                 setStringSharedPreferences("id", "id", "");
                                 setStringSharedPreferences("name", "name", "");
                                 setStringSharedPreferences("level", "level", "");
@@ -759,14 +781,14 @@ String id;
                             }
                         }
                     });
-                    if(exitCode.equals("200")){
+                    if (exitCode.equals("200")) {
 //                        String is_login="0";
 //                        setStringSharedPreferences("is_login","is_login",is_login);
-                    openActivity(LoginActivity.class);
+                        openActivity(LoginActivity.class);
                     }
 
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -782,7 +804,7 @@ String id;
          * 参数二：请求回调
          */
 //        String url=Constants.SERVER_BASE_URL + "system/sys/sysController/updateAppEdition.action?" + "localVersion=" + version;
-        String url = Constants.SERVER_BASE_URL +"system/sys/SysMemAccountController/getAccount.action?id=" + id;
+        String url = Constants.SERVER_BASE_URL + "system/sys/SysMemAccountController/getAccount.action?id=" + id;
         Log.i("url", "url:" + url);
         HttpUtils.doGet(url, new Callback() {
             @Override
@@ -808,9 +830,11 @@ String id;
                             if (code == 200) {
                                 commission = membersEntity.getData().getCommission();
                                 waitaccount = membersEntity.getData().getWaitaccount();
+
+
 //                                commission = data.getData().getCommission();
-                                yu_e.setText("余额（"+commission+")");
-                                djz.setText("待进账("+waitaccount+")");
+                                yu_e.setText("余额（" + commission + ")");
+                                djz.setText("待进账(" + waitaccount + ")");
                             }
                         }
                     });
@@ -822,6 +846,83 @@ String id;
             }
 
         });
+    }
+
+
+    private void showCustomizeDialog() {
+        android.app.AlertDialog.Builder customizeDialog = new android.app.AlertDialog.Builder(getActivity());
+        final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_customize, null);
+        customizeDialog.setTitle("提示");
+        customizeDialog.setView(dialogView);
+        TextView edit_text = (TextView) dialogView.findViewById(R.id.edit_text);
+        edit_text.setText("请先登录您的账号");
+        customizeDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //获取EditView中的输入内容
+                            openActivity(LoginActivity.class);
+                    }
+                });
+        customizeDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        customizeDialog.setCancelable(false);
+        customizeDialog.show();
+    }
+
+    public void post_isSM() {
+        try{
+            Map<String, String> map = new HashMap<>();
+            map.put("id", id);
+            Log.i("", "");
+
+            HttpUtils.doPost(Constants.SERVER_BASE_URL + "system/sys/SysMemUserController/getUserIsReal.action", map, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.i("dfsd", "dsfsd" + e);
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    try {
+                        String result = response.body().string();
+                        Log.i("post_isSM", "post_isSM" + result);
+                        isSmInfoEntity = gson.fromJson(result, IsSmInfoEntity.class);
+                        Log.i("post_isSM", "post_isSM" + isSmInfoEntity);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (isSmInfoEntity.getCode() == 200) {
+                                    ToastHelper.show(getActivity(), isSmInfoEntity.getMsg());
+                                    String isreal = isSmInfoEntity.getData().getIs_real();
+                                    if(!isreal.equals("")){
+                                        setStringSharedPreferences("isreal", "isreal", isreal);
+                                    }
+
+
+                                }else if(isSmInfoEntity.getCode() == 405){
+                                    setStringSharedPreferences("isreal", "isreal", "");
+                                        tv_isreal.setVisibility(View.VISIBLE);
+                                        tv_isreal.setText("您还未实名信息认证,请前往认证");
+                                }else {
+                                    ToastHelper.show(getActivity(), isSmInfoEntity.getMsg());
+                                }
+                            }
+                        });
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
 

@@ -174,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray"
-                    android:text="同意《升级广告商服务条款》"
+                    android:text="同意《升级VIP代理服务条款》"
                     android:autoLink="all"/>
             </LinearLayout>
             <Button

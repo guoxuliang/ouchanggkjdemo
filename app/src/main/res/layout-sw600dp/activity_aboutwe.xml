@@ -24,6 +24,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/ic_luncher" />
+        <TextView
+            android:id="@+id/versionCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="版本:"/>
+    </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -61,7 +83,11 @@
         android:gravity="center_vertical"
         android:padding="20dp"
         android:paddingLeft="20dp"
-        android:text="      如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?如何赚取佣金?"
+        android:text="首先,升级为会员,会员身份有，超级会员、白金会员、VIP代理。
+\n成为会员之后  \n一、做任务返佣；
+\n二、分享给微信好友返佣；
+\n三、邀请未注册好友注册，并且升级为会员返佣；
+\n四、邀请的好友升级为VIP代理，赚取的佣金更多。"
         android:textColor="@color/grayd"
         android:textSize="18sp"
         android:paddingRight="20dp"
@@ -93,7 +119,7 @@
         android:gravity="center_vertical"
         android:padding="20dp"
         android:paddingLeft="20dp"
-        android:text="      如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?如何成为广告主?"
+        android:text="一次性购买广告机10台以上者，获取VIP代理身份，享受最高级VIP代理返佣。"
         android:textColor="@color/grayd"
         android:textSize="18sp"
         android:paddingRight="20dp"
@@ -126,7 +152,8 @@
         android:gravity="center_vertical"
         android:padding="20dp"
         android:paddingLeft="20dp"
-        android:text="      如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?如何让大家帮您赚钱?"
+        android:text="1.分享任务到微信好友，微信朋友圈，分享越多，赚取的佣金越多。\n
+2.邀请好友下载注册app，并告知好友自己的推荐码（会员页顶部，推荐码CX******），邀请的好友越多，让好友成为您的下级。好友升级为会员，做任务，分享等均会给您返佣。\n3.升级成为VIP代理，享受最高等级的返佣。"
         android:textColor="@color/grayd"
         android:textSize="18sp"
         android:paddingRight="20dp"
@@ -157,7 +184,8 @@
         android:gravity="center_vertical"
         android:padding="20dp"
         android:paddingLeft="20dp"
-        android:text="      邀请码是什么?邀请码是什么?邀请码是什么?邀请码是什么?邀请码是什么?邀请码是什么?邀请码是什么?邀请码是什么?邀请码是什么?邀请码是什么?邀请码是什么?邀请码是什么?邀请码是什么?邀请码是什么?邀请码是什么?邀请码是什么?邀请码是什么?"
+        android:text="会员注册成功生成唯一一个属于自己的推荐码，将您的推荐码发送给好友，
+好友注册成功之后，好友的邀请码就是您的推荐码。好友就成为您的下级。"
         android:textColor="@color/grayd"
         android:textSize="18sp"
         android:paddingRight="20dp"
@@ -188,7 +216,7 @@
         android:gravity="center_vertical"
         android:padding="20dp"
         android:paddingLeft="20dp"
-        android:text="      如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?如何提现?"
+        android:text="在会员页找到我的提现，提交自己的信息，请注意，手机号即为注册APP时填写的手机号，户名为实名信息中的真实姓名，否则审核不通过，将无法提现。"
         android:textColor="@color/grayd"
         android:textSize="18sp"
         android:paddingRight="20dp"
@@ -219,7 +247,7 @@
         android:gravity="center_vertical"
         android:padding="20dp"
         android:paddingLeft="20dp"
-        android:text="      如何查看奖励金明细？如何查看奖励金明细？如何查看奖励金明细？如何查看奖励金明细？如何查看奖励金明细？如何查看奖励金明细？如何查看奖励金明细？如何查看奖励金明细？如何查看奖励金明细？如何查看奖励金明细？如何查看奖励金明细？如何查看奖励金明细？如何查看奖励金明细？"
+        android:text="在会员页查看收入记录，即可在已进账记录中查看任务返佣和分享返佣。"
         android:textColor="@color/grayd"
         android:textSize="18sp"
         android:paddingRight="20dp"

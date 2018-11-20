@@ -19,7 +19,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_marginBottom="20dp"
                 android:background="@drawable/icon_mybg"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
@@ -69,7 +68,16 @@
                     android:textColor="#ffffff"
                     android:textSize="14sp" />
             </LinearLayout>
-
+<TextView
+    android:id="@+id/isreal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="dfdsfsdfsdf"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="#ffd9ac"
+    android:visibility="gone"
+    android:padding="10dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -355,12 +363,13 @@
                     android:background="#cccccc" />
 
                 <LinearLayout
+                    android:id="@+id/layout_cengji"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:visibility="invisible"
+                    android:visibility="visible"
                     android:orientation="horizontal">
 
                     <TextView
@@ -370,7 +379,7 @@
                         android:drawableLeft="@drawable/icon_cheak"
                         android:drawablePadding="5dp"
                         android:gravity="center"
-                        android:text="检查更新" />
+                        android:text="查看层级" />
                 </LinearLayout>
             </LinearLayout>
             <TextView

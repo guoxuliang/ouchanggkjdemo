@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.log.LogManager;
 import com.example.ouc.demo.log.LogProxy;
+import com.example.ouc.demo.receiver.ActivityCollector;
 import com.example.ouc.demo.ui.activity.WebMoreActivity;
 import com.example.ouc.demo.utils.DimenUtils;
 import com.example.ouc.demo.utils.StringHelper;
@@ -260,6 +261,7 @@ public class BaseActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         log_baseActivity.verbose(this.getLocalClassName() + " onCreate");
         super.onCreate(savedInstanceState);
+        ActivityCollector.addActivity(this);
         // mSwipeBackLayout = getSwipeBackLayout();
         // mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_ALL);
         // setContentView(R.layout.base_activity);
@@ -353,6 +355,7 @@ public class BaseActivity extends Activity {
     protected void onDestroy() {
         log_baseActivity.verbose(this.getLocalClassName() + " onDestroy");
 //        ImageLoader.getInstance().stop();
+        ActivityCollector.removeActivity(this);
         super.onDestroy();
     }
 

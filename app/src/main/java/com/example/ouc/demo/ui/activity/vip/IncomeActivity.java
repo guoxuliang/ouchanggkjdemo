@@ -25,9 +25,10 @@ import java.util.ArrayList;
 public class IncomeActivity extends AppCompatActivity {
     private ArrayList<Fragment> mFragmentList;
     private ViewPager mPageVp;
-    private Fragment7 fragment7;
-    private Fragment8 fragment8;
-    private Fragment9 fragment9;
+    private Fragment7 fragment7;//待进账
+    private Fragment8 fragment8;//已进账
+    private Fragment9 fragment9;//累计进账
+
     private RadioGroup mGroup_page;
     private RadioButton rbChat_page,rbContacts_page,rbDiscovery_page;
 
@@ -86,7 +87,7 @@ public class IncomeActivity extends AppCompatActivity {
         rbContacts_page=(RadioButton)findViewById(R.id.rb_contacts_page);
         rbContacts_page.setText("已进账");
         rbDiscovery_page=(RadioButton)findViewById(R.id.rb_discovery_page);
-        rbDiscovery_page.setText("累计进账");
+        rbDiscovery_page.setText("分享返佣");
         //RadioGroup选中状态改变监听
         mGroup_page.setOnCheckedChangeListener(new myOrderCheckChangeListener());
         mPageVp .setOffscreenPageLimit(2);

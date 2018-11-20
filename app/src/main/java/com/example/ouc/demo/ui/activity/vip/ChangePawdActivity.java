@@ -46,7 +46,7 @@ public class ChangePawdActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_changepawd);
-        id=getStringSharePreferences("id",id);
+        id=getStringSharePreferences("id","id");
        Log.i("{{{","旧密码:"+MD5Util.MD5("")) ;
         Log.i("{{{","新密码:"+MD5Util.MD5("123456"));
         initTitle();
@@ -61,9 +61,9 @@ public class ChangePawdActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 //TODO  提交修改密码接口
-                if(!id.equals("")){
+                if(id!=null){
                     new_pwd_str = new_pwd.getText().toString().trim();
-                    old_pwd_str = new_pwd.getText().toString().trim();
+                    old_pwd_str = old_pwd.getText().toString().trim();
                     postChangePwd();
                 }
 
@@ -108,6 +108,7 @@ public class ChangePawdActivity extends BaseActivity {
                         public void run() {
                             if (changePwdEntity.getCode()==200){
                                 ToastHelper.show(ChangePawdActivity.this,changePwdEntity.getMsg());
+                                ChangePawdActivity.this.finish();
                             }else {
                                 ToastHelper.show(ChangePawdActivity.this,changePwdEntity.getMsg());
                             }

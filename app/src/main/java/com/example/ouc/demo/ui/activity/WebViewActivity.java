@@ -19,10 +19,16 @@ public class WebViewActivity extends BaseActivity {
 
     private ImageView iv_right;
     private TextView tv_back, tv_content;
+    private String url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
+        Bundle bundles=getIntent().getExtras();   //得到传过来的bundle
+        if(bundles!=null){
+            url = bundles.getString("bannerurl");
+        }
+
         initTitle();
         initViews();
     }
@@ -46,6 +52,11 @@ public class WebViewActivity extends BaseActivity {
         webView.setWebChromeClient(new WebChromeClient());
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("http://kgj.ockeji.com/index1.html");
+        if(url!=null){
+            webView.loadUrl(url);
+        }else {
+            webView.loadUrl("http://kgj.ockeji.com/index1.html");
+        }
+
     }
 }

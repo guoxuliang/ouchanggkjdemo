@@ -2,6 +2,7 @@ package com.example.ouc.demo.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.example.ouc.demo.adapter.MyOrderAdapter;
 import com.example.ouc.demo.base.BaseFragment;
 import com.example.ouc.demo.entity.MyOrderEntity;
 import com.example.ouc.demo.http.HttpUtils;
+import com.example.ouc.demo.ui.activity.WithdrawalRecordActivity;
 import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.ProgersssDialog;
 import com.example.ouc.demo.utils.ToastHelper;
@@ -38,8 +40,9 @@ public class Fragment4 extends BaseFragment {
     private MyOrderAdapter myOrderAdapter;
     private String userid;
     private String type="0";//type=0 未完成   type=1 已完成   type=2 已取消
-private TextView nodata;
+    private TextView nodata;
     private ProgersssDialog progersssDialog;
+    private SwipeRefreshLayout swipeRefreshLayout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -60,7 +63,7 @@ private TextView nodata;
     private void initViews() {
         orderlist4 = view.findViewById(R.id.list_order_f4);
         nodata = view.findViewById(R.id.nodata);
-
+        swipeRefreshLayout = view.findViewById(R.id.sr1);
     }
 
 
@@ -70,7 +73,7 @@ private TextView nodata;
          * 参数一：请求Ur
          * 参数二：请求回调
          */
-        String url = Constants.SERVER_BASE_URL + "system/sys/SysMemUserTaskController/getTaskStatus.action?userid="+userid+"&type="+type;
+        String url = Constants.SERVER_BASE_URL + "system/sys/SysMemUserTaskController/getTaskStatus.action?userid="+userid+"&type="+type+"&start=0"+"&limit=1000000000";
         Log.i("url", "url:" + url);
         HttpUtils.doGet(url, new Callback() {
             @Override
@@ -104,7 +107,6 @@ private TextView nodata;
 
             }
         });
-
     }
 
     private void changeDatas() {
@@ -112,6 +114,43 @@ private TextView nodata;
             myOrderAdapter = new MyOrderAdapter(getActivity(), orderDataBeans);
             orderlist4.setAdapter(myOrderAdapter);
             ToastHelper.show(getActivity(),myOrderEntity.getMsg());
+
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    if(orderDataBeans.size()>15){
+                        // 刷新数据
+                        orderDataBeans.clear();
+//                getData();
+                        myOrderAdapter.notifyDataSetChanged();
+
+                        // 延时1s关闭下拉刷新
+                        swipeRefreshLayout.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
+                                    swipeRefreshLayout.setRefreshing(false);
+                                }
+                            }
+                        }, 1000);
+                    }else{
+                        ToastHelper.show(getActivity(),"数据不足");
+                        swipeRefreshLayout.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
+                                    swipeRefreshLayout.setRefreshing(false);
+                                }
+                            }
+                        }, 1000);
+                    }
+                }
+            });
+
+
+
+
+
         }else {
                 nodata.setVisibility(View.VISIBLE);
                 ToastHelper.show(getActivity(),"暂无数据");

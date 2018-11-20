@@ -16,9 +16,11 @@ import com.example.ouc.demo.R;
 import com.example.ouc.demo.base.BaseActivity;
 import com.example.ouc.demo.entity.ChangePwdEntity;
 import com.example.ouc.demo.http.HttpUtils;
+import com.example.ouc.demo.ui.MainActivity;
 import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.MD5Util;
 import com.example.ouc.demo.utils.ToastHelper;
+import com.example.ouc.demo.utils.Tools;
 import com.google.gson.Gson;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
@@ -34,7 +36,8 @@ public class AboutWeActivity extends BaseActivity {
     private TextView tv_back, tv_content;
     private ImageView iv_right;
     private Button tv_question1,tv_question2,tv_question3,tv_question4,tv_question5,tv_question6;
-    private TextView tv_answer1,tv_answer2,tv_answer3,tv_answer4,tv_answer5,tv_answer6,line_zx;
+    private TextView tv_answer1,tv_answer2,tv_answer3,tv_answer4,tv_answer5,tv_answer6,line_zx,versionCode;
+
     private boolean isBtn1=false;
     private boolean isBtn2=false;
     private boolean isBtn3=false;
@@ -64,6 +67,11 @@ public class AboutWeActivity extends BaseActivity {
         tv_answer4 =(TextView) findViewById(R.id.tv_answer4);
         tv_answer5 =(TextView) findViewById(R.id.tv_answer5);
         tv_answer6 =(TextView) findViewById(R.id.tv_answer6);
+        versionCode = (TextView) findViewById(R.id.versionCode);
+        Log.i("","版本:"+Tools.getVersion(AboutWeActivity.this));
+        String versionCodeStr= String.valueOf(Tools.getVersion(AboutWeActivity.this));
+        versionCode.setText("版本:"+versionCodeStr+".0.0");
+        versionCode.setTextColor(R.color.black);
         tv_question1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

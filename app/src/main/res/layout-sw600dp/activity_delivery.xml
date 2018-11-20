@@ -183,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:autoLink="all"
                     android:textColor="@color/gray"
-                    android:text="同意《升级广告商服务条款》" />
+                    android:text="同意《升级VIP代理服务条款》" />
             </LinearLayout>
 
             <Button

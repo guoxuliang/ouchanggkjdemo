@@ -20,6 +20,7 @@ private List<MyOrderEntity.DataBean> orderList;
     private  String jlj_str;
     private  String syrw_str;
     private  String je_str;
+    private  String lq_date;
     private LayoutInflater inflater;
     public MyOrderAdapter2(Context context, List<MyOrderEntity.DataBean> orderList) {
         this.orderList=orderList;
@@ -66,11 +67,13 @@ private List<MyOrderEntity.DataBean> orderList;
                 name_str=orderList.get(i).getTitle();
                 jlj_str= String.valueOf(orderList.get(i).getGold());
                  syrw_str= String.valueOf(orderList.get(i).getQuantity());
+                lq_date = orderList.get(i).getRecevieTime();
                   je_str= String.valueOf(orderList.get(i).getIntegral());
                 String type =  orderList.get(i).getType();
                 viewHolder.name_order.setText(name_str+"");
                 viewHolder.jlj_order.setText("奖励金:￥"+jlj_str+"元");
-                viewHolder.syrw_order.setText("剩余任务:"+syrw_str+"");
+//                viewHolder.syrw_order.setText("剩余任务:"+syrw_str+"");
+                viewHolder.syrw_order.setText(lq_date);
                 viewHolder.je_order.setText("+￥"+je_str+"");
 //                if(type=="1"){
 //                    viewHolder.syrw_type.setText("做任务金额");

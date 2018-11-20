@@ -5,26 +5,18 @@ import java.util.List;
 public class MyOrderEntity {
 
     /**
-     * data : [{"taskId":1,"id":37,"title":"魅力城市-1","taskid":1,"userId":3,"quantity":624,"gold":"0.2","type":"2","finishStatus":"1","integral":"0.22"},{"taskId":1,"id":37,"title":"魅力城市-1","taskid":1,"userId":3,"quantity":624,"gold":"0.2","type":"1","finishStatus":"1","integral":"0.02"},{"taskId":1,"id":37,"title":"魅力城市-1","taskid":1,"userId":3,"quantity":624,"gold":"0.2","type":"2","finishStatus":"1","integral":"0.02"},{"taskId":3,"id":40,"title":"魅力城市-3","taskid":3,"userId":3,"quantity":4611,"gold":"0.04","type":"1","finishStatus":"1","integral":"0.04"},{"taskId":4,"id":48,"title":"魅力城市-4","taskid":4,"userId":3,"quantity":1297,"gold":"0.05","type":"1","finishStatus":"1","integral":"0.06"},{"taskId":8,"id":39,"title":"策划大师","taskid":8,"userId":3,"quantity":996,"gold":"0.1","type":"1","finishStatus":"1","integral":"0.11"},{"taskId":8,"id":39,"title":"策划大师","taskid":8,"userId":3,"quantity":996,"gold":"0.1","type":"1","finishStatus":"1","integral":"0.01"},{"taskId":10,"id":38,"title":"广告机宣传","taskid":10,"userId":3,"quantity":1997,"gold":"0.2","type":"1","finishStatus":"1","integral":"0.22"},{"taskId":10,"id":38,"title":"广告机宣传","taskid":10,"userId":3,"quantity":1997,"gold":"0.2","type":"2","finishStatus":"1","integral":"0.02"},{"taskId":10,"id":38,"title":"广告机宣传","taskid":10,"userId":3,"quantity":1997,"gold":"0.2","type":"2","finishStatus":"1","integral":"0.02"},{"taskId":11,"id":56,"title":"广告机宣传2","taskid":11,"userId":3,"quantity":1300,"gold":"0.2","type":"2","finishStatus":"1","integral":"0.02"},{"taskId":11,"id":56,"title":"广告机宣传2","taskid":11,"userId":3,"quantity":1300,"gold":"0.2","type":"2","finishStatus":"1","integral":"0.02"}]
-     * code : 200
+     * data : [{"taskId":9,"id":132,"title":"美睫展示","taskid":9,"userId":68,"quantity":1289,"gold":"0.2","type":"1","recevieTime":"2018-11-08 11:22:11","finishStatus":"1","integral":"0.2"},{"taskId":8,"id":133,"title":"纹绣展示","taskid":8,"userId":68,"quantity":1293,"gold":"0.2","type":"1","recevieTime":"2018-11-08 11:27:11","finishStatus":"1","integral":"0.2"}]
      * success : true
-     * execute : true
      * msg : 查询用户已进账成功
+     * execute : true
+     * code : 200
      */
 
-    private int code;
     private boolean success;
-    private boolean execute;
     private String msg;
+    private boolean execute;
+    private int code;
     private List<DataBean> data;
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
 
     public boolean isSuccess() {
         return success;
@@ -32,6 +24,14 @@ public class MyOrderEntity {
 
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public boolean isExecute() {
@@ -42,12 +42,12 @@ public class MyOrderEntity {
         this.execute = execute;
     }
 
-    public String getMsg() {
-        return msg;
+    public int getCode() {
+        return code;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public List<DataBean> getData() {
@@ -60,16 +60,17 @@ public class MyOrderEntity {
 
     public static class DataBean {
         /**
-         * taskId : 1
-         * id : 37
-         * title : 魅力城市-1
-         * taskid : 1
-         * userId : 3
-         * quantity : 624
+         * taskId : 9
+         * id : 132
+         * title : 美睫展示
+         * taskid : 9
+         * userId : 68
+         * quantity : 1289
          * gold : 0.2
-         * type : 2
+         * type : 1
+         * recevieTime : 2018-11-08 11:22:11
          * finishStatus : 1
-         * integral : 0.22
+         * integral : 0.2
          */
 
         private int taskId;
@@ -80,6 +81,7 @@ public class MyOrderEntity {
         private int quantity;
         private String gold;
         private String type;
+        private String recevieTime;
         private String finishStatus;
         private String integral;
 
@@ -145,6 +147,14 @@ public class MyOrderEntity {
 
         public void setType(String type) {
             this.type = type;
+        }
+
+        public String getRecevieTime() {
+            return recevieTime;
+        }
+
+        public void setRecevieTime(String recevieTime) {
+            this.recevieTime = recevieTime;
         }
 
         public String getFinishStatus() {
