@@ -35,7 +35,7 @@ import okhttp3.Response;
 
 public class WithdrawalActivity extends BaseActivity {
     private EditText tx_cardNab, tx_Name, tx_address, tx_bankName, tx_phonenub, yx_je,tx_zfbNab,tx_zfbName,tx_zfbPhone,tx_zfbJe;
-    private String tx_cardNab_str, tx_Name_str, tx_address_str, tx_bankName_str, tx_phonenub_str, yx_je_str;
+    private String tx_cardNab_str, tx_Name_str, tx_address_str, tx_bankName_str, tx_phonenub_str,yx_je_str;
     private Button tx_submit;
     private Gson gson = new Gson();
     private String id;
@@ -43,7 +43,7 @@ public class WithdrawalActivity extends BaseActivity {
     private String msg;
     private WithdrawalEntity withdrawalEntity;
     private ImageView iv_right;
-    private TextView tv_back, tv_content,tv_right;
+    private TextView tv_back, tv_content,tv_right,my_zhye;
     private RadioGroup rg_select_tx;
     private RadioButton rb_yhk_tx, rb_zfb_tx;
     private String loggersName;
@@ -52,11 +52,13 @@ public class WithdrawalActivity extends BaseActivity {
 
     private AuditEntity auditEntity;
     private String data;//判断审核的状态  受理状态  1待处理 2 已处理
+    private String zhye;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_withdrawal);
         id = getStringSharePreferences("id", "id");
+        zhye = getStringSharePreferences("commission", "commission");
         initView();
         initTitle();
         //  TODO 调判断是否审核的接口
@@ -95,6 +97,7 @@ public class WithdrawalActivity extends BaseActivity {
         yhk_layout = findViewById(R.id.yhk_layout);
         zfb_layout = findViewById(R.id.zfb_layout);
         tx_cardNab = findViewById(R.id.tx_cardNab);
+        my_zhye = findViewById(R.id.my_zhye);
         tx_cardNab.setInputType( InputType.TYPE_CLASS_NUMBER);
         tx_Name = findViewById(R.id.tx_Name);
         tx_address = findViewById(R.id.tx_address);
@@ -165,8 +168,14 @@ public class WithdrawalActivity extends BaseActivity {
                     ToastHelper.show(WithdrawalActivity.this, "电话号码不能为空");
                     return;
                 }
-                if (yx_je.equals("")) {
+                if (yx_je_str.equals("")) {
                     ToastHelper.show(WithdrawalActivity.this, "金额不能为空");
+                    return;
+                }
+                double zhyeint= Double.parseDouble(yx_je_str);
+                double zhyebundle= Double.parseDouble(zhye);
+                if(zhyeint>zhyebundle){
+                    ToastHelper.show(WithdrawalActivity.this, "账户余额不足");
                     return;
                 }
                     post_Tx();
@@ -191,11 +200,20 @@ public class WithdrawalActivity extends BaseActivity {
                         ToastHelper.show(WithdrawalActivity.this, "金额不能为空");
                         return;
                     }
+                    double zhyeint=Integer.parseInt(yx_je_str);
+                    double zhyebundle= Double.parseDouble(zhye);
+                    if(zhyeint>zhyebundle){
+                        ToastHelper.show(WithdrawalActivity.this, "账户余额不足");
+                        return;
+                    }
                     post_Tx();
                 }
 
             }
         });
+        if(!zhye.equals("")){
+            my_zhye.setText("您的账户余额："+zhye+"元");
+        }
     }
 
     /**

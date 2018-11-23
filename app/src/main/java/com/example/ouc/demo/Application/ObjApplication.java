@@ -62,7 +62,7 @@ public class ObjApplication extends Application {
         new Thread(){
             @Override
             public void run() {
-                File imageFile =  copyResurces( "jiguang_test_img.png", "test_img.png", 0);
+                File imageFile =  copyResurces( "hb2.png", "hb2.png", 0);
                 File videoFile = copyResurces( "jiguang_test.mp4", "jiguang_test.mp4", 0);
                 if(imageFile != null){
                     ImagePath = imageFile.getAbsolutePath();

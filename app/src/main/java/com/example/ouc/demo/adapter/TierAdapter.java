@@ -1,6 +1,7 @@
 package com.example.ouc.demo.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,6 +17,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.entity.TierEntity;
+import com.example.ouc.demo.ui.activity.ImageShowerPhotoActivity;
+import com.example.ouc.demo.ui.activity.vip.IncomeActivity;
+import com.example.ouc.demo.utils.ToastHelper;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -86,6 +90,14 @@ public class TierAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                  .placeholder( R.mipmap.icon_error)
                         .fallback( R.mipmap.icon_error)
                             .into(((RecyclerViewHolder)viewHolder).headImg_pic);
+//            recyclerViewHolder.headImg_pic.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    ToastHelper.show(context,"点击层级头像");
+//                    Intent intent=new Intent(context, ImageShowerPhotoActivity.class);
+//                    context.startActivity(intent);
+//                }
+//            });
 
             recyclerViewHolder.tv_name.setText(list.get(i).getUsername() + "");
             recyclerViewHolder.tv_phone.setText("电话:" + list.get(i).getMobilePhone() + "");

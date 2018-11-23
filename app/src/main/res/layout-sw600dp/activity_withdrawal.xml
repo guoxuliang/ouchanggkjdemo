@@ -58,6 +58,17 @@
                         android:textColor="@color/white" />
                 </RadioGroup>
             </LinearLayout>
+            <TextView
+                android:id="@+id/my_zhye"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:text="您的账户余额："
+                android:textColor="@color/hong"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 <LinearLayout
     android:id="@+id/yhk_layout"
     android:layout_width="match_parent"
@@ -80,6 +91,8 @@
         android:gravity="center_horizontal"
         android:textSize="18sp"
         android:text="请谨慎填写,如果填写有误,将无法进行银行卡转账，最终导致提现失败。"/>
+
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

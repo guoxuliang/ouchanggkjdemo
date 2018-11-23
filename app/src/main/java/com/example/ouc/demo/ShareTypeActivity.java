@@ -40,7 +40,7 @@ import cn.jiguang.share.weibo.SinaWeiboMessage;
 public class ShareTypeActivity extends Activity implements AdapterView.OnItemClickListener {
     public static String share_url = "https://mbd.baidu.com/newspage/data/landingsuper?context=%7B%22nid%22%3A%22news_9458612583977129723%22%7D&n_type=0&p_from=1";
     public static String share_text = "JShare SDK支持主流社交平台、帮助开发者轻松实现社会化功能！";
-    public static String share_title = " 欢迎使用极光社会化组件JShare";
+    public static String share_title = " 欢迎使用畅享app";
     public static String share_imageurl = "http://img2.3lian.com/2014/f5/63/d/23.jpg";
     public static String share_imageurl_1 = "http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1308/02/c0/24056523_1375430477597.jpg";
     public static String share_videourl = "http://v.youku.com/v_show/id_XOTQwMDE1ODAw.html?from=s1.8-1-1.2&spm=a2h0k.8191407.0.0";

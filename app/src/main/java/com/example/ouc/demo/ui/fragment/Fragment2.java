@@ -1,16 +1,12 @@
 package com.example.ouc.demo.ui.fragment;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -18,10 +14,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +38,6 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -128,6 +121,7 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
         mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         //添加Android自带的分割线
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
@@ -243,6 +237,12 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
     public void onResume() {
         super.onResume();
         is_login = getStringSharePreferences("is_login", "is_login");
+        if(isConnNet(getActivity())==true){
+            String dhs="start="+start+"&"+"limit="+limit+"&"+"userid="+id;
+            getRecommendedList(url+dhs);
+        }else {
+            ToastHelper.show(getActivity(),"请检查网络");
+        }
     }
 
     /**

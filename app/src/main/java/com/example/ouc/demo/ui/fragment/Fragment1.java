@@ -90,7 +90,6 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     private boolean change = false;
     private TextView title_rwtj, title_error;
     private int taskid;
-
     /**
      * 版本更新
      */
@@ -180,7 +179,6 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
             showCustomizeDialog();
         }
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -188,13 +186,12 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         initRefreshData();
 
     }
-
     private void initListData() {
 
         //首先加载默认数据，这里设置为10条
-        getData();
+//        getData();
         //显示到ListView上
-        showListView(data);
+        showListView(dataBeansList2);
         //自定义的滚动监听事件
         MyOnScrollListener onScrollListener = new MyOnScrollListener(footer);
         //设置接口回调
@@ -212,28 +209,28 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
     /**
      * 初始化ListView数据，默认设置为10条
      */
-    private void getData() {
-        data = new ArrayList<>();
-        if (dataBeansList2 != null) {
-            for (int i = 0; i < dataBeansList2.size(); i++) {
-                dataBeansList2.get(i);
-                data.add(dataBeansList2.get(i));
-//                title_rwtj.setVisibility(View.VISIBLE);
-            }
-        } else {
-            ToastHelper.show(getActivity(), "暂无数据");
-            title_rwtj.setVisibility(View.GONE);
-            mList.setVisibility(View.GONE);
-//            title_error.setVisibility(View.VISIBLE);
-        }
-    }
+//    private void getData() {
+//data = new ArrayList<>();
+//        if (dataBeansList2 != null) {
+//            for (int i = 0; i < dataBeansList2.size(); i++) {
+//                dataBeansList2.get(i);
+//                data.add(dataBeansList2.get(i));
+////                title_rwtj.setVisibility(View.VISIBLE);
+//            }
+//        } else {
+//            ToastHelper.show(getActivity(), "暂无数据");
+//            title_rwtj.setVisibility(View.GONE);
+//            mList.setVisibility(View.GONE);
+////            title_error.setVisibility(View.VISIBLE);
+//        }
+//    }
 
     /**
      * 将数据加载到ListView上
      *
-     * @param data
+     * @param dataBeansList2
      */
-    private void showListView(List<RecommendedListEntity.DataBean> data) {
+    private void showListView(List<RecommendedListEntity.DataBean> dataBeansList2) {
         //首先判断适配器是否为空，首次运行肯定是为空的
         if (adapter == null) {
             //查到ListView控件
@@ -245,12 +242,11 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
             //加入到ListView的底部
             mList.addFooterView(footer);
             //创建adpter数据
-            adapter = new MyAdapter(data, getActivity());
+            adapter = new MyAdapter(dataBeansList2, getActivity());
             //设置adapter
             mList.setAdapter(adapter);
         } else {
             //不为空，则刷新数据
-            this.data.addAll(data);
             //提醒ListView重新更新数据
             adapter.notifyDataSetChanged();
         }
@@ -324,8 +320,6 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
 //                ToastHelper.show(getActivity(),"点击了"+i+"项");
                 //TODO  点击列表跳转到视频播放页面
                  if(!id.equals("")){
-
-
                     try {
                         Intent intent = new Intent();
                         intent.setClass(getActivity(), AdvertisingVideoActivity.class);
@@ -487,7 +481,9 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         if (isConnNet(getActivity()) == true) {
             getRecommended();
             String dhs = "start=" + start + "&limit=" + limit + "&userid=" + id;
-            getRecommendedList(url + dhs);
+                getRecommendedList(url + dhs);
+
+
         } else {
             ToastHelper.show(getActivity(), "请检查网络");
         }
@@ -562,9 +558,6 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
      * Get请求   任务列表请求接口
      */
     private void getRecommendedList(String url) {
-
-
-        Log.i("url", "url00000000000000000000000000000000:" + url);
         HttpUtils.doGet(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -576,13 +569,13 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                 try {
                     final String result = response.body().string();
                     progersssDialog.dismiss();
-                    Log.i("result", "resultCode222222222:" + result);
+                    Log.i("result", "result:" + result);
                     recommendedListEntity = gson.fromJson(result, RecommendedListEntity.class);
                     Type listType2 = new TypeToken<ArrayList<RecommendedListEntity.DataBean>>() {
                     }.getType();//TypeToken内的泛型就是Json数据中的类型
                     dataBeansList2 = gson.fromJson(gson.toJson(recommendedListEntity.getData()), listType2);
                     code = String.valueOf(recommendedListEntity.getCode());
-                    Log.i("===dataBeansList2", "dataBeansList2" + dataBeansList2+"====dataBeansList2.size()"+dataBeansList2.size());
+                    Log.i("===dataBeansList2", "dataBeansList2" + dataBeansList2+"==dataBeansList2.size()"+dataBeansList2.size());
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

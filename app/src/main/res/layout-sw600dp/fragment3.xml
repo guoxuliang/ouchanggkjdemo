@@ -70,6 +70,17 @@
                     android:layout_marginTop="20dp"
                     android:textColor="#ffffff"
                     android:textSize="14sp" />
+                <Button
+                    android:id="@+id/upgrade_members"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:text="升级会员"
+                    android:textIsSelectable="true"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/shape_button"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp" />
             </LinearLayout>
             <TextView
                 android:id="@+id/isreal"
@@ -354,7 +365,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:drawableLeft="@drawable/icon_xgmm"
+                        android:drawableLeft="@drawable/icon_fankui"
                         android:drawablePadding="5dp"
                         android:gravity="center"
                         android:text="帮助反馈" />
@@ -379,7 +390,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:drawableLeft="@drawable/icon_cheak"
+                        android:drawableLeft="@drawable/icon_cengji_o"
                         android:drawablePadding="5dp"
                         android:gravity="center"
                         android:text="查看层级" />

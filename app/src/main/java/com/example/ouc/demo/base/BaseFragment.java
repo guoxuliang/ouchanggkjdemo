@@ -309,6 +309,32 @@ public abstract class BaseFragment extends Fragment {
         return result;
     }
 
+    protected void setIntSharedpreferences(String filename, String key, int value) {
+        if (mContent != null) {
+            SharedPreferences.Editor editor = mContent.getSharedPreferences(filename, 0).edit();
+            editor.putInt(key, value);
+            editor.commit();
+        }
+    }
+
+    protected int getIntSharePreferences(String filename, String key) {
+        int result = getActivity().getSharedPreferences(filename, 0).getInt(key, 0);
+        return result;
+    }
+
+    protected void setFloatSharedpreferences(String filename, String key, float value) {
+        if (mContent != null) {
+            SharedPreferences.Editor editor = mContent.getSharedPreferences(filename, 0).edit();
+            editor.putFloat(key, value);
+            editor.commit();
+        }
+    }
+
+    protected float getFloatSharePreferences(String filename, String key) {
+        float result = getActivity().getSharedPreferences(filename, 0).getFloat(key, 0);
+        return result;
+    }
+
     /**
      * @Title: openTXJFWeb
      * @Description: TODO(跳转webActivity)

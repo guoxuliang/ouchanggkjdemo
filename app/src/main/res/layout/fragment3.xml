@@ -62,10 +62,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="推荐码:"
                     android:layout_marginTop="5dp"
-                    android:textIsSelectable="true"
+                    android:text="推荐码:"
                     android:textColor="#ffffff"
+                    android:textIsSelectable="true"
+                    android:textSize="14sp" />
+                <Button
+                    android:id="@+id/upgrade_members"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="升级会员"
+                    android:textColor="#ffffff"
+                    android:textIsSelectable="true"
+                    android:background="@drawable/shape_button"
+                    android:layout_marginBottom="10dp"
                     android:textSize="14sp" />
             </LinearLayout>
 <TextView
@@ -351,7 +363,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:drawableLeft="@drawable/icon_xgmm"
+                        android:drawableLeft="@drawable/icon_fankui"
                         android:drawablePadding="5dp"
                         android:gravity="center"
                         android:text="帮助反馈" />
@@ -376,7 +388,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:drawableLeft="@drawable/icon_cheak"
+                        android:drawableLeft="@drawable/icon_cengji_o"
                         android:drawablePadding="5dp"
                         android:gravity="center"
                         android:text="查看层级" />

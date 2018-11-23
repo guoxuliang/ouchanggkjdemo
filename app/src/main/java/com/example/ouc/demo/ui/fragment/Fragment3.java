@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ import com.example.ouc.demo.ui.activity.vip.MyInformationActivity;
 import com.example.ouc.demo.ui.activity.vip.MyOrderActivity;
 import com.example.ouc.demo.ui.activity.vip.RealNameActivity;
 import com.example.ouc.demo.ui.activity.vip.TierActivity;
+import com.example.ouc.demo.ui.activity.vip.UpgradeMembersActivity;
 import com.example.ouc.demo.ui.activity.vip.WithdrawalActivity;
 import com.example.ouc.demo.utils.BitmapFileSetting;
 import com.example.ouc.demo.utils.Constants;
@@ -84,7 +86,7 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
     private LinearLayout advertising;
     private LinearLayout information;
     private LinearLayout changePawd;
-    private LinearLayout cheakversion, aboutwe,layout_cengji;
+    private LinearLayout cheakversion, aboutwe, layout_cengji;
     private TextView exitLogin;
     View v;
     private String updateUrl, updateInfo, lastForce;
@@ -102,7 +104,7 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
     private TextView yu_e, djz, huiyuanStr;
 
     private CircleImageView name_photo;
-    private TextView userphoneNub,tv_isreal;
+    private TextView userphoneNub, tv_isreal;
     private TextView userendtime;
     private TextView usertjm;
     private String headImg;
@@ -113,11 +115,13 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
     String id;
     String headphoto, level;
     private String is_login;
-private String isreal;
+    private String isreal;
+    private Button upgrade_members;
 
     private IsSmInfoEntity isSmInfoEntity;
     private List<IsSmInfoEntity.DataBean> dataList = new ArrayList<>();
-//    private String isreal;
+
+    //    private String isreal;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment3, null);
         Log.i("==view", "view" + v + "***************" + getActivity().getSupportFragmentManager());
@@ -152,11 +156,18 @@ private String isreal;
         name_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (id==null) {
-                    showCustomizeDialog();
+//                if (id==null) {
+//                    showCustomizeDialog();
+//                } else {
+//                    //TODO
+//                    ToastHelper.show(getActivity(), "请点击个人信息设置头像");
+//                }
+                if (id != null) {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), MyInformationActivity.class);
+                    startActivity(intent);
                 } else {
-                    //TODO
-                    ToastHelper.show(getActivity(), "请点击个人信息设置头像");
+                    showCustomizeDialog();
                 }
 
             }
@@ -198,6 +209,7 @@ private String isreal;
         aboutwe = getActivity().findViewById(R.id.aboutwe);
         layout_cengji = getActivity().findViewById(R.id.layout_cengji);
         exitLogin = getActivity().findViewById(R.id.exitLogin);
+        upgrade_members = getActivity().findViewById(R.id.upgrade_members);
         order.setOnClickListener(this);
         income.setOnClickListener(this);
         realName.setOnClickListener(this);
@@ -209,6 +221,7 @@ private String isreal;
         exitLogin.setOnClickListener(this);
         aboutwe.setOnClickListener(this);
         layout_cengji.setOnClickListener(this);
+        upgrade_members.setOnClickListener(this);
         getBalance(id);
 
     }
@@ -355,7 +368,7 @@ private String isreal;
 
                 break;
             case R.id.aboutwe:
-                //TODO
+                //TODO 查看帮助反馈
                 if (id != null) {
                     intent.setClass(getActivity(), AboutWeActivity.class);
                     startActivity(intent);
@@ -365,9 +378,18 @@ private String isreal;
                 break;
 
             case R.id.layout_cengji:
-                //TODO
+                //TODO 查看层级
                 if (id != null) {
                     intent.setClass(getActivity(), TierActivity.class);
+                    startActivity(intent);
+                } else {
+                    showCustomizeDialog();
+                }
+                break;
+            case R.id.upgrade_members:
+                //TODO 升级会员
+                if (id != null) {
+                    intent.setClass(getActivity(), UpgradeMembersActivity.class);
                     startActivity(intent);
                 } else {
                     showCustomizeDialog();
@@ -410,8 +432,8 @@ private String isreal;
                                 String newversion = version + 1;
                                 Log.i("newversion", "newversion:" + newversion);
                                 ShowDialog(Integer.parseInt(version), newversion, updateInfo, updateUrl);
-                            }else {
-                                ToastHelper.show(getActivity(),checkUpdataEntity.getMsg());
+                            } else {
+                                ToastHelper.show(getActivity(), checkUpdataEntity.getMsg());
                             }
                         }
                     });
@@ -830,11 +852,10 @@ private String isreal;
                             if (code == 200) {
                                 commission = membersEntity.getData().getCommission();
                                 waitaccount = membersEntity.getData().getWaitaccount();
-
-
 //                                commission = data.getData().getCommission();
                                 yu_e.setText("余额（" + commission + ")");
                                 djz.setText("待进账(" + waitaccount + ")");
+                                setStringSharedPreferences("commission", "commission", String.valueOf(commission));
                             }
                         }
                     });
@@ -861,7 +882,7 @@ private String isreal;
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //获取EditView中的输入内容
-                            openActivity(LoginActivity.class);
+                        openActivity(LoginActivity.class);
                     }
                 });
         customizeDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -875,7 +896,7 @@ private String isreal;
     }
 
     public void post_isSM() {
-        try{
+        try {
             Map<String, String> map = new HashMap<>();
             map.put("id", id);
             Log.i("", "");
@@ -899,16 +920,16 @@ private String isreal;
                                 if (isSmInfoEntity.getCode() == 200) {
                                     ToastHelper.show(getActivity(), isSmInfoEntity.getMsg());
                                     String isreal = isSmInfoEntity.getData().getIs_real();
-                                    if(!isreal.equals("")){
+                                    if (!isreal.equals("")) {
                                         setStringSharedPreferences("isreal", "isreal", isreal);
                                     }
 
 
-                                }else if(isSmInfoEntity.getCode() == 405){
+                                } else if (isSmInfoEntity.getCode() == 405) {
                                     setStringSharedPreferences("isreal", "isreal", "");
-                                        tv_isreal.setVisibility(View.VISIBLE);
-                                        tv_isreal.setText("您还未实名信息认证,请前往认证");
-                                }else {
+                                    tv_isreal.setVisibility(View.VISIBLE);
+                                    tv_isreal.setText("您还未实名信息认证,请前往认证");
+                                } else {
                                     ToastHelper.show(getActivity(), isSmInfoEntity.getMsg());
                                 }
                             }
@@ -920,7 +941,7 @@ private String isreal;
 
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -21,7 +21,14 @@
         android:background="#ffffff"
         android:gravity="center"
         android:orientation="vertical">
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="20秒后分享可得奖励金;看完视频可得奖励金"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="#ffd9ac"
+            android:padding="10dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,6 +80,12 @@
                android:layout_height="wrap_content"
                android:layout_marginBottom="8dp"
                android:layout_marginTop="16dp"/>
+            <!--<com.xiao.nicevideoplayer.NiceVideoPlayer-->
+                   <!--android:id="@+id/videoview"-->
+                     <!--android:layout_width="match_parent"-->
+                     <!--android:layout_height="wrap_content"-->
+                     <!--android:layout_marginBottom="8dp"-->
+                     <!--android:layout_marginTop="16dp"/>-->
 
 
         <WebView

@@ -555,6 +555,18 @@ public class BaseActivity extends Activity {
         return result;
     }
 
+
+    protected void setIntSharedpreferences(String filename, String key, int value) {
+            SharedPreferences.Editor editor = this.getSharedPreferences(filename, 0).edit();
+            editor.putInt(key, value);
+            editor.commit();
+    }
+
+    protected int getIntSharePreferences(String filename, String key) {
+        int result = this.getSharedPreferences(filename, 0).getInt(key, 0);
+        return result;
+    }
+
     /**
      * 如果输入法打开则关闭，如果没打开则打开 @Title: hideInputMethods @Description:
      * TODO(这里用一句话描述这个方法的作用) @param 设定文件 @return void 返回类型 @throws

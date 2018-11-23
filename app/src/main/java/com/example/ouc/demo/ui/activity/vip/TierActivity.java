@@ -63,7 +63,6 @@ public class TierActivity extends BaseActivity {
         rb_xj = (RadioButton) findViewById(R.id.rb_xj);
         swipe_refresh_layout = findViewById(R.id.swipe_refresh_layout);
         recycler_view = findViewById(R.id.recycler_view);
-
         rg_select_sxj.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -71,6 +70,9 @@ public class TierActivity extends BaseActivity {
                     // 上级
                     loggersName = rb_sj.getText().toString();
                     url = Constants.SERVER_BASE_URL + "system/sys/SysMemUserController/getTopUser.action";
+                    if(dataAll!=null){
+                        dataAll.clear();
+                    }
                     RecordTier(url);
                     type="1";
                 }
@@ -78,6 +80,9 @@ public class TierActivity extends BaseActivity {
                     // 下级
                     loggersName = rb_xj.getText().toString();
                     url = Constants.SERVER_BASE_URL + "system/sys/SysMemUserController/getMyUserInfo.action";
+                    if(dataAll!=null){
+                        dataAll.clear();
+                    }
                     RecordTier(url);
                     type="2";
                 }

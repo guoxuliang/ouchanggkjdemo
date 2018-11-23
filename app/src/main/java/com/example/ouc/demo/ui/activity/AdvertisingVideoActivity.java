@@ -38,6 +38,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.example.ouc.demo.Application.ObjApplication;
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.ShareTypeActivity;
 import com.example.ouc.demo.adapter.FragmentAdapter;
