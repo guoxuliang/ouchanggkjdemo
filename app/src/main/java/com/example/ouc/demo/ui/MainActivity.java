@@ -20,10 +20,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -44,6 +44,9 @@ import com.example.ouc.demo.jpush.LocalBroadcastManager;
 import com.example.ouc.demo.ui.fragment.Fragment1;
 import com.example.ouc.demo.ui.fragment.Fragment2;
 import com.example.ouc.demo.ui.fragment.Fragment3;
+import com.example.ouc.demo.ui.fragment.FragmentNew2;
+import com.example.ouc.demo.ui.fragment.FragmentShop;
+import com.example.ouc.demo.ui.fragment.FragmentTutorial;
 import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.Tools;
 import com.example.ouc.demo.view.CommonProgressDialog;
@@ -70,7 +73,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class MainActivity extends FragmentActivity implements PermissionInterface {
+public class MainActivity extends AppCompatActivity implements PermissionInterface {
     private  GetVersionEntity getVersionEntity;
     private ImageView imageview_back, imageView;
     private TextView textView2;
@@ -90,16 +93,18 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
     private Gson gson=new Gson();
     private ViewPager mPager;
     private RadioGroup mGroup;
-    private RadioButton rbChat,rbContacts,rbDiscovery,rbMe;
+    private RadioButton rbChat,rbContacts,rbDiscovery,rbMe,rb_shop,rb_tutorial;
     private ArrayList<Fragment> fragmentList;
     private boolean is_login=false;
     private PermissionHelper mPermissionHelper;
     public Fragment1 fragment1;
-    public Fragment2 fragment2;
+    public FragmentNew2 fragment2;
     public Fragment3 fragment3;
+    public FragmentShop fragmentShop;
+    public FragmentTutorial fragmentTutorial;
     private FragmentManager mFm;
     private Fragment mCurrentFragmen = null;  // 记录当前显示的Fragment
-    private String[] mFragmentTagList = {"Fragment1", "Fragment2", "Fragment3"};
+    private String[] mFragmentTagList = {"Fragment1","FragmentShop","FragmentNew2","FragmentTutorial","Fragment3"};
     private String  versioncode;
     public static boolean isForeground = false;
     @Override
@@ -172,12 +177,16 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
     }
     private void initViewPager(){
         fragment1=new Fragment1();
-        fragment2=new Fragment2();
+        fragmentShop=new FragmentShop();
+        fragment2=new FragmentNew2();
+        fragmentTutorial=new FragmentTutorial();
         fragment3=new Fragment3();
         fragmentList=new ArrayList<Fragment>();
         fragmentList.add(0,fragment1);
-        fragmentList.add(1,fragment2);
-        fragmentList.add(2,fragment3);
+        fragmentList.add(1,fragmentShop);
+        fragmentList.add(2,fragment2);
+        fragmentList.add(3,fragmentTutorial);
+        fragmentList.add(4,fragment3);
         //ViewPager设置适配器
         //ViewPager显示第一个Fragment
         mPager.setCurrentItem(0);
@@ -189,11 +198,13 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
         mPager=(ViewPager)findViewById(R.id.viewPager);
         mGroup=(RadioGroup)findViewById(R.id.radiogroup);
         rbChat=(RadioButton)findViewById(R.id.rb_chat);
+        rb_shop=(RadioButton)findViewById(R.id.rb_shop);
+        rb_tutorial=(RadioButton)findViewById(R.id.rb_tutorial);
         rbContacts=(RadioButton)findViewById(R.id.rb_contacts);
         rbDiscovery=(RadioButton)findViewById(R.id.rb_discovery);
         //RadioGroup选中状态改变监听
         mGroup.setOnCheckedChangeListener(new myCheckChangeListener());
-        mPager .setOffscreenPageLimit(2);
+        mPager .setOffscreenPageLimit(4);
     }
     /**
      *RadioButton切换Fragment
@@ -209,21 +220,42 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
                     rbChat.setChecked(true);
                     rbContacts.setChecked(false);
                     rbDiscovery.setChecked(false);
-
+                    rb_shop.setChecked(false);
+                    rb_tutorial.setChecked(false);
+                    break;
+                case R.id.rb_shop:
+                    mPager.setCurrentItem(1);
+                    rbChat.setChecked(false);
+                    rbContacts.setChecked(false);
+                    rbDiscovery.setChecked(false);
+                    rb_shop.setChecked(true);
+                    rb_tutorial.setChecked(false);
                     break;
                 case R.id.rb_contacts:
-                    mPager.setCurrentItem(1);
+                    mPager.setCurrentItem(2);
                     rbChat.setChecked(false);
                     rbContacts.setChecked(true);
                     rbDiscovery.setChecked(false);
-
+                    rb_shop.setChecked(false);
+                    rb_tutorial.setChecked(false);
+                    break;
+                case R.id.rb_tutorial:
+                    mPager.setCurrentItem(3);
+                    rbChat.setChecked(false);
+                    rbContacts.setChecked(false);
+                    rbDiscovery.setChecked(false);
+                    rb_shop.setChecked(false);
+                    rb_tutorial.setChecked(true);
                     break;
                 case R.id.rb_discovery:
-                    mPager.setCurrentItem(2);
+                    mPager.setCurrentItem(4);
                     rbChat.setChecked(false);
                     rbContacts.setChecked(false);
                     rbDiscovery.setChecked(true);
+                    rb_shop.setChecked(false);
+                    rb_tutorial.setChecked(false);
                     break;
+
 
             }
         }
@@ -245,11 +277,18 @@ public class MainActivity extends FragmentActivity implements PermissionInterfac
                     mGroup.check(R.id.rb_chat);
                     break;
                 case 1:
-                    mGroup.check(R.id.rb_contacts);
+                    mGroup.check(R.id.rb_shop);
                     break;
                 case 2:
+                    mGroup.check(R.id.rb_contacts);
+                    break;
+                case 3:
+                    mGroup.check(R.id.rb_tutorial);
+                    break;
+                case 4:
                     mGroup.check(R.id.rb_discovery);
                     break;
+
             }
         }
 

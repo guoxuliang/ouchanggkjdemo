@@ -25,6 +25,16 @@
             android:gravity="center"
             android:text="推荐"
             android:textColor="@drawable/tab_text_selector" />
+        <RadioButton
+            android:id="@+id/rb_shop"
+            style="@style/style_RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_selector_shop"
+            android:gravity="center"
+            android:text="商城"
+            android:textColor="@drawable/tab_text_selector" />
 
         <RadioButton
             android:id="@+id/rb_contacts"
@@ -35,6 +45,16 @@
             android:drawableTop="@drawable/tab_selector2"
             android:gravity="center"
             android:text="广告"
+            android:textColor="@drawable/tab_text_selector" />
+        <RadioButton
+            android:id="@+id/rb_tutorial"
+            style="@style/style_RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_selector_tutorial"
+            android:gravity="center"
+            android:text="教程"
             android:textColor="@drawable/tab_text_selector" />
 
         <RadioButton

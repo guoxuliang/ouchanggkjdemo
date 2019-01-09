@@ -99,7 +99,7 @@ public class TierAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 //                }
 //            });
 
-            recyclerViewHolder.tv_name.setText(list.get(i).getUsername() + "");
+            recyclerViewHolder.tv_name.setText(list.get(i).getName() + "");
             recyclerViewHolder.tv_phone.setText("电话:" + list.get(i).getMobilePhone() + "");
             recyclerViewHolder.tv_tjm.setText("推荐码:" + list.get(i).getCommendNo() + "");
             String tv_dj = list.get(i).getLevel();

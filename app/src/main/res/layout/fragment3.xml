@@ -67,18 +67,48 @@
                     android:textColor="#ffffff"
                     android:textIsSelectable="true"
                     android:textSize="14sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
                 <Button
-                    android:id="@+id/upgrade_members"
+                    android:id="@+id/upgrade_members1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:text="升级会员"
+                    android:layout_margin="5dp"
+                    android:text="办理"
                     android:textColor="#ffffff"
                     android:textIsSelectable="true"
                     android:background="@drawable/shape_button"
                     android:layout_marginBottom="10dp"
                     android:textSize="14sp" />
+                    <Button
+                        android:id="@+id/upgrade_members2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:text="升级"
+                        android:textColor="#ffffff"
+                        android:textIsSelectable="true"
+                        android:background="@drawable/shape_button"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="14sp" />
+                    <Button
+                        android:id="@+id/upgrade_members3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:text="续费"
+                        android:textColor="#ffffff"
+                        android:textIsSelectable="true"
+                        android:background="@drawable/shape_button"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="14sp" />
+                </LinearLayout>
             </LinearLayout>
 <TextView
     android:id="@+id/isreal"

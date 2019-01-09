@@ -3,6 +3,7 @@ package com.example.ouc.demo.ui.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -23,9 +24,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MediaController;
@@ -33,17 +31,19 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
-import com.example.ouc.demo.Application.ObjApplication;
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.ShareTypeActivity;
 import com.example.ouc.demo.adapter.FragmentAdapter;
+import com.example.ouc.demo.entity.CustomerServiceEntity;
 import com.example.ouc.demo.entity.ShareSuccessfulNoticeEntity;
 import com.example.ouc.demo.entity.TaskOverEntity;
+import com.example.ouc.demo.entity.UserScrrollEntity;
 import com.example.ouc.demo.http.HttpUtils;
 import com.example.ouc.demo.ui.fragment.AdvertFragment1;
 import com.example.ouc.demo.ui.fragment.AdvertFragment2;
@@ -52,13 +52,12 @@ import com.example.ouc.demo.uitool.ShareBoard;
 import com.example.ouc.demo.uitool.ShareBoardlistener;
 import com.example.ouc.demo.uitool.SnsPlatform;
 import com.example.ouc.demo.utils.Constants;
+import com.example.ouc.demo.utils.ScrrollTextView;
 import com.example.ouc.demo.utils.ToastHelper;
 import com.example.ouc.demo.weigets.GuideView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
-import com.xiao.nicevideoplayer.TxVideoPlayerController;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -122,7 +121,14 @@ public class AdvertisingVideoActivity extends FragmentActivity {
     private GuideView guideView3;
     private GuideView guideView2;
 
+    private TextView btn_gwc, btn_ljgm;
+    private CustomerServiceEntity customerServiceEntity;
     private ProgressBar loading;
+
+    private ScrrollTextView marqueeText;
+    ArrayList<String> demographicsList = new ArrayList<>();
+    ArrayList<UserScrrollEntity.DataBean> UserScrrollData = new ArrayList<>();
+    private UserScrrollEntity userScrrollEntity;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -152,6 +158,7 @@ public class AdvertisingVideoActivity extends FragmentActivity {
         initView();
         initViewPager();
         initTitle();
+
     }
 
 
@@ -305,6 +312,56 @@ public class AdvertisingVideoActivity extends FragmentActivity {
 
     @SuppressLint("NewApi")
     private void initViews() {
+         marqueeText = findViewById(R.id.scrrollText);
+
+
+//        demographicsList.add(">>>今日测试股票 上市<<<");
+//        demographicsList.add(">>>今日科伦药业 中国人保 可申购<<<");
+//        demographicsList.add(">>>今日中国平安 上市<<<");
+//        marqueeText.setList(demographicsList);
+//        marqueeText.startScroll();
+
+        btn_gwc = findViewById(R.id.btn_gwc);
+        btn_ljgm = findViewById(R.id.btn_ljgm);
+        btn_gwc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent intentCart=new Intent(getActivity(),ShoppingCartActivity.class);
+//                startActivity(intentCart);
+//                ToastHelper.show(AdvertisingVideoActivity.this, "暂没开通,敬请期待");
+                CustomerService();
+            }
+        });
+        btn_ljgm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /**
+                 * 跳转购物车
+                 */
+//                Intent intent1=new Intent(getActivity(),ChooseCommodityDialogActivity.class);
+//                startActivityForResult(intent1,10);
+                /**
+                 * 跳转信息登记界面
+                 */
+//                Intent intent1=new Intent(getActivity(),InterestedBuyersActivity.class);
+//                startActivity(intent1);
+                /**
+                 * 跳转商城链接
+                 */
+//                Intent intent1 = new Intent(getActivity(), WebViewShopActivity.class);
+//                startActivity(intent1);
+                /**
+                 * 跳转到临时购买页面
+                 */
+                Intent intent1 = new Intent();
+                intent1.setClass(AdvertisingVideoActivity.this, ShoppingBuyActivity.class);
+                Bundle mBundle = new Bundle();
+                mBundle.putString("id", id);
+                mBundle.putString("taskid", taskid);
+                intent1.putExtras(mBundle);
+                startActivity(intent1);
+            }
+        });
         tv_name = findViewById(R.id.tv_name);
         tv_gold = findViewById(R.id.tv_gold);
         tv_datelong = findViewById(R.id.tv_datelong);
@@ -394,6 +451,11 @@ public class AdvertisingVideoActivity extends FragmentActivity {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
             }
         }
+/**
+ *  获取已购买用户的走马灯效果
+ */
+
+        UserScrroll();
     }
 
 //    @Override
@@ -727,4 +789,108 @@ public class AdvertisingVideoActivity extends FragmentActivity {
     }
 
 
+    /**
+     * 接口名：getRecommended
+     * Get请求  推荐任务列表请求接口
+     */
+    private void CustomerService() {
+        String url = Constants.SERVER_BASE_URL + "system/sys/SysMemTaskController/OneTaskInfo.action?" + "userid=" + id + "&id=" + taskid;
+        Log.i("url", "url" + url);
+        HttpUtils.doGet(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("e", "e:" + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final String result = response.body().string();
+                    Log.i("result", "resultCode:getRecommended：：：" + result);
+                    customerServiceEntity = gson.fromJson(result, CustomerServiceEntity.class);
+                    runOnUiThread(new Runnable() {
+                        @SuppressLint("ResourceAsColor")
+                        @Override
+                        public void run() {
+                            if (customerServiceEntity.getCode() == 200) {
+                                String shopinfo = customerServiceEntity.getData().getData().getShopinfo();
+                                if (shopinfo.equals("")) {
+                                    return;
+                                }
+                                Intent intent = new Intent();
+                                intent.setClass(AdvertisingVideoActivity.this, CustomerServiceActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("shopinfo", shopinfo);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+
+                            }
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i("eeee", "eeee" + e);
+                }
+            }
+        });
+    }
+
+    /**
+     * 接口名：getRecommended
+     * Get请求  推荐任务列表请求接口
+     */
+    private void UserScrroll() {
+        String url = Constants.SERVER_BASE_URL + "system/sys/sysMemOrderController/getBuyShopList.action";
+        Log.i("url", "url" + url);
+        HttpUtils.doGet(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("e", "e:" + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final String result = response.body().string();
+                    Log.i("result", "resultCode:getRecommended：：：" + result);
+                    userScrrollEntity = gson.fromJson(result, UserScrrollEntity.class);
+                    UserScrrollData.addAll(userScrrollEntity.getData());
+                    runOnUiThread(new Runnable() {
+                        @SuppressLint("ResourceAsColor")
+                        @Override
+                        public void run() {
+                            if (userScrrollEntity.getCode() == 200) {
+                                for (int i = 0; i < UserScrrollData.size(); i++) {
+//                                    demographicsList.add(UserScrrollData.get(i).getName());
+//                                    demographicsList.add(UserScrrollData.get(i).getShopname());
+                                    String userName= UserScrrollData.get(i).getName();
+
+                                    if(userName!=null){
+                                        String str="*";
+                                        StringBuilder sb = new StringBuilder(userName);
+                                        String userNameResult = String.valueOf(sb.replace(1, 2, str));
+                                        Log.i("userNameResult", "userNameResult:" + userNameResult);
+                                        String shopName= UserScrrollData.get(i).getShopname();
+                                        demographicsList.add(">>>   "+userNameResult+",已购买"+shopName+"   <<<");
+                                    }
+
+                                }
+
+                                Log.i("demographicsList", "demographicsList:" + demographicsList + "========" + demographicsList.size());
+                                if (demographicsList.size() != 0) {
+                                    marqueeText.setList(demographicsList);
+                                    marqueeText.startScroll();
+                                }
+                            }
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i("eeee", "eeee" + e);
+                }
+            }
+        });
+    }
 }

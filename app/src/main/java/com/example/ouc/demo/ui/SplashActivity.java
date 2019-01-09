@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,6 +43,8 @@ import com.example.ouc.demo.utils.ToastHelper;
 import com.example.ouc.demo.utils.Tools;
 import com.example.ouc.demo.view.CommonProgressDialog;
 import com.example.ouc.demo.weigets.CountDownProgressView;
+import com.example.ouc.demo.weigets.CustomVideoView;
+import com.example.ouc.demo.weigets.CustomVideoView2;
 import com.example.ouc.demo.weigets.MyCloseDialog;
 import com.google.gson.Gson;
 import com.yanzhenjie.alertdialog.AlertDialog;
@@ -92,14 +96,14 @@ public class SplashActivity extends BaseActivity {
     private String url="";
     // 声明控件对象
     private TextView textView,textView_pass;
-    private int count = 5;
+    private int count = 8;
     private Animation animation;
     private LinearLayout daojishi;
     private ImageView imageview;
     private Intent intent;
     private String is_login;
-
-    private MyCloseDialog myCloseDialog;
+private CustomVideoView2 customvideoview;
+//    private MyCloseDialog myCloseDialog;
 //    private CountDownProgressView countDownProgressView;//转圈的倒计时
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,11 +111,12 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         is_login = getStringSharePreferences("is_login","is_login");
         Log.i("is_login", "SplashActivity:is_login:" + is_login);
-        myCloseDialog = new MyCloseDialog(this, 0);
-        myCloseDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);//代码中取消标题栏
-        myCloseDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        myCloseDialog.show();
-        myCloseDialog.setCancelable(false);
+//        myCloseDialog = new MyCloseDialog(this, 0);
+//        myCloseDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);//代码中取消标题栏
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        myCloseDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        myCloseDialog.show();
+//        myCloseDialog.setCancelable(false);
 
 //        countDownProgressView = (CountDownProgressView) findViewById(R.id.countdownProgressView);
 //        countDownProgressView.start();
@@ -122,6 +127,18 @@ public class SplashActivity extends BaseActivity {
 //        });
 
         imageview= (ImageView) findViewById(R.id.imageview);
+        customvideoview = (CustomVideoView2) findViewById(R.id.customvideoview);
+        //设置播放加载路径
+        customvideoview.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.start_video));
+        //播放
+        customvideoview.start();
+        //循环播放
+        customvideoview.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                customvideoview.start();
+            }
+        });
         textView = (TextView) findViewById(R.id.textView);
         textView_pass = (TextView) findViewById(R.id.pass);
         daojishi = (LinearLayout) findViewById(R.id.daojishi);
@@ -426,7 +443,6 @@ public class SplashActivity extends BaseActivity {
                     if (fileLength > 0) // only if total length is known
                         publishProgress((int) (total * 100 / fileLength));
                     output.write(data, 0, count);
-
                 }
             } catch (Exception e) {
                 System.out.println(e.toString());

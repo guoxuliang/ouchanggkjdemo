@@ -62,6 +62,18 @@
                             android:text="提现金额:561" />
                     </LinearLayout>
 
+
+                    <TextView
+                        android:id="@+id/tv_zhuangt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="已受理"
+                        android:textColor="#4DB6AC"
+                        android:layout_weight="0.5"
+                        android:textSize="16sp" />
+
                     <TextView
                         android:id="@+id/tv_tx_shijian"
                         android:layout_width="0dp"
@@ -72,6 +84,7 @@
                         android:textColor="#4DB6AC"
                         android:layout_weight="0.5"
                         android:textSize="16sp" />
+
                 </LinearLayout>
 
             </LinearLayout>

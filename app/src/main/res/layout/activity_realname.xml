@@ -9,7 +9,10 @@
         layout="@layout/layout_title2"
         android:layout_width="match_parent"
         android:layout_height="60dp" />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -168,5 +171,5 @@
             android:text=""
             android:src="@drawable/shili"/>
     </LinearLayout>
-
+    </LinearLayout>
 </LinearLayout>

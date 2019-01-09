@@ -86,7 +86,20 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
 
 
-            recyclerViewHolder.tv_tx_shijian.setText(list.get(i).getDealtime()+"");
+            recyclerViewHolder.tv_tx_shijian.setText(list.get(i).getCashtime()+"");
+            String type_zt = list.get(i).getStatus();
+            if(!type_zt.equals("")){
+                if(type_zt.equals("1")){
+                    recyclerViewHolder.tv_zhuangt.setText("待处理");
+                }else if(type_zt.equals("2")){
+                    recyclerViewHolder.tv_zhuangt.setText("已受理");
+                }else if(type_zt.equals("3")){
+                    recyclerViewHolder.tv_zhuangt.setText("已撤销");
+                }else if(type_zt.equals("4")){
+                    recyclerViewHolder.tv_zhuangt.setText("已驳回");
+                }
+            }
+
 
         }else if(viewHolder instanceof FootViewHolder){
             FootViewHolder footViewHolder = (FootViewHolder) viewHolder;
@@ -161,6 +174,7 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView tv_tx_kahao;
         TextView tv_tx_jine;
         TextView tv_tx_shijian;
+        TextView tv_zhuangt;
 
 
         RecyclerViewHolder(View itemView) {
@@ -169,7 +183,7 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tv_tx_kahao = (TextView) itemView.findViewById(R.id.tv_tx_kahao);
             tv_tx_jine = (TextView) itemView.findViewById(R.id.tv_tx_jine);
             tv_tx_shijian = (TextView) itemView.findViewById(R.id.tv_tx_shijian);
-
+            tv_zhuangt = (TextView) itemView.findViewById(R.id.tv_zhuangt);
         }
     }
 

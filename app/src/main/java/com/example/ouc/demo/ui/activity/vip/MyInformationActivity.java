@@ -11,11 +11,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.BuildConfig;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -28,26 +26,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.base.BaseActivity;
-import com.example.ouc.demo.entity.ExitEntiy;
 import com.example.ouc.demo.entity.UserInfoEntity;
-import com.example.ouc.demo.http.HttpUtils;
-import com.example.ouc.demo.ui.MainActivity;
 import com.example.ouc.demo.utils.BitmapFileSetting;
 import com.example.ouc.demo.utils.Constants;
 import com.example.ouc.demo.utils.PhotoUtils;
 import com.example.ouc.demo.utils.ToastHelper;
 import com.google.gson.Gson;
 
-import org.json.JSONException;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;

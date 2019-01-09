@@ -44,16 +44,16 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     View view;
-    private android.widget.TextView tv_back, tv_content;
+    private TextView tv_back, tv_content;
     private int taskid;
     private String contents;
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private GetTaskEntity getTaskEntity;
     private int lastVisibleItem = 0;
-    private  int PAGE_COUNT = 10;
+    private int PAGE_COUNT = 10;
     private GridLayoutManager mLayoutManager;
     private ItemAdapter adapter;
     private Handler mHandler = new Handler(Looper.getMainLooper());
@@ -64,14 +64,14 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
     private RecommendedListEntity recommendedListEntity;
     private ProgersssDialog progersssDialog;
     String id;
-    int start=0;
-    int limit=1000000;
-//    String url = Constants.SERVER_BASE_URL + "system/sys/SysMemTaskController/getIsCommTasklist.action?";
+    int start = 0;
+    int limit = 1000000;
+    //    String url = Constants.SERVER_BASE_URL + "system/sys/SysMemTaskController/getIsCommTasklist.action?";
     String url = Constants.SERVER_BASE_URL + "system/sys/SysMemTaskController/tasklist.action?";
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
-         view=inflater.inflate(R.layout.fragment2, container, false);
+        view = inflater.inflate(R.layout.fragment2, container, false);
         return view;
     }
 
@@ -80,18 +80,18 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
         super.onActivityCreated(savedInstanceState);
         is_login = getStringSharePreferences("is_login", "is_login");
         progersssDialog = new ProgersssDialog(getActivity());
-        id=getStringSharePreferences("id","id");
+        id = getStringSharePreferences("id", "id");
         findView();
         initTitle();
-        if(isConnNet(getActivity())==true){
-            String dhs="start="+start+"&"+"limit="+limit+"&"+"userid="+id;
-            getRecommendedList(url+dhs);
-        }else {
-            ToastHelper.show(getActivity(),"请检查网络");
+        if (isConnNet(getActivity()) == true) {
+            String dhs = "start=" + start + "&" + "limit=" + limit + "&" + "userid=" + id;
+            getRecommendedList(url + dhs);
+        } else {
+            ToastHelper.show(getActivity(), "请检查网络");
         }
     }
 
-        private void initTitle() {
+    private void initTitle() {
         tv_back = view.findViewById(R.id.tv_left);
         tv_back.setVisibility(View.GONE);
         tv_content = view.findViewById(R.id.tv_title);
@@ -99,8 +99,8 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
     }
 
     private void findView() {
-        refreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refreshLayout);
-        recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refreshLayout);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
 
     }
 
@@ -111,10 +111,10 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
     }
 
     private void initRecyclerView() {
-        if(dataBeansList2.size()<=15){
-            PAGE_COUNT=15;
+        if (dataBeansList2.size() <= 15) {
+            PAGE_COUNT = 15;
             adapter = new ItemAdapter(getDatas(0, PAGE_COUNT), getActivity(), getDatas(0, PAGE_COUNT).size() > 0 ? true : false);
-        }else {
+        } else {
             adapter = new ItemAdapter(getDatas(0, PAGE_COUNT), getActivity(), getDatas(0, PAGE_COUNT).size() > 0 ? true : false);
         }
 
@@ -124,7 +124,7 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
         adapter.notifyDataSetChanged();
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         //添加Android自带的分割线
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -157,6 +157,7 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
                 lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
             }
         });
+
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -180,9 +181,11 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
                 Log.i("contents","contents"+contents);
                 setStringSharedPreferences("content","content",contents);
                 taskid = dataBeansList2.get(position).getId();
-                Gettask(id,taskid);//调用领取任务接口
+
                 intent.putExtras(mBundle);
                 startActivity(intent);
+                    Gettask(id,taskid);//调用领取任务接口
+                    Log.i("result:","result:调用次数");
                 }catch (Exception e){
                     ToastHelper.show(getActivity(),"error:"+e);
                 }
@@ -198,6 +201,18 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
                 Toast.makeText(getActivity(),"onLongClick position : " + posotion,Toast.LENGTH_LONG).show();
             }
         }));
+
+//        adapter.setOnItemClickListener(new ItemAdapter.OnItemClickListener() {
+//            @Override
+//            public void onClick(int position) {
+//                Toast.makeText(getActivity(), "您点击了" + position + "行", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onLongClick(int position) {
+//                Toast.makeText(getActivity(), "您长按点击了" + position + "行", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 
@@ -237,11 +252,11 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
     public void onResume() {
         super.onResume();
         is_login = getStringSharePreferences("is_login", "is_login");
-        if(isConnNet(getActivity())==true){
-            String dhs="start="+start+"&"+"limit="+limit+"&"+"userid="+id;
-            getRecommendedList(url+dhs);
-        }else {
-            ToastHelper.show(getActivity(),"请检查网络");
+        if (isConnNet(getActivity()) == true) {
+            String dhs = "start=" + start + "&" + "limit=" + limit + "&" + "userid=" + id;
+            getRecommendedList(url + dhs);
+        } else {
+            ToastHelper.show(getActivity(), "请检查网络");
         }
     }
 
@@ -274,12 +289,12 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                          String  code = String.valueOf(recommendedListEntity.getCode());
-                            ToastHelper.show(getActivity(),recommendedListEntity.getMsg());
-                          if(code.equals("200")){
-                              initRefreshLayout();
-                              initRecyclerView();
-                          }
+                            String code = String.valueOf(recommendedListEntity.getCode());
+//                            ToastHelper.show(getActivity(),recommendedListEntity.getMsg());
+                            if (code.equals("200")) {
+                                initRefreshLayout();
+                                initRecyclerView();
+                            }
 //                            initListData();
                         }
                     });
@@ -298,12 +313,12 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
      * 参数二：请求的键值对
      * 参数三：请求回调
      */
-    private void Gettask(String id,int taskid){
-        Map<String,String> map = new HashMap<>();
+    private void Gettask(String id, int taskid) {
+        Map<String, String> map = new HashMap<>();
         map.put("id", id);
         map.put("taskid", String.valueOf(taskid));
 
-        HttpUtils.doPost(Constants.SERVER_BASE_URL+"system/sys/SysMemUserTaskController/receivetask.action", map, new Callback() {
+        HttpUtils.doPost(Constants.SERVER_BASE_URL + "system/sys/SysMemUserTaskController/receivetask.action", map, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i("错误", "错误：" + e);
@@ -312,20 +327,20 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    String result=response.body().string();
+                    String result = response.body().string();
                     Log.i("result", "result:" + result);
-                    getTaskEntity=gson.fromJson(result,GetTaskEntity.class);
+                    getTaskEntity = gson.fromJson(result, GetTaskEntity.class);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (getTaskEntity.getCode()==200){
-                                ToastHelper.show(getActivity(),getTaskEntity.getMsg());
-                            }else {
-                                ToastHelper.show(getActivity(),getTaskEntity.getMsg());
+                            if (getTaskEntity.getCode() == 200) {
+                                ToastHelper.show(getActivity(), getTaskEntity.getMsg());
+                            } else {
+                                ToastHelper.show(getActivity(), getTaskEntity.getMsg());
                             }
                         }
                     });
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -333,17 +348,17 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
         });
     }
 
-    private void showCustomizeDialog(){
+    private void showCustomizeDialog() {
         AlertDialog.Builder customizeDialog = new AlertDialog.Builder(getActivity());
-        final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_customize,null);
+        final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_customize, null);
         customizeDialog.setTitle("提示");
         customizeDialog.setView(dialogView);
-        TextView edit_text =(TextView)dialogView.findViewById(R.id.edit_text);
+        TextView edit_text = (TextView) dialogView.findViewById(R.id.edit_text);
         edit_text.setText("请先登录您的账号");
         customizeDialog.setPositiveButton("确定",
-                new DialogInterface.OnClickListener(){
+                new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which){
+                    public void onClick(DialogInterface dialog, int which) {
                         //获取EditView中的输入内容
                         openActivity(LoginActivity.class);
 

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <include
+        android:id="@+id/titleq"
+        layout="@layout/layout_title2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
+    <com.example.ouc.demo.weigets.BounceScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/image_head"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/lingshi" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="99"
+                        android:textColor="@color/hong"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/tv_sptitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="名称:"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_kucun"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="库存:"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <cn.com.cesgroup.numpickerview.NumberPickerView
+                        android:id="@+id/purchase_num1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        app:buttonWidth="40dp"
+                        app:editable="true"
+                        app:editextWidth="120dp"
+                        app:individer="@drawable/divider_horizontal"
+                        app:textColor="@android:color/black"
+                        app:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="10dp"
+                    android:background="@color/black" />
+
+                <TextView
+                    android:id="@+id/alltotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="35dp"
+                    android:text="合计："
+                    android:textSize="20sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:drawableLeft="@drawable/selecty"
+                        android:gravity="center"
+                        android:paddingLeft="30dp"
+                        android:text="微信支付"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:paddingLeft="300dp"
+                        android:src="@drawable/payy"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="10dp"
+                    android:background="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="请选择地址:"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/bg_cursor"
+                    android:drawableRight="@drawable/icon_dsj"
+                    android:paddingRight="10dp"
+                    android:text="请选择地址" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="详细地址:"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/textview2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/bg_cursor"
+                    android:hint="详细地址" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="联系方式:"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+
+                <EditText
+                    android:id="@+id/textview3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/bg_cursor"
+                    android:hint="联系方式" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="快递类型:"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/textview4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/bg_cursor"
+                    android:text="默认：圆通" />
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/tx_submitBuy"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/submitbutton"
+                android:hint="立即购买"
+                android:textColorHint="#ffffff" />
+        </LinearLayout>
+    </com.example.ouc.demo.weigets.BounceScrollView>
+</LinearLayout>

@@ -4,8 +4,9 @@ import java.util.List;
 
 public class ShareSumEntity {
 
+
     /**
-     * data : [{"money":1,"createTime":1542007843000,"title":"魅力城市-2"},{"money":32,"createTime":1542007856000,"title":"魅力城市-4"},{"money":43,"createTime":1542007871000,"title":"魅力城市-3"}]
+     * data : [{"money":"6000.0","createTime":"2018-11-24 09:30:07","title":"","type":"3"},{"money":"80.0","createTime":"2018-11-23 09:32:57","title":"","type":"3"},{"money":"80.0","createTime":"2018-11-22 16:33:20","title":"","type":"3"},{"money":"20.0","createTime":"2018-11-22 16:33:20","title":"","type":"3"}]
      * code : 200
      * msg : 查询用户返佣记录成功
      * execute : true
@@ -60,20 +61,22 @@ public class ShareSumEntity {
 
     public static class DataBean {
         /**
-         * money : 1.0
-         * createTime : 1542007843000
-         * title : 魅力城市-2
+         * money : 6000.0
+         * createTime : 2018-11-24 09:30:07
+         * title :
+         * type : 3
          */
 
-        private double money;
+        private String money;
         private String createTime;
         private String title;
+        private String type;
 
-        public double getMoney() {
+        public String getMoney() {
             return money;
         }
 
-        public void setMoney(double money) {
+        public void setMoney(String money) {
             this.money = money;
         }
 
@@ -91,6 +94,14 @@ public class ShareSumEntity {
 
         public void setTitle(String title) {
             this.title = title;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
         }
     }
 }

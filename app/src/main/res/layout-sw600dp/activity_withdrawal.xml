@@ -277,7 +277,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/bg_cursor"
                     android:hint="请填写支付宝账号"
-                    android:maxLength="20"
+                    android:maxLength="35"
                     android:textColor="@color/black" />
                 <TextView
                     android:layout_width="match_parent"

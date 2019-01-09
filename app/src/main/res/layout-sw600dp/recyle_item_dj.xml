@@ -43,7 +43,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="0.5"
                             android:layout_marginTop="8dp"
-                            android:src="@drawable/suo" />
+                            />
 
                         <TextView
                             android:id="@+id/tv_name"

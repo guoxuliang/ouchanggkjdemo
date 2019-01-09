@@ -191,11 +191,9 @@ public class WithdrawalRecordActivity extends BaseActivity{
                             }
                         }
                     });
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         });
     }

@@ -18,6 +18,7 @@ import com.example.ouc.demo.entity.TierEntity;
 import com.example.ouc.demo.http.HttpUtils;
 import com.example.ouc.demo.listener.EndlessRecyclerOnScrollListener;
 import com.example.ouc.demo.utils.Constants;
+import com.example.ouc.demo.utils.ProgersssDialog;
 import com.example.ouc.demo.utils.ToastHelper;
 import com.google.gson.Gson;
 
@@ -47,14 +48,18 @@ public class TierActivity extends BaseActivity {
     private TierAdapter tierAdapter;
     private String url;
     private String type="1";
+    private String id;
+    private ProgersssDialog progersssDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tier);
+        id = getStringSharePreferences("id", "id");
         initTitle();
         initViews();
         url = Constants.SERVER_BASE_URL + "system/sys/SysMemUserController/getTopUser.action";
         RecordTier(url);
+        progersssDialog = new ProgersssDialog(this);
     }
 
     private void initViews() {
@@ -70,9 +75,6 @@ public class TierActivity extends BaseActivity {
                     // 上级
                     loggersName = rb_sj.getText().toString();
                     url = Constants.SERVER_BASE_URL + "system/sys/SysMemUserController/getTopUser.action";
-                    if(dataAll!=null){
-                        dataAll.clear();
-                    }
                     RecordTier(url);
                     type="1";
                 }
@@ -80,9 +82,6 @@ public class TierActivity extends BaseActivity {
                     // 下级
                     loggersName = rb_xj.getText().toString();
                     url = Constants.SERVER_BASE_URL + "system/sys/SysMemUserController/getMyUserInfo.action";
-                    if(dataAll!=null){
-                        dataAll.clear();
-                    }
                     RecordTier(url);
                     type="2";
                 }
@@ -115,9 +114,7 @@ public class TierActivity extends BaseActivity {
     private void RecordTier(String urlpath) {
         try {
             Map<String, String> map = new HashMap<>();
-//        map.put("id", id);
-            map.put("id", "66");
-            Log.i("", "");
+        map.put("id", id);
 
             HttpUtils.doPost(urlpath, map, new Callback() {
                 @Override
@@ -127,6 +124,7 @@ public class TierActivity extends BaseActivity {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
+                    progersssDialog.dismiss();
                     try {
                         String result = response.body().string();
                         Log.i("result", "result:tierEntity" + result);

@@ -82,13 +82,16 @@ private TextView nodata;
                 try {
                     progersssDialog.dismiss();
                     final String result = response.body().string();
+
                     Log.i("result", "resultCode:" + result);
                     myOrderEntity = gson.fromJson(result, MyOrderEntity.class);
+
                     Type listType2 = new TypeToken<ArrayList<MyOrderEntity.DataBean>>() {
                     }.getType();//TypeToken内的泛型就是Json数据中的类型
                     orderDataBeans = gson.fromJson(gson.toJson(myOrderEntity.getData()), listType2);
                     code = myOrderEntity.getCode();
                     Log.i("666", "eeee" + orderDataBeans);
+                    Log.i("666", "eeee" + orderDataBeans.size());
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

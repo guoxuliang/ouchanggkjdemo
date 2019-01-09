@@ -39,6 +39,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:background="#cccccc"
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
         <TextView

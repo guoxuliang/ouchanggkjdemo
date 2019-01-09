@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#cfcfcf"
+    android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/shape_corner"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/huiyuan_vipiv"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="180dp"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/big_error"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.6"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/huiyuan_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20sp"
+                            android:textColor="@color/black"
+                            android:text="VIP代理" />
+                        <TextView
+                            android:id="@+id/huiyuan_money"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20sp"
+                            android:layout_marginTop="10dp"
+                            android:textColor="@color/hong"
+                            android:text="￥39999.00" />
+                        <Button
+                            android:id="@+id/btn_vip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:background="@drawable/shape_button"
+                            android:textColor="@color/white"
+                            android:layout_marginTop="10dp"
+                            android:text="申请"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/huiyuan_jieshao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textSize="16sp"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:background="@drawable/shape_dottedline"
+                    android:text="1.购买VIP会员者，可以获得下级消费返佣及自己做任务返佣。"/>
+            </LinearLayout>
+
+        </LinearLayout>
+</LinearLayout>

@@ -31,6 +31,9 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private boolean fadeTips = false;
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private DisplayImageOptions build;
+
+//    private OnItemClickListener mOnItemClickListener;
+
     public ItemAdapter(ArrayList<RecommendedListEntity.DataBean> datas, Context context, boolean hasMore) {
         this.datas = datas;
         this.context = context;
@@ -45,8 +48,24 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return new FootHolder(LayoutInflater.from(context).inflate(R.layout.footview, null));
         }
     }
+
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+//        if (mOnItemClickListener != null) {
+//            ((NormalHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    mOnItemClickListener.onClick(position);
+//                }
+//            });
+//            ((NormalHolder) holder).itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//                    mOnItemClickListener.onLongClick(position);
+//                    return false;
+//                }
+//            });
+//        }
         ImageLoader instance = ImageLoader.getInstance();
         build = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)//使用内存缓存
@@ -60,16 +79,16 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 .build();
         if (holder instanceof NormalHolder) {
             ((NormalHolder) holder).mTv1.setText(datas.get(position).getTitle());
-            ((NormalHolder) holder).mTv2.setText("奖励金：￥"+datas.get(position).getGold());
-            ((NormalHolder) holder).mTv3.setText("剩余任务："+datas.get(position).getQuantity());
-            ((NormalHolder) holder).mTv4.setText("已浏览："+datas.get(position).getBrowsevolume());
+            ((NormalHolder) holder).mTv2.setText("奖励金：￥" + datas.get(position).getGold());
+            ((NormalHolder) holder).mTv3.setText("剩余任务：" + datas.get(position).getQuantity());
+            ((NormalHolder) holder).mTv4.setText("已浏览：" + datas.get(position).getBrowsevolume());
 //            ((NormalHolder) holder).getbutton.setText(datas.get(position).getQuantity());
-            if(datas.get(position).getQuantity()==0){
+            if (datas.get(position).getQuantity() == 0) {
                 ((NormalHolder) holder).getbutton.setText("无偿广告");
-            }else {
+            } else {
                 ((NormalHolder) holder).getbutton.setText("有偿广告");
             }
-            instance.displayImage(datas.get(position).getCover(),((NormalHolder)holder).iv_imglist,build);
+            instance.displayImage(datas.get(position).getCover(), ((NormalHolder) holder).iv_imglist, build);
         } else {
             ((FootHolder) holder).tips.setVisibility(View.VISIBLE);
             if (hasMore == true) {
@@ -114,7 +133,7 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     class NormalHolder extends RecyclerView.ViewHolder {
         private ImageView iv_imglist;
-        private TextView mTv1,mTv2,mTv3,mTv4,getbutton;
+        private TextView mTv1, mTv2, mTv3, mTv4, getbutton;
 
         public NormalHolder(View itemView) {
             super(itemView);
@@ -153,4 +172,14 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return normalType;
         }
     }
+
+//    public interface OnItemClickListener {
+//        void onClick(int position);
+//
+//        void onLongClick(int position);
+//    }
+//
+//    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+//        this.mOnItemClickListener = onItemClickListener;
+//    }
 }

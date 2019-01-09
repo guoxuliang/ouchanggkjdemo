@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+        <com.example.ouc.demo.weigets.CustomVideoView2
+            android:id="@+id/customvideoview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:visibility="visible"
+             />
         <ImageView
             android:id="@+id/imageview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:background="@drawable/icon_start"
             android:scaleType="centerInside"
+            android:visibility="gone"
             android:layout_alignParentLeft="true" />
 
         <LinearLayout
@@ -22,20 +30,20 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="50dp"
             android:gravity="right"
-
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#cccccc" android:padding="2dp"
+                android:background="@drawable/shape_corner"
+                android:padding="5dp"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/pass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:text="跳过广告："
-                    android:textColor="#ff0000"
+                    android:text="跳过 | "
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -43,8 +51,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:text="5"
-                    android:textColor="#ff0000"
+                    android:text="8"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -52,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:text="秒"
-                    android:textColor="#ff0000"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
@@ -62,6 +70,12 @@
             android:layout_marginTop="160dp"
             android:visibility="gone"
             android:background="@mipmap/timg"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/icon_bottom"/>
     </RelativeLayout>
+
 
 </LinearLayout>

@@ -52,13 +52,14 @@ public class WithdrawalActivity extends BaseActivity {
 
     private AuditEntity auditEntity;
     private String data;//判断审核的状态  受理状态  1待处理 2 已处理
-    private String zhye;
+    private String zhye,hylevel;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_withdrawal);
         id = getStringSharePreferences("id", "id");
         zhye = getStringSharePreferences("commission", "commission");
+        hylevel = getStringSharePreferences("level","level");
         initView();
         initTitle();
         //  TODO 调判断是否审核的接口
@@ -104,9 +105,20 @@ public class WithdrawalActivity extends BaseActivity {
         tx_bankName = findViewById(R.id.tx_bankName);
         tx_phonenub = findViewById(R.id.tx_phonenub);
         tx_phonenub.setInputType( InputType.TYPE_CLASS_NUMBER);
+
         yx_je = findViewById(R.id.yx_je);
         yx_je.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
         tx_submit = findviewByid(R.id.tx_submit);
+        if(hylevel.equals("5")){
+            tx_submit.setBackgroundColor(R.color.gray);
+            tx_submit.setText("体验用户不可提现");
+            tx_submit.setEnabled(false);
+
+
+            showToast("体验用户不可体现");
+            return;
+        }
         rg_select_tx = (RadioGroup) findViewById(R.id.rg_select_tx);
         rb_yhk_tx = (RadioButton) findViewById(R.id.rb_yhk_tx);
         rb_zfb_tx = (RadioButton) findViewById(R.id.rb_zfb_tx);
@@ -114,8 +126,11 @@ public class WithdrawalActivity extends BaseActivity {
         tx_zfbNab = findViewById(R.id.tx_zfbNab);
         tx_zfbName = findViewById(R.id.tx_zfbName);
         tx_zfbPhone= findViewById(R.id.tx_zfbPhone);
+        tx_zfbPhone.setInputType( InputType.TYPE_CLASS_NUMBER);
+
         tx_zfbJe= findViewById(R.id.tx_zfbJe);
-        tx_zfbJe.setKeyListener(DigitsKeyListener.getInstance("1234567890."));
+        tx_zfbJe.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
         rg_select_tx.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -200,9 +215,9 @@ public class WithdrawalActivity extends BaseActivity {
                         ToastHelper.show(WithdrawalActivity.this, "金额不能为空");
                         return;
                     }
-                    double zhyeint=Integer.parseInt(yx_je_str);
-                    double zhyebundle= Double.parseDouble(zhye);
-                    if(zhyeint>zhyebundle){
+                    double zhyeint2= Double.parseDouble(yx_je_str);
+                    double zhyebundle2= Double.parseDouble(zhye);
+                    if(zhyeint2>zhyebundle2){
                         ToastHelper.show(WithdrawalActivity.this, "账户余额不足");
                         return;
                     }

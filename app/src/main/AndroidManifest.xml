@@ -6,18 +6,22 @@
     android:versionName="2.0.0">
     <!--版本号：versionCode="2"   修改内容：添加注册验证码倒计时。2018.10.11  郭旭亮 -->
     <!--版本号：versionCode="3"   修改内容：新广告上传。2018.10.16  郭旭亮 -->
-    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="21" />
+    <!--版本号：versionCode="7"   修改内容：1.查看层级。2.添加支付宝提现及提现记录。3.启动界面风格。4.修改相关bug。2018.11.24  郭旭亮 -->
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="21" />
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="false"
         android:requiresSmallestWidthDp="600"
         android:smallScreens="false"
         android:xlargeScreens="true" />
-
-    <uses-permission android:name="com.company.app.fileprovider.READ"/>
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--权限-->
+    <uses-permission android:name="android.permission.CALL" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.company.app.fileprovider.READ" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -31,7 +35,9 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -39,9 +45,11 @@
     <permission
         android:name="com.example.ouc.demo.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="com.example.ouc.demo.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
@@ -88,6 +96,12 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+       <!--显示客服二维码-->
+        <activity
+            android:name=".ui.activity.CustomerServiceActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <!--修改密码-->
         <activity
             android:name=".ui.activity.ForgotPasswordActivity"
@@ -122,9 +136,9 @@
         <!--调转WebView网页-->
         <activity
             android:name=".ui.activity.WebViewActivity"
+            android:hardwareAccelerated="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:hardwareAccelerated="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--收入记录-->
         <activity
@@ -162,6 +176,12 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <!--选择号码-->
+        <activity
+            android:name=".ui.activity.vip.TransactNubActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--升级会员-->
         <activity
             android:name=".ui.activity.vip.UpgradeMembersActivity"
@@ -186,6 +206,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".ui.activity.WebViewShopActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--忘记密码-->
         <activity
             android:name=".ui.activity.RetrievePwdActivity"
@@ -193,6 +218,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:name=".ui.activity.ShoppingBuyActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <!--意向客户-->
         <activity
             android:name=".ui.activity.InterestedBuyersActivity"
@@ -208,15 +238,15 @@
         <!--视频广告-->
         <activity
             android:name=".ui.activity.AdvertisingVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.activity.AdvertisingVideoActivity2"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme" />
 
         <!--广告投放-->
@@ -232,10 +262,30 @@
             android:screenOrientation="portrait"
             android:theme="@style/PhotoPickerTheme" />
 
+        <!--商城购物搜索-->
+        <activity
+            android:name=".ui.activity.shopping.SearchActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
+        <!--商城购物搜索列表-->
+        <activity
+            android:name=".ui.activity.shopping.ShoppingListActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
+        <!--商城购物搜索列表详情-->
+        <activity
+            android:name=".ui.activity.shopping.ShoppingGoodsDetailsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
+
         <activity
             android:name="com.lidong.photopicker.PhotoPreviewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/PhotoPickerTheme" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.ouc.demo.FileProvider"
@@ -262,8 +312,8 @@
             android:value="true" />
         <!-- 极光极光极光极光极光极光极光极光极光极光极光极光极光极光极光极光极光极光极光极光极光极光极光极光-->
 
-        <activity android:name=".SelectPlatActivity"/>
-        <activity android:name=".ShareTypeActivity"/>
+        <activity android:name=".SelectPlatActivity" />
+        <activity android:name=".ShareTypeActivity" />
         <!-- Required SDK核心功能-->
         <activity
             android:name="cn.jiguang.share.android.ui.JiguangShellActivity"
@@ -277,6 +327,7 @@
             <intent-filter>
                 <data android:scheme="tencent1106011004" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -290,23 +341,40 @@
             <!-- Optional 新浪微博私信回调-->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="jsharesdk" android:host="sinaweibo"/>
+
+                <data
+                    android:host="sinaweibo"
+                    android:scheme="jsharesdk" />
             </intent-filter>
         </activity>
         <!-- Optional 微信分享回调,wxapi必须在包名路径下，否则回调不成功-->
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+
+        <activity
+            android:name="com.example.ouc.demo.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <data android:scheme="wxa8d1d04e3aba2b5e"/>
+        </intent-filter>
+        </activity>
+
 
         <!-- Optional facebook配置,authorities必须为com.facebook.app.FacebookContentProvider+APP_ID-->
         <provider
-            android:authorities="com.facebook.app.FacebookContentProvider1847959632183996"
             android:name="cn.jiguang.share.facebook.FacebookContentProvider"
-            android:exported="true"
-            />
+            android:authorities="com.facebook.app.FacebookContentProvider1847959632183996"
+            android:exported="true" />
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver android:name=".FaceBookUploadReceiver">
@@ -316,10 +384,10 @@
         </receiver>
 
         <!-- Optional jchatpro分享回调,plugin必须在包名路径下，否则回调不成功-->
-        <activity android:name=".plugin.JChatProCallbackActivity"
+        <activity
+            android:name=".plugin.JChatProCallbackActivity"
             android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- Required. For publish channel feature -->
         <!-- JPUSH_CHANNEL 是为了方便开发者统计APK分发渠道。-->
@@ -336,11 +404,17 @@
             android:value="19ca5c42a75d0ca322c12b2e" />
         <!--极光推送配置-->
         <!-- For test only 测试高级功能 -->
-        <activity android:name="com.example.ouc.demo.jpush.PushSetActivity" android:label="@string/app_name"></activity>
+        <activity
+            android:name="com.example.ouc.demo.jpush.PushSetActivity"
+            android:label="@string/app_name"></activity>
         <!-- For test only 测试设置 -->
-        <activity android:name="com.example.ouc.demo.jpush.SettingActivity" android:label="@string/app_name"></activity>
+        <activity
+            android:name="com.example.ouc.demo.jpush.SettingActivity"
+            android:label="@string/app_name"></activity>
         <!-- For test only 测试状态通知栏，需要打开的Activity -->
-        <activity android:name="com.example.ouc.demo.jpush.TestActivity" android:exported="false">
+        <activity
+            android:name="com.example.ouc.demo.jpush.TestActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="jpush.testAction" />
                 <category android:name="jpush.testCategory" />
@@ -350,18 +424,18 @@
         <!-- Rich push 核心功能 since 2.0.6-->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
-            android:theme="@style/MyDialogStyle"
-            android:exported="false">
-        </activity>
+            android:exported="false"
+            android:theme="@style/MyDialogStyle"></activity>
 
         <!-- Required SDK核心功能-->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.example.ouc.demo" />
             </intent-filter>
@@ -371,8 +445,8 @@
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
             android:name="cn.jpush.android.service.PushService"
-            android:process=":pushcore"
-            android:exported="false">
+            android:exported="false"
+            android:process=":pushcore">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -382,11 +456,10 @@
         </service>
         <!-- since 3.0.9 Required SDK 核心功能-->
         <provider
-            android:authorities="com.example.ouc.demo.DataProvider"
             android:name="cn.jpush.android.service.DataProvider"
-            android:process=":pushcore"
+            android:authorities="com.example.ouc.demo.DataProvider"
             android:exported="false"
-            />
+            android:process=":pushcore" />
 
         <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
         <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
@@ -402,10 +475,9 @@
         </service>
         <!-- since 3.1.0 Required SDK 核心功能-->
         <provider
-            android:authorities="com.example.ouc.demo.DownloadProvider"
             android:name="cn.jpush.android.service.DownloadProvider"
-            android:exported="true"
-            />
+            android:authorities="com.example.ouc.demo.DownloadProvider"
+            android:exported="true" />
         <!-- Required SDK核心功能-->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
@@ -429,13 +501,15 @@
         </receiver>
 
         <!-- Required SDK核心功能-->
-        <receiver android:name="cn.jpush.android.service.AlarmReceiver" android:exported="false"/>
+        <receiver
+            android:name="cn.jpush.android.service.AlarmReceiver"
+            android:exported="false" />
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
             android:name="com.example.ouc.demo.jpush.MyReceiver"
-            android:exported="false"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->

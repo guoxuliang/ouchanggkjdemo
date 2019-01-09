@@ -9,6 +9,7 @@
     <string name="message_setting_back">用户从设置回来了</string>
     <string name="message_post_succeed">获取SD卡权限成功</string>
     <string name="message_post_failed">获取SD卡权限失败</string>
+    <string name="recognize_qr_code">长按识别二维码</string>
 
     <!--极光-->
     <string name="hello">Hello World, JPush!</string>
@@ -47,4 +48,6 @@ collapsedrawable：自定义ImageButton折叠的图像设置</string>
 好友注册成功之后，好友的邀请码就是您的推荐码。好友就成为您的下级。</string>
     <string name="ruhrtixain">在会员页找到我的提现，提交自己的信息，请注意，手机号即为注册APP时填写的手机号，户名为实名信息中的真实姓名，否则审核不通过，将无法提现。</string>
     <string name="shourujilu">在会员页查看收入记录，即可在已进账记录中查看任务返佣和分享返佣。</string>
+
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
 </resources>

@@ -308,7 +308,6 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
         yd_count = v.findViewById(R.id.yd_count);
         yd_count2 = v.findViewById(R.id.yd_count2);
 
-
         jlj = v.findViewById(R.id.jlj);
         jlj2 = v.findViewById(R.id.jlj2);
         syrw = v.findViewById(R.id.syrw);
@@ -391,6 +390,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                         mBundle.putString("name", dataBeans2.get(0).getTitle());//名称
                         mBundle.putString("gold", dataBeans2.get(0).getGold() + "");//奖励金
                         mBundle.putString("videourl", dataBeans2.get(0).getVideo());//视频地址
+                        Log.i("videourl:::","videourl:::"+dataBeans2.get(0).getVideo());
 //                mBundle.putString("content", dataBeans2.get(0).getContent());//视频信息
                         mBundle.putString("shareUrl", dataBeans2.get(0).getShareUrl());//要分享的web页面地址
                         mBundle.putString("taskid", dataBeans2.get(0).getId() + "");//获取任务ID
@@ -429,7 +429,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                         Intent intent = new Intent();
                         intent.setClass(getActivity(), AdvertisingVideoActivity.class);
                         Bundle mBundle = new Bundle();
-//                    mBundle.putString("id", id);//用户id
+                        mBundle.putString("id", id);//用户id
                         mBundle.putString("name", dataBeans2.get(1).getTitle());//名称
                         mBundle.putString("gold", dataBeans2.get(1).getGold() + "");//奖励金
                         mBundle.putString("videourl", dataBeans2.get(1).getVideo());//视频地址
@@ -547,10 +547,8 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                     e.printStackTrace();
                     Log.i("eeee", "eeee" + e);
                 }
-
             }
         });
-
     }
 
     /**
@@ -618,9 +616,9 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                         @Override
                         public void run() {
                             if (getTaskEntity.getCode() == 200) {
-//                                ToastHelper.show(getActivity(), getTaskEntity.getMsg());
+                                ToastHelper.show(getActivity(), getTaskEntity.getMsg());
                             } else {
-//                                ToastHelper.show(getActivity(), getTaskEntity.getMsg());
+                                ToastHelper.show(getActivity(), getTaskEntity.getMsg());
                             }
                         }
                     });
@@ -710,7 +708,7 @@ public class Fragment1 extends BaseFragment implements MyOnScrollListener.Onload
                                 }
                                 Log.i("bannerData","bannerData"+bannerData);
                             }else{
-//                                ToastHelper.show(getActivity(), bannerEntity.getMsg());
+                                ToastHelper.show(getActivity(), bannerEntity.getMsg());
                             }
                         }
                     });

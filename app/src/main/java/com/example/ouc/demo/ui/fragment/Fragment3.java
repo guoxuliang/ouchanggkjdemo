@@ -116,7 +116,7 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
     String headphoto, level;
     private String is_login;
     private String isreal;
-    private Button upgrade_members;
+    private Button upgrade_members1, upgrade_members2, upgrade_members3;
 
     private IsSmInfoEntity isSmInfoEntity;
     private List<IsSmInfoEntity.DataBean> dataList = new ArrayList<>();
@@ -135,7 +135,7 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
         commendNo = getStringSharePreferences("commendNo", "commendNo");
         Log.i("commendNo", "commendNo" + commendNo);
         is_login = getStringSharePreferences("is_login", "is_login");
-
+        level = getStringSharePreferences("level", "level");
         return v;
 
     }
@@ -194,8 +194,11 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
             huiyuanStr.setText("白金会员");
         } else if (level.equals("4")) {
             huiyuanStr.setText("VIP代理");
+        }else if (level.equals("5")) {
+            huiyuanStr.setText("体验用户");
         }
         tv_isreal = getActivity().findViewById(R.id.isreal);
+        tv_isreal.setVisibility(View.GONE);
         yu_e = getActivity().findViewById(R.id.yu_e);
         djz = getActivity().findViewById(R.id.djz);
         order = getActivity().findViewById(R.id.order);
@@ -209,7 +212,10 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
         aboutwe = getActivity().findViewById(R.id.aboutwe);
         layout_cengji = getActivity().findViewById(R.id.layout_cengji);
         exitLogin = getActivity().findViewById(R.id.exitLogin);
-        upgrade_members = getActivity().findViewById(R.id.upgrade_members);
+        upgrade_members1 = getActivity().findViewById(R.id.upgrade_members1);
+        upgrade_members2 = getActivity().findViewById(R.id.upgrade_members2);
+        upgrade_members3 = getActivity().findViewById(R.id.upgrade_members3);
+
         order.setOnClickListener(this);
         income.setOnClickListener(this);
         realName.setOnClickListener(this);
@@ -221,24 +227,11 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
         exitLogin.setOnClickListener(this);
         aboutwe.setOnClickListener(this);
         layout_cengji.setOnClickListener(this);
-        upgrade_members.setOnClickListener(this);
+        upgrade_members1.setOnClickListener(this);
+        upgrade_members2.setOnClickListener(this);
+        upgrade_members3.setOnClickListener(this);
         getBalance(id);
 
-    }
-
-    private void initView() {
-
-    }
-
-    public static String formatData(String dataFormat, long timeStamp) {
-        if (timeStamp == 0) {
-            return "";
-        }
-        timeStamp = timeStamp * 1000;
-        String result = "";
-        SimpleDateFormat format = new SimpleDateFormat(dataFormat);
-        result = format.format(new Date(timeStamp));
-        return result;
     }
 
     @Override
@@ -386,23 +379,47 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
                     showCustomizeDialog();
                 }
                 break;
-            case R.id.upgrade_members:
-                //TODO 升级会员
+            case R.id.upgrade_members1:
+                //TODO 升级会员  办理
                 if (id != null) {
-                    intent.setClass(getActivity(), UpgradeMembersActivity.class);
-                    startActivity(intent);
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("item", "办理");
+                    openActivity(UpgradeMembersActivity.class, bundle1);
                 } else {
                     showCustomizeDialog();
                 }
+
+                break;
+            case R.id.upgrade_members2:
+                //TODO 升级会员   升级
+                if (id != null) {
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putString("item", "升级");
+                    openActivity(UpgradeMembersActivity.class, bundle2);
+                } else {
+                    showCustomizeDialog();
+                }
+
+                break;
+            case R.id.upgrade_members3:
+                //TODO 升级会员   续费
+                if (id != null) {
+                    Bundle bundle3 = new Bundle();
+                    bundle3.putString("item", "续费");
+                    openActivity(UpgradeMembersActivity.class, bundle3);
+                } else {
+                    showCustomizeDialog();
+                }
+
                 break;
 
         }
     }
 
     private void getVersionCode(final String version) {
-        /**c
+        /**
          * Get请求
-         * 参数一：请求Ur
+         * 参数一：请求Url
          * 参数二：请求回调
          */
         String url = Constants.SERVER_BASE_URL + "system/sys/sysController/updateAppEdition.action?serverFlag=1&localVersion=" + version;
@@ -425,7 +442,7 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
                         public void run() {
                             code = checkUpdataEntity.getCode();
                             if (code == 200) {
-                                ToastHelper.show(getActivity(), checkUpdataEntity.getMsg());
+//                                ToastHelper.show(getActivity(), checkUpdataEntity.getMsg());
                                 lastForce = checkUpdataEntity.getData().getLastForce();
                                 updateUrl = checkUpdataEntity.getData().getUpdateUrl().toString().trim();
                                 updateInfo = checkUpdataEntity.getData().getUpdateInfo().toString().trim();
@@ -494,8 +511,6 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
                                 }
                             });
                         }
-
-
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -781,7 +796,7 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
                         public void run() {
 //                            initListData();
                             if (exitCode.equals("200")) {
-                                ToastHelper.show(getActivity(), "" + exitEntiy.getMsg());
+//                                ToastHelper.show(getActivity(), "" + exitEntiy.getMsg());
                                 String is_login = "0";
                                 setStringSharedPreferences("is_login", "is_login", is_login);
                                 setStringSharedPreferences("id", "id", "");
@@ -918,7 +933,7 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
                             @Override
                             public void run() {
                                 if (isSmInfoEntity.getCode() == 200) {
-                                    ToastHelper.show(getActivity(), isSmInfoEntity.getMsg());
+//                                    ToastHelper.show(getActivity(), isSmInfoEntity.getMsg());
                                     String isreal = isSmInfoEntity.getData().getIs_real();
                                     if (!isreal.equals("")) {
                                         setStringSharedPreferences("isreal", "isreal", isreal);
@@ -927,8 +942,8 @@ public class Fragment3 extends BaseFragment implements View.OnClickListener {
 
                                 } else if (isSmInfoEntity.getCode() == 405) {
                                     setStringSharedPreferences("isreal", "isreal", "");
-                                    tv_isreal.setVisibility(View.VISIBLE);
-                                    tv_isreal.setText("您还未实名信息认证,请前往认证");
+                                    tv_isreal.setVisibility(View.GONE);
+//                                    tv_isreal.setText("您还未实名信息认证,请前往认证");
                                 } else {
                                     ToastHelper.show(getActivity(), isSmInfoEntity.getMsg());
                                 }

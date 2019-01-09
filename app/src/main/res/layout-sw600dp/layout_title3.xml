@@ -11,9 +11,7 @@
         android:layout_height="fill_parent"
         android:layout_centerVertical="true"
         android:background="@drawable/header_back_bg"
-        android:drawableLeft="@drawable/ddhk_header_back"
-        android:paddingLeft="10dp"
-        android:paddingTop="20dip"
+        android:drawableLeft="@drawable/icon_backb"
         android:text=""
         android:textColor="@color/white"
         android:textSize="14sp" />
@@ -38,7 +36,6 @@
         android:background="@null"
         android:gravity="center"
         android:text="编辑"
-        android:paddingTop="20dip"
         android:textColor="@color/white"
         android:textSize="14sp" />
 

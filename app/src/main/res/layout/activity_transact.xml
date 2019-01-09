@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/gray_line"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/titleq"
+        layout="@layout/layout_title2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="#ffffff"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/dengji"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/icon_selectyes"
+            android:paddingLeft="60dp"
+            android:textColor="@color/black"
+            android:text="vip代理" />
+
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:paddingRight="50dp"
+            android:textColor="@color/black"
+            android:text="39999元/年" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_margin="10dp"
+        android:background="#ffffff"
+        android:gravity="center_vertical"
+        android:text="请选择号码:"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <Spinner
+        android:id="@+id/sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="1sp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:text="请输入真实姓名:"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+    <EditText
+        android:id="@+id/newname"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="14sp"
+        android:background="#ffffff"
+        android:textColor="@color/black"
+        android:gravity="center_vertical"
+        android:hint="请输入真实姓名" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:text="请输入身份证:"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+    <EditText
+        android:id="@+id/newidCard"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="14sp"
+        android:background="#ffffff"
+        android:textColor="@color/black"
+        android:gravity="center_vertical"
+        android:hint="请输入身份证号" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:text="请输入电话:"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+    <EditText
+        android:id="@+id/newmobilephone"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="14sp"
+        android:background="#ffffff"
+        android:textColor="@color/black"
+        android:gravity="center_vertical"
+        android:hint="请输入联系电话" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:text="请选择地址:"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/bignewaddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="请选择地址"
+        android:drawableRight="@drawable/icon_dsj"
+        android:paddingRight="10dp"
+        android:background="@drawable/bg_cursor"
+         />
+    <EditText
+        android:id="@+id/newaddress"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="14sp"
+        android:background="#ffffff"
+        android:textColor="@color/black"
+        android:gravity="center_vertical"
+        android:hint="请输入详细收货地址" />
+
+    <Button
+        android:id="@+id/wxSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="微信支付" />
+</LinearLayout>
