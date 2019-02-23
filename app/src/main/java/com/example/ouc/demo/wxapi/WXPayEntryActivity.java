@@ -68,6 +68,7 @@ import android.widget.TextView;
 
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.base.BaseActivity;
+import com.example.ouc.demo.ui.activity.shopping.OrderListActivity;
 import com.example.ouc.demo.ui.activity.vip.UpgradeMembersActivity;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -123,6 +124,12 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
             builder.setTitle("提示");
             builder.setMessage(getString(R.string.pay_result_callback_msg, String.valueOf(resp.errCode)));
             builder.show();
+            //0成功   -1错误     -2用户取消
+           int paycode = resp.errCode;
+            if(paycode==0){
+                Intent intent=new Intent(this,OrderListActivity.class);
+                startActivity(intent);
+            }
         }
     }
 }

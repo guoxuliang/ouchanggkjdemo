@@ -1,1 +1,1 @@
-include ':app', ':pictureselector', ':nicevideoplayer', ':library_update',':pay_android_sdk',':numpickerview'
+include ':app', ':pictureselector', ':nicevideoplayer', ':library_update',':pay_android_sdk',':numpickerview',':zxinglibrary'

@@ -1,43 +1,20 @@
 package com.example.ouc.demo.ui.fragment;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ouc.demo.R;
-import com.example.ouc.demo.adapter.MyOrderAdapter;
 import com.example.ouc.demo.base.BaseFragment;
-import com.example.ouc.demo.entity.MyOrderEntity;
-import com.example.ouc.demo.http.HttpUtils;
-import com.example.ouc.demo.ui.activity.ChooseCommodityDialogActivity;
-import com.example.ouc.demo.ui.activity.InterestedBuyersActivity;
-import com.example.ouc.demo.ui.activity.ShoppingBuyActivity;
-import com.example.ouc.demo.ui.activity.ShoppingCartActivity;
-import com.example.ouc.demo.ui.activity.WebViewShopActivity;
-import com.example.ouc.demo.utils.Constants;
-import com.example.ouc.demo.utils.ProgersssDialog;
 import com.example.ouc.demo.utils.ToastHelper;
 import com.example.ouc.demo.weigets.BottomWebView;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 public class AdvertFragment1 extends BaseFragment {
     private View view;

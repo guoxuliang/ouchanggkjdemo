@@ -334,7 +334,6 @@ public class RealNameActivity extends BaseActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-
     }
 
 

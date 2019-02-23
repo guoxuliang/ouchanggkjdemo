@@ -866,14 +866,14 @@ public class AdvertisingVideoActivity extends FragmentActivity {
 //                                    demographicsList.add(UserScrrollData.get(i).getShopname());
                                     String userName= UserScrrollData.get(i).getName();
 
-                                    if(userName!=null){
-                                        String str="*";
-                                        StringBuilder sb = new StringBuilder(userName);
-                                        String userNameResult = String.valueOf(sb.replace(1, 2, str));
-                                        Log.i("userNameResult", "userNameResult:" + userNameResult);
-                                        String shopName= UserScrrollData.get(i).getShopname();
-                                        demographicsList.add(">>>   "+userNameResult+",已购买"+shopName+"   <<<");
-                                    }
+//                                    if(userName!=null){
+//                                        String str="*";
+//                                        StringBuilder sb = new StringBuilder(userName);
+//                                        String userNameResult = String.valueOf(sb.replace(1, 2, str));
+//                                        Log.i("userNameResult", "userNameResult:" + userNameResult);
+//                                        String shopName= UserScrrollData.get(i).getShopname();
+//                                        demographicsList.add(">>>   "+userNameResult+",已购买"+shopName+"   <<<");
+//                                    }
 
                                 }
 

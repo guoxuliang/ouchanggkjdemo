@@ -32,6 +32,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.util.List;
+
 /**
  * @类名称: BaseFragment
  * @类描述: TODO(这里用一句话描述这个类的作用)
@@ -372,4 +374,15 @@ public abstract class BaseFragment extends Fragment {
             showToast("网络异常，请检查网络");
         }
     }
+
+    /**
+     * 解决子Fragment中的onActivityResult()方法无响应问题。
+     */ @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+         if (getChildFragmentManager().getFragments() != null && getChildFragmentManager().getFragments().size() > 0){
+             List<Fragment> fragments = getChildFragmentManager().getFragments();
+             for (Fragment mFragment: fragments) {
+                 mFragment.onActivityResult(requestCode, resultCode, data);
+             }
+         }
+     }
 }

@@ -9,35 +9,38 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.RadioButton;
+
 import com.example.ouc.demo.R;
+import com.example.ouc.demo.entity.ShoppingSpecsEntity;
 import com.example.ouc.demo.utils.Constant;
-import java.util.List;
+
+import java.util.ArrayList;
 
 
 public class ShoppingCartColorAdapter extends BaseAdapter {
     private LayoutInflater inflater;
-    private List<String> listColor;
+private ArrayList<ShoppingSpecsEntity.DataBean> dataShopSpecs;
     private Context context;
     private GridView gridView;
     private int listColorSize;
 
 
-    public ShoppingCartColorAdapter(Context context, List<String> listColor, GridView gridView){
+    public ShoppingCartColorAdapter(Context context, ArrayList<ShoppingSpecsEntity.DataBean> dataShopSpecs, GridView gridView){
         this.context = context;
-        this.listColor = listColor;
+        this.dataShopSpecs = dataShopSpecs;
         this.gridView = gridView;
         inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        listColorSize = listColor.size();
-        return listColor.size();
+        listColorSize = dataShopSpecs.size();
+        return dataShopSpecs.size();
     }
 
     @Override
     public String getItem(int i) {
-        return listColor.get(i);
+        return String.valueOf(dataShopSpecs.get(i));
     }
 
     @Override
@@ -49,6 +52,8 @@ public class ShoppingCartColorAdapter extends BaseAdapter {
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         ViewHolder holder;
         String color = getItem(i);
+//        String color =dataShopSpecs.get(i).getValue();
+        Log.d("hxl","color222=="+color);
         if(convertView == null){
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.item_shoppingcart_attribute,null);
@@ -57,7 +62,7 @@ public class ShoppingCartColorAdapter extends BaseAdapter {
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.rbAttribute.setText(color);
+        holder.rbAttribute.setText(dataShopSpecs.get(i).getValue());
         Log.d("hxl","color=="+color);
         holder.rbAttribute.setTag("rbAttribute"+i);
 
@@ -74,22 +79,34 @@ public class ShoppingCartColorAdapter extends BaseAdapter {
         public MyOnclickListerner(int i) {
             currentPositionColor = i;
         }
+
         @Override
         public void onClick(View view) {
+            String name = null;
+            String price=null;
+            String img=null;
             RadioButton rbAttribute = (RadioButton) gridView.findViewWithTag("rbAttribute" + currentPositionColor);
                 for(int i=0;i<listColorSize;i++){
                     RadioButton rbAttributeAll = (RadioButton) gridView.findViewWithTag("rbAttribute" + i);
                     rbAttributeAll.setChecked(false);
+
                 }
             rbAttribute.setChecked(true);
-            sendBrodcastReceiver(rbAttribute.getText().toString());
+            name=dataShopSpecs.get(currentPositionColor).getName();
+            price= String.valueOf(dataShopSpecs.get(currentPositionColor).getPrice());
+            img= String.valueOf(dataShopSpecs.get(currentPositionColor).getImg());
+            sendBrodcastReceiver(rbAttribute.getText().toString(),name,price,img);
             //Toast.makeText(context,rbAttribute.getText(),Toast.LENGTH_SHORT).show();
         }
+
     }
     //发送广播给详情页面记录选中的颜色
-    private void sendBrodcastReceiver(String str){
+    private void sendBrodcastReceiver(String str,String name,String price,String img){
         Intent intent = new Intent(Constant.SHOPPINGCART_COLORADAPTER_SEND_SHOPPINGCART_RECORD_COLOR);
         intent.putExtra("currentPositionColor",str);
+        intent.putExtra("name",name);
+        intent.putExtra("price",price);
+        intent.putExtra("img",img);
 
         context.sendBroadcast(intent);
     }

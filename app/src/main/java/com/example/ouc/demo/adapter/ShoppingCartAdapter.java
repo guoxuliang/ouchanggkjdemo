@@ -13,11 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ouc.demo.R;
-import com.example.ouc.demo.entity.ShoppingCartBean;
-import com.example.ouc.demo.utils.StringHelper;
+import com.example.ouc.demo.entity.GetShoppingCartEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.util.List;
+import java.util.ArrayList;
 
 
 /**
@@ -28,17 +27,17 @@ import java.util.List;
 public class ShoppingCartAdapter extends BaseAdapter {
 
     private boolean isShow = true;//是否显示编辑/完成
-    private List<ShoppingCartBean> shoppingCartBeanList;
+//    private List<ShoppingCartBean> shoppingCartBeanList;
     private CheckInterface checkInterface;
     private ModifyCountInterface modifyCountInterface;
     private Context context;
-
+    private ArrayList<GetShoppingCartEntity.DataBean> getShoppingCartData;
     public ShoppingCartAdapter(Context context) {
         this.context = context;
     }
 
-    public void setShoppingCartBeanList(List<ShoppingCartBean> shoppingCartBeanList) {
-        this.shoppingCartBeanList = shoppingCartBeanList;
+    public void setShoppingCartBeanList(ArrayList<GetShoppingCartEntity.DataBean> getShoppingCartData) {
+        this.getShoppingCartData = getShoppingCartData;
         notifyDataSetChanged();
     }
 
@@ -62,12 +61,12 @@ public class ShoppingCartAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return shoppingCartBeanList == null ? 0 : shoppingCartBeanList.size();
+        return getShoppingCartData == null ? 0 : getShoppingCartData.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return shoppingCartBeanList.get(position);
+        return getShoppingCartData.get(position);
     }
 
     @Override
@@ -95,24 +94,24 @@ public class ShoppingCartAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        final ShoppingCartBean shoppingCartBean = shoppingCartBeanList.get(position);
+        final GetShoppingCartEntity.DataBean shoppingCartBean = getShoppingCartData.get(position);
         boolean choosed = shoppingCartBean.isChoosed();
         if (choosed){
             holder.ckOneChose.setChecked(true);
         }else{
             holder.ckOneChose.setChecked(false);
         }
-        String attribute = shoppingCartBean.getAttribute();
-        if (!StringHelper.isEmpty(attribute)){
-            holder.tvCommodityAttr.setText(attribute);
-        }else{
-            holder.tvCommodityAttr.setText(shoppingCartBean.getDressSize()+"");
-        }
-        holder.tvCommodityName.setText(shoppingCartBean.getShoppingName());
+//        String attribute = shoppingCartBean.getAttribute();
+//        if (!StringHelper.isEmpty(attribute)){
+//            holder.tvCommodityAttr.setText(attribute);
+//        }else{
+//            holder.tvCommodityAttr.setText(shoppingCartBean.getDressSize()+"");
+//        }
+        holder.tvCommodityName.setText(shoppingCartBean.getName());
         holder.tvCommodityPrice.setText(shoppingCartBean.getPrice()+"");
-        holder.tvCommodityNum.setText(" X"+shoppingCartBean.getCount()+"");
-        holder.tvCommodityShowNum.setText(shoppingCartBean.getCount()+"");
-        ImageLoader.getInstance().displayImage(shoppingCartBean.getImageUrl(),holder.ivShowPic);
+        holder.tvCommodityNum.setText(" X"+shoppingCartBean.getNum()+"");
+        holder.tvCommodityShowNum.setText(shoppingCartBean.getNum()+"");
+        ImageLoader.getInstance().displayImage(shoppingCartBean.getBannerone(),holder.ivShowPic);
         //单选框按钮
         holder.ckOneChose.setOnClickListener(
                 new View.OnClickListener() {
@@ -155,8 +154,9 @@ public class ShoppingCartAdapter extends BaseAdapter {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                modifyCountInterface.childDelete(position);//删除 目前只是从item中移除
-
+                                if(getShoppingCartData.size()!=0){
+                                    modifyCountInterface.childDelete(position);//删除 目前只是从item中移除
+                                }
                             }
                         });
                 alert.show();
@@ -240,6 +240,6 @@ public class ShoppingCartAdapter extends BaseAdapter {
          *
          * @param position
          */
-        void childDelete(int position);
+        void childDelete(int  position);
     }
 }

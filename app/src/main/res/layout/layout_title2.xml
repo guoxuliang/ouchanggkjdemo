@@ -69,5 +69,22 @@
             android:layout_height="wrap_content"
             android:contentDescription="@null"
             android:scaleType="centerInside" />
+        <ImageView
+            android:id="@+id/iv_right2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null"
+            android:src="@drawable/icon_modify"
+            android:visibility="gone"
+            android:scaleType="centerInside" />
+        <ImageView
+            android:id="@+id/iv_right3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null"
+            android:src="@drawable/icon_add"
+            android:layout_marginLeft="10dp"
+            android:visibility="gone"
+            android:scaleType="centerInside" />
     </LinearLayout>
 </RelativeLayout>

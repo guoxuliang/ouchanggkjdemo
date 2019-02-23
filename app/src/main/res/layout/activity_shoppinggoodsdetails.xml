@@ -38,7 +38,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:hint="商品详情"
+                    android:text="商品详情"
                     android:maxLines="1"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
@@ -47,11 +47,18 @@
 
                 <ImageView
                     android:id="@+id/btn_search"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_margin="10dp"
-                    android:src="@drawable/icon_fenxiang_btn"
-                    android:text="搜索" />
+                    android:src="@drawable/icon_gouwuche2"
+                     />
+                <ImageView
+                    android:id="@+id/addresslist"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/icon_address2"
+                    />
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
     </LinearLayout>
@@ -68,15 +75,19 @@
             android:layout_width="match_parent"
             android:layout_height="220dp"
             app:contentScrim="@android:color/white"
-
             app:layout_scrollFlags="scroll|enterAlways">
 
-            <com.example.ouc.demo.weigets.ImageCycleView
+            <com.youth.banner.Banner
                 android:id="@+id/banner_x"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:visibility="visible" />
-
+                android:layout_height="220dp" />
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="right"
+    android:layout_margin="30dp"
+    android:visibility="gone"
+    android:text="和大数据时代"/>
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
@@ -86,17 +97,80 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/appbarlayout"
         >
+        <LinearLayout
+            android:id="@+id/ll_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/hong"
+            android:orientation="horizontal">
     <TextView
-        android:id="@+id/test"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="70dp"
-        android:text="手机批发给你视频呢"/>
+        android:id="@+id/goodsprice"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textSize="24dp"
+        android:textColor="@color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="30dp"
+        android:text="￥1399"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:gravity="center_vertical"
+                android:layout_gravity="right"
+                android:layout_marginLeft="230dp"
+                android:text="活动正在进行中..."/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_goodsname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray"
+            android:gravity="center_vertical"
+            android:layout_below="@+id/ll_info"
+            android:paddingLeft="30dp"
+            android:maxLines="2"
+            android:maxEms="20"
+            android:ellipsize="end"
+            android:textSize="18sp"
+            android:text="【华为荣耀9X】全面屏手机屏占比高达98%超智能学生手机【绝地求生m416】电动连发水弹枪儿童玩具aug九五式突击步m416电动连发水弹吃鸡玩具突击步枪儿童98K"/>
 
+        <TextView
+            android:id="@+id/tv_allpl"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="查看全部评论"
+            android:gravity="right|center"
+            android:layout_below="@+id/tv_goodsname"
+            android:layout_marginTop="20dp"
+            android:paddingRight="15dp"
+            android:background="@color/gray2"
+            android:textColor="@color/black"
+            android:drawableRight="@drawable/icon_rightjt"/>
+        <TextView
+            android:id="@+id/tv_xqtitle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="商品详情"
+            android:gravity="left|center"
+            android:layout_below="@+id/tv_allpl"
+            android:layout_marginRight="0dp"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/icon_shuxian"
+            android:textColor="@color/hong"
+            />
+        <com.example.ouc.demo.weigets.BottomWebView
+            android:id="@+id/shopwebview"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/tv_xqtitle"
+            android:layout_height="wrap_content">
+        </com.example.ouc.demo.weigets.BottomWebView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
+        android:background="@color/white"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/dianpu"
@@ -107,6 +181,22 @@
             android:gravity="center"
             android:drawableTop="@drawable/icon_dianpu"
             android:text="店铺"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@color/gray"/>
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/selector_bar_1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:button="@null"
+            android:checked="false"
+            android:text="收藏"/>
         <TextView
             android:id="@+id/shoucang"
             android:layout_width="0dp"
@@ -115,7 +205,25 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:drawableTop="@drawable/icon_shoucang"
+            android:visibility="gone"
             android:text="收藏"/>
+        <RadioGroup
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_weight="1">
+          <RadioButton
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:button="@null"
+              android:text="收藏"
+              android:layout_gravity="center"
+              android:gravity="center"
+              android:textSize="16sp"
+              android:drawableTop="@drawable/selector_bar_1"
+              android:textColor="@color/gray"/>
+        </RadioGroup>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -131,7 +239,7 @@
             android:layout_weight="1"
             android:textColor="@color/white"
             android:textSize="20dp"
-            android:text="购物车"/>
+            android:text="加入购物车"/>
         <TextView
             android:id="@+id/lijigoumai"
             android:layout_width="0dp"

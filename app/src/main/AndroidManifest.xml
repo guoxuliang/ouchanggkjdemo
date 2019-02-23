@@ -123,10 +123,8 @@
 
         <!--购物-->
         <activity
-            android:name=".ui.activity.ChooseCommodityDialogActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:name=".ui.activity.shopping.ChooseCommodityDialogActivity"
+            android:theme="@style/MyDialogStyleBottom" />
         <!--购物车-->
         <activity
             android:name=".ui.activity.ShoppingCartActivity"
@@ -220,7 +218,7 @@
 
         <activity
             android:name=".ui.activity.ShoppingBuyActivity"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <!--意向客户-->
@@ -233,6 +231,12 @@
         <activity
             android:name=".ui.activity.ImageShowerPhotoActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <!--定位城市选择-->
+        <activity
+            android:name=".ui.activity.shopping.LocationCtiyActivity"
+            android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <!--视频广告-->
@@ -268,18 +272,56 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
+
+        <!--订单详情-->
+        <activity
+            android:name=".ui.activity.shopping.OrderDetailsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
+
+        <!--订单列表-->
+        <activity
+            android:name=".ui.activity.shopping.OrderListActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <!--商城购物搜索列表-->
         <activity
             android:name=".ui.activity.shopping.ShoppingListActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
+            android:launchMode="standard"/>
         <!--商城购物搜索列表详情-->
         <activity
             android:name=".ui.activity.shopping.ShoppingGoodsDetailsActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
+<!--地址列表-->
+        <activity
+            android:name=".ui.activity.shopping.AddressListActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:launchMode="standard"/>
+        <!--商品全部评论-->
+        <activity
+            android:name=".ui.activity.shopping.AllCommentsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
+        <!--订单提交页面-->
+        <activity
+            android:name=".ui.activity.shopping.PurchaseOrderActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
+        <!--添加地址-->
+        <activity
+            android:name=".ui.activity.shopping.AddSettingAddressActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:launchMode="standard"/>
 
         <activity
             android:name="com.lidong.photopicker.PhotoPreviewActivity"

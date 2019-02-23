@@ -64,6 +64,9 @@ public class HttpUtils {
         Call call = getInstance().newCall(request);
         call.enqueue(callback);
     }
+
+
+
     /**
      * Post请求发送JSON数据
      * @param url

@@ -7,100 +7,73 @@ package com.example.ouc.demo.entity;
  */
 public class ShoppingCartBean {
 
-    private int id;
-    private String imageUrl;
-    private String shoppingName;
-
-    private int dressSize;
-    private String attribute;
-
-    private double price;
-
-    public boolean isChoosed;
-    public boolean isCheck = false;
-    private int count;
+    private String money;//商品id
+    private String shopid;//封面url
+    private String type;//商品名称
+    private String memberid;
+    private String num;
+    private String addressid;
 
 
 
-    public String getAttribute() {
-        return attribute;
+
+    public String getMoney() {
+        return money;
     }
 
-    public void setAttribute(String attribute) {
-        this.attribute = attribute;
-    }
-
-    public ShoppingCartBean() {
-    }
-
-    public ShoppingCartBean(int id, String shoppingName, String attribute, int dressSize,
-                            double price, int count) {
-        this.id = id;
-        this.shoppingName = shoppingName;
-        this.attribute = attribute;
-        this.dressSize = dressSize;
-        this.price = price;
-        this.count = count;
-
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public boolean isChoosed() {
-        return isChoosed;
-    }
-
-    public void setChoosed(boolean choosed) {
-        isChoosed = choosed;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getShoppingName() {
-        return shoppingName;
-    }
-
-    public void setShoppingName(String shoppingName) {
-        this.shoppingName = shoppingName;
+    public void setMoney(String money) {
+        this.money = money;
     }
 
 
-    public int getDressSize() {
-        return dressSize;
+//    public ShoppingCartBean(String money, String shopid, String type, String memberid,
+//                            String num, String addressid) {
+//        this.money = money;
+//        this.shopid = shopid;
+//        this.type = type;
+//        this.memberid = memberid;
+//        this.num = num;
+//        this.addressid = addressid;
+//
+//    }
+
+    public String getShopid() {
+        return shopid;
     }
 
-    public void setDressSize(int dressSize) {
-        this.dressSize = dressSize;
+    public void setShopid(String shopid) {
+        this.shopid = shopid;
     }
 
-
-    public double getPrice() {
-        return price;
+    public String getType() {
+        return type;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setType(String type) {
+        this.type = type;
     }
 
+    public String getMemberid() {
+        return memberid;
+    }
 
+    public void setMemberid(String memberid) {
+        this.memberid = memberid;
+    }
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
+
+    public String getAddressid() {
+        return addressid;
+    }
+
+    public void setAddressid(String addressid) {
+        this.addressid = addressid;
+    }
 }

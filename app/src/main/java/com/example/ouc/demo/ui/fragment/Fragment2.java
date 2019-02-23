@@ -198,7 +198,6 @@ public class Fragment2 extends BaseFragment implements SwipeRefreshLayout.OnRefr
             public void onLongClick(View view, int posotion) {
                 //TODO  recyclerView的长按事件
                 Log.d("", "onLongClick position : " + posotion);
-                Toast.makeText(getActivity(),"onLongClick position : " + posotion,Toast.LENGTH_LONG).show();
             }
         }));
 

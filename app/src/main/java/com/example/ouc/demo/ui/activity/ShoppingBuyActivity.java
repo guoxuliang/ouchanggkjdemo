@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.util.Util;
 import com.example.ouc.demo.R;
 import com.example.ouc.demo.base.BaseActivity;
 import com.example.ouc.demo.entity.QueryGoodsInfoEntity;
@@ -347,9 +350,11 @@ public class ShoppingBuyActivity extends BaseActivity {
 //                        data = gson.fromJson(gson.toJson(queryGoodsInfoEntity.getData()), listType2);
                     Log.i("666", "eeee" + queryGoodsInfoEntity);
                     runOnUiThread(new Runnable() {
+                        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
                         @SuppressLint("ResourceAsColor")
                         @Override
                         public void run() {
+
                             if (queryGoodsInfoEntity.getCode() == 200) {
                                 quantity = queryGoodsInfoEntity.getData().getQuantity();
                                 quantity_int = Integer.parseInt(queryGoodsInfoEntity.getData().getQuantity());
@@ -360,7 +365,10 @@ public class ShoppingBuyActivity extends BaseActivity {
                                 tv_price.setText("单价:￥" + queryGoodsInfoEntity.getData().getPrice());
                                 alltotal.setText("总价:￥" + queryGoodsInfoEntity.getData().getPrice());
                                 tv_kucun.setText("库存:" + quantity);
-                                Glide.with(ShoppingBuyActivity.this).load(queryGoodsInfoEntity.getData().getCover()).into(image_head);
+                                if (Util.isOnMainThread()&& !isFinishing() && !isDestroyed()) {
+                                    Glide.with(ShoppingBuyActivity.this).load(queryGoodsInfoEntity.getData().getCover()).into(image_head);
+                                }
+
                                 if (quantity.equals("0")) {
                                     tx_submitBuy.setBackgroundColor(R.color.gray2);
                                     tx_submitBuy.setEnabled(false);
@@ -513,6 +521,20 @@ public class ShoppingBuyActivity extends BaseActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        QueryGoodsInfo();
+//        QueryGoodsInfo();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            if (Util.isOnMainThread() && !isFinishing() && !isDestroyed()) {
+                Glide.with(this).pauseRequests();
+            }
+        } else {
+            if (Util.isOnMainThread() && !isFinishing()) {
+                Glide.with(this).pauseRequests();
+            }
+        }
     }
 }

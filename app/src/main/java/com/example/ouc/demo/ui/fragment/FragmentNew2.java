@@ -199,7 +199,6 @@ public class FragmentNew2 extends BaseFragment{
             public void onLongClick(View view, int posotion) {
                 //TODO  recyclerView的长按事件
                 int posotion2=posotion;
-                Toast.makeText(getActivity(),"您长按了第"+posotion2+"项",Toast.LENGTH_LONG).show();
             }
         }));
     }

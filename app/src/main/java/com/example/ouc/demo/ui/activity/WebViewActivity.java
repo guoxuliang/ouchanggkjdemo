@@ -19,7 +19,7 @@ public class WebViewActivity extends BaseActivity {
 
     private ImageView iv_right;
     private TextView tv_back, tv_content;
-    private String url;
+    private String url,url2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +27,7 @@ public class WebViewActivity extends BaseActivity {
         Bundle bundles=getIntent().getExtras();   //得到传过来的bundle
         if(bundles!=null){
             url = bundles.getString("bannerurl");
+            url2 = bundles.getString("content");
         }
 
         initTitle();
@@ -54,6 +55,8 @@ public class WebViewActivity extends BaseActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         if(url!=null){
             webView.loadUrl(url);
+        }else if(url2!=null){
+            webView.loadUrl(url2);
         }else {
             webView.loadUrl("http://kgj.ockeji.com/index1.html");
         }

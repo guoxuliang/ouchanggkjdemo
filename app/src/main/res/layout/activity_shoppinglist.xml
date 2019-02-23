@@ -51,6 +51,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
+                        android:padding="5dp"
                         android:src="@drawable/icon_fdj_bg"
                         android:text="搜索"/>
                 </LinearLayout>
@@ -61,7 +62,7 @@
         <LinearLayout
             android:id="@+id/ll_tiaojian"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_below="@+id/toolbarsearch"
             android:background="#e6e6e6"
             android:orientation="horizontal">
@@ -109,11 +110,18 @@
                 android:textColor="@color/black"
                 android:text="价格"/>
         </LinearLayout>
-        <TextView
-            android:id="@+id/texttest"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/shoplist_refreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="match_parent"
             android:layout_below="@+id/ll_tiaojian"
-            android:text="测试"/>
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/shoplist_recyclerview"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_height="match_parent" />
+        </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

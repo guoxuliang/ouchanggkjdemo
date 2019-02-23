@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    xmlns:lh2="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/titleq"
+        layout="@layout/layout_title2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
+    <EditText
+        android:id="@+id/shr_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_cursor"
+        android:hint="收货人"/>
+    <EditText
+        android:id="@+id/shr_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_cursor"
+        android:maxLines="11"
+        android:hint="手机号"/>
+
+    <TextView
+        android:id="@+id/textview_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_cursor"
+        android:drawableRight="@drawable/icon_dsj"
+        android:paddingRight="10dp"
+        android:text="请选择地址" />
+    <EditText
+        android:id="@+id/xi_address"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_cursor"
+        android:paddingRight="10dp"
+        android:gravity="top"
+        android:hint="详细地址：如道路，门牌号，小区，楼栋号，单元室等" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingRight="10dp"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp" android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="20dp"
+            android:textSize="18sp"
+            android:text="设为默认地址"/>
+        <com.example.ouc.demo.view.DrawableSwitch
+            android:id="@+id/drawableSwitch"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            lh2:circleColor="#F9F9F9"
+            android:layout_weight="0.2"
+            android:layout_gravity="center"
+            lh2:radius="20dp"
+            android:gravity="center"
+            lh2:switchOffColor="#D8D8D8"
+            lh2:switchOnColor="#6AB344"
+            lh2:textColor="#1C1C0F" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_edit_address"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@color/hong"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:layout_margin="30dp"
+        android:text="确认修改"/>
+</LinearLayout>

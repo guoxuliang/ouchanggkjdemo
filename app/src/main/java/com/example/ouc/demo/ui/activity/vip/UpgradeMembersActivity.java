@@ -355,7 +355,6 @@ public class UpgradeMembersActivity extends BaseActivity{
             public void onLongClick(View view, int posotion) {
                 //TODO  recyclerView的长按事件
                 int posotion2=posotion;
-                Toast.makeText(UpgradeMembersActivity.this,"您长按了第"+posotion2+"项",Toast.LENGTH_LONG).show();
             }
         }));
     }

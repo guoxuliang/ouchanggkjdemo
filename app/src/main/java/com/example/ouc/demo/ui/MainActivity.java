@@ -18,7 +18,6 @@ import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -42,7 +41,6 @@ import com.example.ouc.demo.http.HttpUtils;
 import com.example.ouc.demo.jpush.ExampleUtil;
 import com.example.ouc.demo.jpush.LocalBroadcastManager;
 import com.example.ouc.demo.ui.fragment.Fragment1;
-import com.example.ouc.demo.ui.fragment.Fragment2;
 import com.example.ouc.demo.ui.fragment.Fragment3;
 import com.example.ouc.demo.ui.fragment.FragmentNew2;
 import com.example.ouc.demo.ui.fragment.FragmentShop;
@@ -399,6 +397,14 @@ public class MainActivity extends AppCompatActivity implements PermissionInterfa
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);   //this
+        if (getSupportFragmentManager().getFragments() != null && getSupportFragmentManager().getFragments().size() > 0) {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            for (Fragment mFragment : fragments) {
+                mFragment.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+
         switch (requestCode) {
             case REQUEST_CODE_SETTING: {
                 Toast.makeText(this, R.string.message_setting_back, Toast.LENGTH_LONG).show();
